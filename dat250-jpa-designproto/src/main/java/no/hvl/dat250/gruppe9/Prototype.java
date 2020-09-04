@@ -7,10 +7,6 @@ import no.hvl.dat250.gruppe9.entities.FeedUser;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 public class Prototype {
 
@@ -18,11 +14,10 @@ public class Prototype {
     private static EntityManagerFactory entityManagerFactory;
 
     public static void main(String[] args) {
-        System.out.println("Hello world");
+        System.out.println("Hello FeedApp");
         System.out.println("Lets create FeedApp Persistence");
         entityManagerFactory = Persistence.createEntityManagerFactory(ENTITY_NAME);
         EntityManager manager = entityManagerFactory.createEntityManager();
-
 
         manager.getTransaction().begin();
         FeedUser u = new FeedUser();
