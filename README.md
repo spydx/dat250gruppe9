@@ -1,2 +1,12 @@
-# dat250gruppe9
-Gruppe oppgave for DAT250
+# DAT250 Gruppe 9
+
+Gruppe oppgave for DAT250 H2020
+[Andre Frøseth Jønland](https://github.com/ImGoze)
+[Jan-Erik Erstad](https://github.com/Jan-Erik-Erstad)
+[Kenneth Fossen](github.com/spydx)
+[Rune Almåsbakk](https://github.com/runalmaas)
+
+## Design Document
+
+[Design](DesignDocument/)
+[JPA ProtoType](dat250-jps-designproto)
