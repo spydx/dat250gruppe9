@@ -8,7 +8,9 @@ public class FeedUser {
     @Id
     @GeneratedValue
     private int id;
-    private String name;
+    private String firstname;
+    private String lastname;
+    private String email;
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -23,13 +25,31 @@ public class FeedUser {
     public FeedUser() {
 
     }
-
-    public void setName(String name) {
-        this.name = name;
+    public String getName() {
+        return this.firstname + "" + this.lastname;
+    }
+    public void setFirstname(String name) {
+        this.firstname = name;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setPassword(String password) {
@@ -66,8 +86,11 @@ public class FeedUser {
 
     @Override
     public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
+        return "FeedUser{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
                 ", role=" + role +
                 ", pollsList=" + pollsList +
                 ", votedOn=" + votedOn +

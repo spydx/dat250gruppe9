@@ -26,7 +26,7 @@ public class Prototype {
 
         manager.getTransaction().begin();
         FeedUser u = new FeedUser();
-        u.setName("Kenneth");
+        u.setFirstname("Kenneth");
         u.setRole(FeedRoles.USER);
         manager.persist(u);
         manager.getTransaction().commit();
