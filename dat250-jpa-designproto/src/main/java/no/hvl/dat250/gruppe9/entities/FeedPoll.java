@@ -1,6 +1,7 @@
 package no.hvl.dat250.gruppe9.entities;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -13,6 +14,10 @@ public class FeedPoll {
     private String name;
 
     private String question;
+    private Date timestart;
+    private Date timeend;
+    private String answeryes;
+    private String answerno;
 
     @OneToOne
     private FeedUser owner;
@@ -45,6 +50,22 @@ public class FeedPoll {
 
     public void setOwner(FeedUser owner) {
         this.owner = owner;
+    }
+
+    public void setEndTime(Date timeend) {
+        this.timeend = timeend;
+    }
+
+    public void setStartTime(Date timestart) {
+        this.timestart = timestart;
+    }
+
+    public Date getStartTime() {
+        return timestart;
+    }
+
+    public Date getEndTime() {
+        return timeend;
     }
 
     public FeedUser getOwner() {
