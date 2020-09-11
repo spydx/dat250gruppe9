@@ -14,8 +14,12 @@ public class FeedPoll {
     private String name;
 
     private String question;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date timestart;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date timeend;
+
     private String answeryes;
     private String answerno;
 
@@ -31,6 +35,7 @@ public class FeedPoll {
     public FeedPoll() {
 
     }
+
 
     public void setName(String name) {
         this.name = name;

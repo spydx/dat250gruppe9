@@ -4,18 +4,42 @@
 
 Andre Frøseth Jønland, Jan-Erik Erstad,  Kenneth Fossen, Rune Almåsbakk 
 
+<p align="center">
+  <img src="logo/feedapp-logo-01.png">
+</p>
+
 ## The domain model for the application
+
+![Domain Model ERDiagram](DomainModel/domainmodel_er_with_rel.png)
 
 ## Use case diagrams
 
+![UseCase Diagram](UseCase/useCaseDiagram.png)
+
 ## Application flow diagrams (Front End)
 
-for the front-end
+Basic state machine for the front-end
+
+![Application Flow](AppFlow/FeedApp_FlowDiagram.png)
+
+Different view to the flow of the app
+
+![Application Flow](AppFlow/appFlow.png)
 
 ## Mock-up user screens
 
-for the front-end
+A series of mock-ups for our intende app
+
+![Login Screen](UX-Example3/1_login.png)
+![Register](UX-Example3/2_register.png)
+![Overview](UX-Example3/3_overview.png)
+![Create A Poll](UX-Example3/4_createapoll.png)
+![Vote](UX-Example3/5_voting.png)
+![Result](UX-Example3/6_pollresult.png)
+![Userdata](UX-Example3/7_userdata.png)
 
 ## An architectural diagram
 
-Similar to Chap 1 in the IoT book (see Canvas) that relate the FeedApp application to the IoT-levels.
+Level 4 Diagram
+
+![Architectual Diagram](ArchitectDiagram/architectural_diagram.png)

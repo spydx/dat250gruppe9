@@ -1,8 +1,7 @@
 package no.hvl.dat250.gruppe9.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class FeedPollResult {
@@ -12,7 +11,10 @@ public class FeedPollResult {
     private int id;
     private int yes;
     private int no;
-    private int votes;
+    private int total;
+
+    @OneToMany
+    private List<FeedVotes> votes;
 
     public FeedPollResult() {}
 
@@ -21,7 +23,7 @@ public class FeedPollResult {
         return "PollResult{" +
                 "yes=" + yes +
                 ", no=" + no +
-                ", votes=" + votes +
+                ", votes=" + total +
                 '}';
     }
 }
