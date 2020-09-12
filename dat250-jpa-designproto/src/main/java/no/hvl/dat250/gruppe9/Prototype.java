@@ -1,5 +1,6 @@
 package no.hvl.dat250.gruppe9;
 
+import no.hvl.dat250.gruppe9.entities.FeedIoTDevice;
 import no.hvl.dat250.gruppe9.entities.FeedPoll;
 import no.hvl.dat250.gruppe9.entities.FeedRoles;
 import no.hvl.dat250.gruppe9.entities.FeedUser;
@@ -38,6 +39,10 @@ public class Prototype {
         System.out.println(u);
         System.out.println(p);
 
+
+        /**
+         * feedIoTDeviceDAO test
+         */
 
 
     }
