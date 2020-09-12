@@ -14,7 +14,7 @@ Andre Frøseth Jønland, Jan-Erik Erstad,  Kenneth Fossen, Rune Almåsbakk
 
 ## Use case diagrams
 
-![UseCase Diagram](UseCase/useCaseDiagram.png)
+![UseCase Diagram](UseCase/useCaseDiagram_v2.jpg)
 
 ## Application flow diagrams (Front End)
 
@@ -33,10 +33,11 @@ A series of mock-ups for our intende app
 ![Login Screen](UX-Example3/1_login.png)
 ![Register](UX-Example3/2_register.png)
 ![Overview](UX-Example3/3_overview.png)
-![Create A Poll](UX-Example3/4_createapoll.png)
-![Vote](UX-Example3/5_voting.png)
-![Result](UX-Example3/6_pollresult.png)
-![Userdata](UX-Example3/7_userdata.png)
+![Overview Anonoymous](UX-Example3/4_overview_anon.png)
+![Create A Poll](UX-Example3/5_createapoll.png)
+![Vote](UX-Example3/6_voting.png)
+![Result](UX-Example3/7_pollresult.png)
+![Userdata](UX-Example3/8_userdata.png)
 
 ## An architectural diagram
 
