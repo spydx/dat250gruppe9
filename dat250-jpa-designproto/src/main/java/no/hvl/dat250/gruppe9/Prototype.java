@@ -1,10 +1,7 @@
 package no.hvl.dat250.gruppe9;
 
 import no.hvl.dat250.gruppe9.DAO.FeedIoTDeviceDAO;
-import no.hvl.dat250.gruppe9.entities.FeedIoTDevice;
-import no.hvl.dat250.gruppe9.entities.FeedPoll;
-import no.hvl.dat250.gruppe9.entities.FeedRoles;
-import no.hvl.dat250.gruppe9.entities.FeedUser;
+import no.hvl.dat250.gruppe9.entities.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -35,6 +32,15 @@ public class Prototype {
         p.setOwner(u);
 
         manager.persist(p);
+        manager.getTransaction().commit();
+
+        manager.getTransaction().begin();
+        FeedPollResult r = new FeedPollResult();
+        r.setNo(1);
+        r.setYes(2);
+        r.setTotal(r.getNo() + r.getYes());
+        manager.persist(r);
+
         manager.getTransaction().commit();
 
         System.out.println(u);

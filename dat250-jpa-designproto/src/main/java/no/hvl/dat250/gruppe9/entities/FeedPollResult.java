@@ -9,8 +9,9 @@ public class FeedPollResult {
     @Id
     @GeneratedValue
     private int id;
+
     private int yes;
-    private int no;
+    private int nos;
     private int total;
 
     @OneToMany
@@ -27,11 +28,11 @@ public class FeedPollResult {
     }
 
     public int getNo() {
-        return no;
+        return nos;
     }
 
     public void setNo(int no) {
-        this.no = no;
+        this.nos = no;
     }
 
     public int getTotal() {
@@ -46,7 +47,7 @@ public class FeedPollResult {
     public String toString() {
         return "PollResult{" +
                 "yes=" + yes +
-                ", no=" + no +
+                ", no=" + nos +
                 ", votes=" + total +
                 '}';
     }
