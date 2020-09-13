@@ -7,6 +7,7 @@
         <class>no.hvl.dat250.gruppe9.entities.FeedPoll</class>
         <class>no.hvl.dat250.gruppe9.entities.FeedPollResult</class>
         <class>no.hvl.dat250.gruppe9.entities.FeedIoTDevice</class>
+        <class>no.hvl.dat250.gruppe9.entities.FeedVotes</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver" />
             <property name="javax.persistence.jdbc.url"
