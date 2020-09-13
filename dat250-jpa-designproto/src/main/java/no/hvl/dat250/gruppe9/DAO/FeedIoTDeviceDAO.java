@@ -28,7 +28,7 @@ public class FeedIoTDeviceDAO {
             return (FeedIoTDevice) q.getSingleResult();
         }catch (NoResultException e){
             System.out.println(e);
-            return new FeedIoTDevice();
+            return null;
         }
     }
 
@@ -58,10 +58,11 @@ public class FeedIoTDeviceDAO {
 
     public boolean updateDevice(int id, FeedPoll poll, String name){
         try{
-            Query q = manager.createQuery("UPDATE FeedIoTDevice SET FeedIoTDevice.connectedPoll = ?1, FeedIoTDevice.name = name " +
-                                             "WHERE FeedIoTDevice.id = ?2");
+            Query q = manager.createQuery("UPDATE FeedIoTDevice SET connectedPoll = ?1, name = ?2 " +
+                                             "WHERE FeedIoTDevice.id = ?3");
             q.setParameter(1, poll);
             q.setParameter(2, name);
+            q.setParameter(3, id);
             q.executeUpdate();
             return true;
         }catch (EntityExistsException e){

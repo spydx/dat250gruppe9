@@ -45,13 +45,10 @@ public class Prototype {
          * feedIoTDeviceDAO test
          */
 
-        manager.getTransaction().begin();
+        FeedIoTDeviceDAO iotdevicedao = new FeedIoTDeviceDAO();
         FeedIoTDevice d = new FeedIoTDevice();
         d.setName("Some cool device pro");
-        manager.persist(d);
-        manager.getTransaction().commit();
-
-        FeedIoTDeviceDAO dao = new FeedIoTDeviceDAO();
-        System.out.println("Result: " + dao.getDevice(53));
+        iotdevicedao.addDevice(d);
+        System.out.println("Result: " + iotdevicedao.getAll());
     }
 }
