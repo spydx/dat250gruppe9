@@ -1,8 +1,6 @@
 package no.hvl.dat250.gruppe9.DAO;
 
-import no.hvl.dat250.gruppe9.entities.FeedIoTDevice;
 import no.hvl.dat250.gruppe9.entities.FeedPollResult;
-import no.hvl.dat250.gruppe9.entities.FeedVotes;
 
 import javax.persistence.*;
 
