@@ -1,5 +1,6 @@
 package no.hvl.dat250.gruppe9;
 
+import no.hvl.dat250.gruppe9.DAO.FeedIoTDeviceDAO;
 import no.hvl.dat250.gruppe9.entities.FeedIoTDevice;
 import no.hvl.dat250.gruppe9.entities.FeedPoll;
 import no.hvl.dat250.gruppe9.entities.FeedRoles;
@@ -44,6 +45,13 @@ public class Prototype {
          * feedIoTDeviceDAO test
          */
 
+        manager.getTransaction().begin();
+        FeedIoTDevice d = new FeedIoTDevice();
+        d.setName("Some cool device pro");
+        manager.persist(d);
+        manager.getTransaction().commit();
 
+        FeedIoTDeviceDAO dao = new FeedIoTDeviceDAO();
+        System.out.println("Result: " + dao.getDevice(53));
     }
 }

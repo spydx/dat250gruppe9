@@ -1,6 +1,7 @@
 package no.hvl.dat250.gruppe9.DAO;
 
 import no.hvl.dat250.gruppe9.entities.FeedIoTDevice;
+import no.hvl.dat250.gruppe9.entities.FeedPoll;
 
 
 import javax.persistence.*;
@@ -21,9 +22,14 @@ public class FeedIoTDeviceDAO {
 
 
     public FeedIoTDevice getDevice(int id){
-        Query q = manager.createQuery("SELECT d FROM FeedIoTDevice d WHERE FeedIoTDevice.id = ?1");
-        q.setParameter(1, id);
-        return (FeedIoTDevice) q.getSingleResult();
+        try {
+            Query q = manager.createQuery("SELECT d FROM FeedIoTDevice d WHERE d.id = ?1");
+            q.setParameter(1, id);
+            return (FeedIoTDevice) q.getSingleResult();
+        }catch (NoResultException e){
+            System.out.println(e);
+            return new FeedIoTDevice();
+        }
     }
 
     public List<FeedIoTDevice> getAll(){
@@ -35,7 +41,9 @@ public class FeedIoTDeviceDAO {
         try{
             Query q = manager.createQuery("DELETE FROM FeedIoTDevice WHERE FeedIoTDevice.id = ?1");
             q.setParameter(1, id);
+            manager.getTransaction().begin();
             q.executeUpdate();
+            manager.getTransaction().commit();
             return true;
         }catch (EntityExistsException e){
             return false;
@@ -46,5 +54,18 @@ public class FeedIoTDeviceDAO {
         manager.getTransaction().begin();
         manager.persist(device);
         manager.getTransaction().commit();
+    }
+
+    public boolean updateDevice(int id, FeedPoll poll, String name){
+        try{
+            Query q = manager.createQuery("UPDATE FeedIoTDevice SET FeedIoTDevice.connectedPoll = ?1, FeedIoTDevice.name = name " +
+                                             "WHERE FeedIoTDevice.id = ?2");
+            q.setParameter(1, poll);
+            q.setParameter(2, name);
+            q.executeUpdate();
+            return true;
+        }catch (EntityExistsException e){
+            return false;
+        }
     }
 }
