@@ -53,28 +53,22 @@ public class FeedPollDAO {
     }
 
     /**
-     * Update poll with id equal to given id
+     * Update poll with id equal to given id and the parameters from the new/existing poll
      * @param id
-     * @param answerNo
-     * @param answerYes
-     * @param name
-     * @param question
-     * @param timeEnd
-     * @param timeStart
-     * @param ownerId
+     * @param poll
      * @return true if success, false otherwise
      */
-    public boolean updatePoll(int id, String answerNo, String answerYes, String name, String question, Date timeEnd, Date timeStart, int ownerId){
+    public boolean updatePoll(int id, FeedPoll poll){
         try{
             Query q = manager.createQuery("UPDATE FeedPoll SET answerno = ?1, answeryes = ?2, name = ?3, question = ?4, timeend = ?5, timestart = ?6, owner = ?7 " +
                                              "WHERE  id = ?8");
-            q.setParameter(1, answerNo);
-            q.setParameter(2, answerYes);
-            q.setParameter(3, name);
-            q.setParameter(4, question);
-            q.setParameter(5, timeEnd);
-            q.setParameter(6, timeStart);
-            q.setParameter(7, ownerId);
+            q.setParameter(1, poll.getAnswerno());
+            q.setParameter(2, poll.getAnsweryes());
+            q.setParameter(3, poll.getName());
+            q.setParameter(4, poll.getQuestion());
+            q.setParameter(5, poll.getEndTime());
+            q.setParameter(6, poll.getStartTime());
+            q.setParameter(7, poll.getOwner());
             q.setParameter(8, id);
             q.executeUpdate();
             return true;

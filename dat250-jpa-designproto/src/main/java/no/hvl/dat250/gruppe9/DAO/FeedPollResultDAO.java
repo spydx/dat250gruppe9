@@ -32,13 +32,13 @@ public class FeedPollResultDAO {
         manager.getTransaction().commit();
     }
 
-    public boolean updateResult(int id, int no, int total, int yes){
+    public boolean updateResult(int id, FeedPollResult result){
         try{
             Query q = manager.createQuery("UPDATE FeedPollResult SET no = ?1, total = ?2, yes = ?3 " +
                     "WHERE FeedIoTDevice.id = ?4");
-            q.setParameter(1, no);
-            q.setParameter(2, total);
-            q.setParameter(3, yes);
+            q.setParameter(1, result.getNo());
+            q.setParameter(2, result.getTotal());
+            q.setParameter(3, result.getYes());
             q.setParameter(4, id);
             q.executeUpdate();
             return true;

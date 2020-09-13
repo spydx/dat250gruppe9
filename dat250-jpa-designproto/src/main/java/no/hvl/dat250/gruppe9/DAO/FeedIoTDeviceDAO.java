@@ -56,13 +56,12 @@ public class FeedIoTDeviceDAO {
         manager.getTransaction().commit();
     }
 
-    public boolean updateDevice(int id, FeedPoll poll, String name){
+    public boolean updateDevice(int id, FeedIoTDevice device){
         try{
-            Query q = manager.createQuery("UPDATE FeedIoTDevice SET connectedPoll = ?1, name = ?2 " +
-                                             "WHERE FeedIoTDevice.id = ?3");
-            q.setParameter(1, poll);
-            q.setParameter(2, name);
-            q.setParameter(3, id);
+            Query q = manager.createQuery("UPDATE FeedIoTDevice SET name = ?1 " +
+                                             "WHERE FeedIoTDevice.id = ?2");
+            q.setParameter(1, device.getName());
+            q.setParameter(2, id);
             q.executeUpdate();
             return true;
         }catch (EntityExistsException e){

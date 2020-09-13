@@ -36,6 +36,21 @@ public class FeedPoll {
 
     }
 
+    public String getAnsweryes() {
+        return answeryes;
+    }
+
+    public void setAnsweryes(String answeryes) {
+        this.answeryes = answeryes;
+    }
+
+    public String getAnswerno() {
+        return answerno;
+    }
+
+    public void setAnswerno(String answerno) {
+        this.answerno = answerno;
+    }
 
     public void setName(String name) {
         this.name = name;
