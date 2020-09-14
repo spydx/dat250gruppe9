@@ -94,8 +94,6 @@ public class Prototype {
         result.setYes(90);
 
         resultdao.addresult(result);
-        FeedPollResult newresult = new FeedPollResult();
-        resultdao.updateResult(3, newresult);
 
         System.out.println("Results: " + resultdao.getResult(3));
 
@@ -106,10 +104,10 @@ public class Prototype {
          */
         FeedUserDAO userDAO = new FeedUserDAO();
         FeedUser user = new FeedUser();
-        user.setEmail("example@hotmail.com");
+
         user.setFirstname("Ola");
         user.setLastname("Nordmann");
-        user.setPassword("abc123");
+
         user.setRole(FeedRoles.USER);
 
         userDAO.addUser(user);
@@ -123,12 +121,8 @@ public class Prototype {
          */
         FeedVotesDAO votesDAO = new FeedVotesDAO();
 
-        FeedVotes newVote = new FeedVotes();
-        newVote.setVoterid(1058);
-        votesDAO.addVote(newVote);
-
         System.out.println("Votes: " + votesDAO.getAll());
-        
+
 
     }
 }
