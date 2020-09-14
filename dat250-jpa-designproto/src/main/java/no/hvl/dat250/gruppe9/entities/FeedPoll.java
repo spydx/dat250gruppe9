@@ -20,6 +20,9 @@ public class FeedPoll {
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeend;
 
+    @Enumerated(EnumType.STRING)
+    private FeedAccess feedaccess;
+
     private String answeryes;
     private String answerno;
 
@@ -91,6 +94,14 @@ public class FeedPoll {
 
     public List<FeedIoTDevice> getIoTDevicesList() {
         return ioTDevicesList;
+    }
+
+    public void setFeedAccess(FeedAccess feedAccess) {
+        this.feedaccess = feedAccess;
+    }
+
+    public FeedAccess getFeedAccess() {
+        return feedaccess;
     }
 
     @Override
