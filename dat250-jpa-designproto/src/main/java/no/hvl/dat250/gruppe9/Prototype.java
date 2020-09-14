@@ -59,9 +59,7 @@ public class Prototype {
         FeedIoTDevice d = new FeedIoTDevice();
         d.setName("Some stupid device pro");
         iotdevicedao.addDevice(d);
-        FeedIoTDevice newdevice = new FeedIoTDevice();
-        newdevice.setName("Updated");
-        iotdevicedao.updateDevice(4, newdevice);
+
         System.out.println("Devices: " + iotdevicedao.getAll());
 
         System.out.println("----------------------------------------------------------------");
@@ -80,9 +78,6 @@ public class Prototype {
         poll.setStartTime(new Date());
 
         polldao.addPoll(poll);
-        FeedPoll newPoll = new FeedPoll();
-        newPoll.setAnswerno("Updated");
-        polldao.updatePoll(302, newPoll);
 
         System.out.println("Polls: " + polldao.getAll());
 
@@ -118,8 +113,6 @@ public class Prototype {
         user.setRole(FeedRoles.USER);
 
         userDAO.addUser(user);
-        FeedUser newUser = new FeedUser();
-        userDAO.updateUser(601, newUser, "oppdatert passord");
 
         System.out.println("Users: " + userDAO.getAll());
 
@@ -132,16 +125,10 @@ public class Prototype {
 
         FeedVotes newVote = new FeedVotes();
         newVote.setVoterid(1058);
-        votesDAO.updateVote(1058, newVote);
-
+        votesDAO.addVote(newVote);
 
         System.out.println("Votes: " + votesDAO.getAll());
-
-
-
-
-
-
+        
 
     }
 }
