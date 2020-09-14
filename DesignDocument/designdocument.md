@@ -113,7 +113,7 @@ The mockups are showing a user landing on the overview page, logging in to the s
 
 ## An architectural diagram
 
-Level 3 IoT Diagram
+Level 4 IoT Diagram
 
 FeedApp is desinged as a cloud service, it main user interaction is through its webapplication.
 This FeedApp is divided into prestentaion layer, the buisness logic and the database layer.
