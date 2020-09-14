@@ -56,16 +56,17 @@ public class FeedUserDAO {
 
     public boolean updateUser(int id, FeedUser user, String newPassword){
         try{
-            Query q = manager.createQuery("UPDATE FeedUser SET email = ?1, firstname = ?2, lastname = ?3, password = ?4, role = ?5, votedOn = ?6 " +
-                    "WHERE id = ?7");
+            Query q = manager.createQuery("UPDATE FeedUser SET email = ?1, firstname = ?2, lastname = ?3, password = ?4, role = ?5" +
+                    " WHERE id = ?6");
             q.setParameter(1, user.getEmail());
             q.setParameter(2, user.getFirstname());
             q.setParameter(3, user.getLastname());
             q.setParameter(4, newPassword);
-            q.setParameter(4, user.getRole());
-            q.setParameter(6, user.getVotedOn());
-            q.setParameter(7, id);
+            q.setParameter(5, user.getRole());
+            q.setParameter(6, id);
+            manager.getTransaction().begin();
             q.executeUpdate();
+            manager.getTransaction().commit();
             return true;
         }catch (EntityExistsException e){
             return false;

@@ -34,13 +34,15 @@ public class FeedPollResultDAO {
 
     public boolean updateResult(int id, FeedPollResult result){
         try{
-            Query q = manager.createQuery("UPDATE FeedPollResult SET no = ?1, total = ?2, yes = ?3 " +
+            Query q = manager.createQuery("UPDATE FeedPollResult SET nos = ?1, total = ?2, yes = ?3 " +
                     "WHERE FeedIoTDevice.id = ?4");
             q.setParameter(1, result.getNo());
             q.setParameter(2, result.getTotal());
             q.setParameter(3, result.getYes());
             q.setParameter(4, id);
+            manager.getTransaction().begin();
             q.executeUpdate();
+            manager.getTransaction().commit();
             return true;
         }catch (EntityExistsException e){
             return false;

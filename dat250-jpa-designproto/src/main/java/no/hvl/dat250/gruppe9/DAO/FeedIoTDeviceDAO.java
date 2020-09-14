@@ -62,7 +62,9 @@ public class FeedIoTDeviceDAO {
                                              "WHERE FeedIoTDevice.id = ?2");
             q.setParameter(1, device.getName());
             q.setParameter(2, id);
+            manager.getTransaction().begin();
             q.executeUpdate();
+            manager.getTransaction().commit();
             return true;
         }catch (EntityExistsException e){
             return false;

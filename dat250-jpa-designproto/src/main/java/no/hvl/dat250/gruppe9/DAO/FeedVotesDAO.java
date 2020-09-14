@@ -61,7 +61,9 @@ public class FeedVotesDAO {
             q.setParameter(2, votes.getVoterid());
             q.setParameter(3, votes.getVotetime());
             q.setParameter(4, id);
+            manager.getTransaction().begin();
             q.executeUpdate();
+            manager.getTransaction().commit();
             return true;
         }catch (EntityExistsException e){
             return false;

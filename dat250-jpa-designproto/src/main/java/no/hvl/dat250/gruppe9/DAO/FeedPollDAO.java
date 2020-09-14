@@ -70,7 +70,9 @@ public class FeedPollDAO {
             q.setParameter(6, poll.getStartTime());
             q.setParameter(7, poll.getOwner());
             q.setParameter(8, id);
+            manager.getTransaction().begin();
             q.executeUpdate();
+            manager.getTransaction().commit();
             return true;
         }catch (EntityExistsException e){
             return false;
