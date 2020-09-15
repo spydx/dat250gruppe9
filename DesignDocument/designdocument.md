@@ -32,7 +32,7 @@ Registed users have access to all the polls tha show up in their overview, they 
 Administrative users have the access to clean up useraccounts / polls and configure IoT devices to be connected to the system.
 
 <p align="center">
-  <img  width=300 src="UseCase/useCaseDiagram_v2.jpg">
+  <img  width=300 src="UseCase/useCaseDiagram_v3.png">
 </p>
 
 <div style="page-break-after: always;"></div>
