@@ -1,6 +1,7 @@
 package no.hvl.dat250.gruppe9.entities;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -41,6 +42,11 @@ public class FeedPollResult {
 
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    public void Vote(FeedVotes vote) {
+        vote.setVotetime(new Date());
+        this.votes.add(vote);
     }
 
     @Override

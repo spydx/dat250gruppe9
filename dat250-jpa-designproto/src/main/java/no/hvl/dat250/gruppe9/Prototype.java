@@ -6,7 +6,6 @@ import no.hvl.dat250.gruppe9.entities.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.sql.SQLOutput;
 import java.util.Date;
 
 public class Prototype {
@@ -44,6 +43,10 @@ public class Prototype {
         manager.persist(r);
 
         manager.getTransaction().commit();
+
+
+
+
 
         System.out.println(u);
         System.out.println(p);
@@ -123,6 +126,18 @@ public class Prototype {
 
         System.out.println("Votes: " + votesDAO.getAll());
 
+
+
+        /*
+        FeedVotes vote = new FeedVotes();
+        vote.setAnswer(true);
+        vote.setVoterid(2);
+        result.Vote(vote);
+
+        manager.getTransaction().begin();
+        manager.persist(vote);
+        manager.getTransaction().commit();
+        */
 
     }
 }
