@@ -46,6 +46,9 @@ public class FeedPollResult {
 
     public void Vote(FeedVotes vote) {
         vote.setVotetime(new Date());
+        if (vote.getAnswer()) yes++;
+        else nos++;
+        total++;
         this.votes.add(vote);
     }
 

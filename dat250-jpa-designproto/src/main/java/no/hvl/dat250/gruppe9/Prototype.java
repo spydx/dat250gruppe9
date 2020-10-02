@@ -37,6 +37,7 @@ public class Prototype {
 
         manager.getTransaction().begin();
         FeedPollResult r = new FeedPollResult();
+        p.setPollResult(r);
         r.setNo(1);
         r.setYes(2);
         r.setTotal(r.getNo() + r.getYes());

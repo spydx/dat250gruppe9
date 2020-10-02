@@ -1,6 +1,8 @@
 package no.hvl.dat250.gruppe9.DAO;
 
 import no.hvl.dat250.gruppe9.entities.FeedPoll;
+import no.hvl.dat250.gruppe9.entities.FeedPollResult;
+import no.hvl.dat250.gruppe9.entities.FeedVotes;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -77,5 +79,22 @@ public class FeedPollDAO {
         }catch (EntityExistsException e){
             return false;
         }
+    }
+
+    public void addVote(int id, int userId, boolean answer) {
+        // Getting poll
+        FeedPoll poll = manager.find(FeedPoll.class,id);
+        // Creating vote
+        FeedVotes vote = new FeedVotes();
+        vote.setVoterid(userId);
+        vote.setAnswer(answer);
+        // Adding the vote to result
+        FeedPollResult result = poll.getPollResult();
+        result.Vote(vote);
+        // updating the database
+        manager.getTransaction().begin();
+        manager.persist(vote);
+        manager.persist(result);
+        manager.getTransaction().commit();
     }
 }
