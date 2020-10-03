@@ -60,4 +60,8 @@ public class FeedPollResult {
                 ", votes=" + total +
                 '}';
     }
+
+    public List<FeedVotes> getVotes() {
+        return votes;
+    }
 }

@@ -81,20 +81,41 @@ public class FeedPollDAO {
         }
     }
 
-    public void addVote(int id, int userId, boolean answer) {
+    public FeedVotes addVote(int id, int userId, boolean answer) {
         // Getting poll
         FeedPoll poll = manager.find(FeedPoll.class,id);
+        if (poll == null) return null;
         // Creating vote
         FeedVotes vote = new FeedVotes();
         vote.setVoterid(userId);
         vote.setAnswer(answer);
         // Adding the vote to result
         FeedPollResult result = poll.getPollResult();
+        if (result == null) return null;
         result.Vote(vote);
         // updating the database
         manager.getTransaction().begin();
         manager.persist(vote);
         manager.persist(result);
         manager.getTransaction().commit();
+        return vote;
+    }
+
+    public FeedVotes deleteVote(int pollId, int userId) {
+        FeedPoll poll = manager.find(FeedPoll.class,pollId);
+        if (poll == null) return null;
+        FeedPollResult result = poll.getPollResult();
+        List<FeedVotes> votes = result.getVotes();
+        for (FeedVotes vote: votes) {
+            if(vote.getVoterid() == userId) {
+                manager.getTransaction().begin();
+                votes.remove(vote);
+                manager.persist(result);
+                manager.remove(vote);
+                manager.getTransaction().commit();
+                return vote;
+            }
+        }
+        return null;
     }
 }

@@ -6,23 +6,28 @@ import no.hvl.dat250.gruppe9.DAO.FeedPollDAO;
 import no.hvl.dat250.gruppe9.DAO.FeedVotesDAO;
 import no.hvl.dat250.gruppe9.entities.FeedPoll;
 import no.hvl.dat250.gruppe9.entities.FeedVotes;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class VoteController {
     FeedVotesDAO votesDAO = new FeedVotesDAO();
     FeedPollDAO pollDAO = new FeedPollDAO();
 
-    @GetMapping("/votes")
-    public List<FeedVotes> getVotes() { return votesDAO.getAll(); }
+    @GetMapping("/getVotes")
+    public List<FeedVotes> getVotes() {
+        return votesDAO.getAll();
+    }
 
-    @PutMapping("/vote")
-    public void vote(@RequestParam(value = "id") int id ,
+    @DeleteMapping("/deleteVote")
+    public FeedVotes deleteVote(@RequestParam(value = "user_id") int userId ,
+                           @RequestParam(value = "poll_id") int pollId) {
+        return pollDAO.deleteVote(pollId,userId);
+    }
+
+    @PutMapping("/putVote")
+    public FeedVotes putVote(@RequestParam(value = "id") int id ,
                      @RequestParam(value = "user_id") int userId ,
                      @RequestParam(value = "vote") boolean vote) {
-        pollDAO.addVote(id, userId, vote);
+        return pollDAO.addVote(id, userId, vote);
     }
 }
