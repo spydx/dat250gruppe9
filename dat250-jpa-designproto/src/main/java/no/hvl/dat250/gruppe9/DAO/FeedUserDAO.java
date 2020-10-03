@@ -1,11 +1,10 @@
 package no.hvl.dat250.gruppe9.DAO;
 
-import no.hvl.dat250.gruppe9.entities.FeedIoTDevice;
-import no.hvl.dat250.gruppe9.entities.FeedPoll;
-import no.hvl.dat250.gruppe9.entities.FeedRoles;
-import no.hvl.dat250.gruppe9.entities.FeedUser;
+import no.hvl.dat250.gruppe9.entities.*;
 
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class FeedUserDAO {
@@ -71,5 +70,17 @@ public class FeedUserDAO {
         }catch (EntityExistsException e){
             return false;
         }
+    }
+
+    public List<FeedPoll> getPollList(int userId) {
+        FeedUser user = manager.find(FeedUser.class, userId);
+        if (user == null) return null;
+        return user.getPollsList();
+    }
+
+    public List<FeedPoll> getVotedOnList(int userId) {
+        FeedUser user = manager.find(FeedUser.class, userId);
+        if (user == null) return null;
+        return user.getVotedOn();
     }
 }

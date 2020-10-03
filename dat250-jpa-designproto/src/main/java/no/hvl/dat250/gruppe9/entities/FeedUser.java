@@ -1,6 +1,7 @@
 package no.hvl.dat250.gruppe9.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
