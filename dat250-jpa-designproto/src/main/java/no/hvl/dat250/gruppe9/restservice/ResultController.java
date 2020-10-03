@@ -11,8 +11,8 @@ public class ResultController {
     FeedPollResultDAO resultDAO = new FeedPollResultDAO();
 
     @GetMapping("/result")
-    public FeedPollResult result(@RequestParam(value = "id") int id) {
-        return resultDAO.getResult(id);
+    public FeedPollResult result(@RequestParam(value = "result_id") int resultId) {
+        return resultDAO.getResult(resultId);
     }
 
 

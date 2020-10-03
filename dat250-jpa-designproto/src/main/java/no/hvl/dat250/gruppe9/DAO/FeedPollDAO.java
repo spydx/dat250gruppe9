@@ -1,10 +1,9 @@
 package no.hvl.dat250.gruppe9.DAO;
 
-import no.hvl.dat250.gruppe9.entities.FeedPoll;
-import no.hvl.dat250.gruppe9.entities.FeedPollResult;
-import no.hvl.dat250.gruppe9.entities.FeedVotes;
+import no.hvl.dat250.gruppe9.entities.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -146,5 +145,25 @@ public class FeedPollDAO {
         FeedPollResult result = poll.getPollResult();
         if (result == null) return null;
         return result.getVotes();
+    }
+
+    public void addPoll(String pollName, String question, FeedAccess access, String yes, String no, FeedUser user, FeedPollResult result) {
+        FeedPoll poll = new FeedPoll();
+        poll.setName(pollName);
+        poll.setQuestion(question);
+        poll.setFeedAccess(access);
+        poll.setAnsweryes(yes);
+        poll.setAnswerno(no);
+        poll.setOwner(user);
+        poll.setPollResult(result);
+        poll.setStartTime(new Date());
+        if (user.getPollsList() == null) user.setPollsList(new ArrayList<>());
+        user.getPollsList().add(poll);
+        manager.getTransaction().begin();
+        //manager.persist(user);
+        manager.persist(poll);
+        manager.persist(result);
+        manager.getTransaction().commit();
+
     }
 }

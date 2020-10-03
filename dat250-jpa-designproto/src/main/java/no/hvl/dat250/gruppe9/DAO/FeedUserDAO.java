@@ -3,8 +3,7 @@ package no.hvl.dat250.gruppe9.DAO;
 import no.hvl.dat250.gruppe9.entities.*;
 
 import javax.persistence.*;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FeedUserDAO {
@@ -82,5 +81,19 @@ public class FeedUserDAO {
         FeedUser user = manager.find(FeedUser.class, userId);
         if (user == null) return null;
         return user.getVotedOn();
+    }
+
+    public void addUser(String firstName, String lastName, FeedRoles role, String email, String password) {
+        FeedUser user = new FeedUser();
+        user.setFirstname(firstName);
+        user.setLastname(lastName);
+        user.setRole(role);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setPollsList(new ArrayList<>());
+        user.setVotedOn(new ArrayList<>());
+        manager.getTransaction().begin();
+        manager.persist(user);
+        manager.getTransaction().commit();
     }
 }
