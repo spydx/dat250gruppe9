@@ -139,4 +139,12 @@ public class FeedPollDAO {
         }
         return null;
     }
+
+    public List<FeedVotes> getVoteList(int pollId) {
+        FeedPoll poll = manager.find(FeedPoll.class,pollId);
+        if (poll == null) return null;
+        FeedPollResult result = poll.getPollResult();
+        if (result == null) return null;
+        return result.getVotes();
+    }
 }

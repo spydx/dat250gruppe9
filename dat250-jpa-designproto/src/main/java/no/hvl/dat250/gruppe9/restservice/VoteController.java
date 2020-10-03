@@ -4,7 +4,6 @@ import java.util.List;
 
 import no.hvl.dat250.gruppe9.DAO.FeedPollDAO;
 import no.hvl.dat250.gruppe9.DAO.FeedVotesDAO;
-import no.hvl.dat250.gruppe9.entities.FeedPoll;
 import no.hvl.dat250.gruppe9.entities.FeedVotes;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +15,11 @@ public class VoteController {
     @GetMapping("/getVotes")
     public List<FeedVotes> getVotes() {
         return votesDAO.getAll();
+    }
+
+    @GetMapping("/getPollVotes")
+    public List<FeedVotes> getPollVotes(@RequestParam(value = "poll_id") int pollId) {
+        return pollDAO.getVoteList(pollId);
     }
 
     @DeleteMapping("/deleteVote")
