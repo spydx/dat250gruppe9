@@ -89,11 +89,15 @@ public class FeedPollDAO {
         FeedVotes vote = new FeedVotes();
         vote.setVoterid(userId);
         vote.setAnswer(answer);
-        // Adding the vote to result
+        // Getting the result
         FeedPollResult result = poll.getPollResult();
         if (result == null) return null;
+        // Checking if the vote is already present
+        for (FeedVotes currentVotes: result.getVotes()) {
+            if (currentVotes.getVoterid() == userId) return null;
+        }
+        // voting and updating the database
         result.Vote(vote);
-        // updating the database
         manager.getTransaction().begin();
         manager.persist(vote);
         manager.persist(result);
@@ -112,6 +116,23 @@ public class FeedPollDAO {
                 votes.remove(vote);
                 manager.persist(result);
                 manager.remove(vote);
+                manager.getTransaction().commit();
+                return vote;
+            }
+        }
+        return null;
+    }
+
+    public FeedVotes updateVote(int userId, int pollId, boolean answer) {
+        FeedPoll poll = manager.find(FeedPoll.class,pollId);
+        if (poll == null) return null;
+        FeedPollResult result = poll.getPollResult();
+        List<FeedVotes> votes = result.getVotes();
+        for (FeedVotes vote: votes) {
+            if(vote.getVoterid() == userId) {
+                manager.getTransaction().begin();
+                vote.setAnswer(answer);
+                manager.persist(vote);
                 manager.getTransaction().commit();
                 return vote;
             }

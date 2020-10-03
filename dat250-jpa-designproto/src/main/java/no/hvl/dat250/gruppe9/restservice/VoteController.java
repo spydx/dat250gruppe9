@@ -24,10 +24,17 @@ public class VoteController {
         return pollDAO.deleteVote(pollId,userId);
     }
 
-    @PutMapping("/putVote")
-    public FeedVotes putVote(@RequestParam(value = "id") int id ,
+    @PostMapping("/postVote")
+    public FeedVotes postVote(@RequestParam(value = "poll_id") int pollId ,
                      @RequestParam(value = "user_id") int userId ,
-                     @RequestParam(value = "vote") boolean vote) {
-        return pollDAO.addVote(id, userId, vote);
+                     @RequestParam(value = "answer") boolean answer) {
+        return pollDAO.addVote(pollId, userId, answer);
+    }
+
+    @PutMapping("putVote")
+    public FeedVotes putVote(@RequestParam(value = "user_id") int userId ,
+                             @RequestParam(value = "poll_id") int pollId ,
+                             @RequestParam(value = "answer") boolean answer) {
+        return pollDAO.updateVote(userId, pollId, answer);
     }
 }
