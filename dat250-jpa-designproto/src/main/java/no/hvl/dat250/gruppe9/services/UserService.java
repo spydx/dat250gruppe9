@@ -2,7 +2,6 @@ package no.hvl.dat250.gruppe9.services;
 
 import no.hvl.dat250.gruppe9.DAO.FeedUserDAO;
 import no.hvl.dat250.gruppe9.entities.FeedUser;
-import no.hvl.dat250.gruppe9.entities.FeedVotes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
