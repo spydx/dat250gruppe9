@@ -20,7 +20,7 @@ public class FeedPollDAO {
         this.entityManager = entityManagerFactory.createEntityManager();
     }
 
-    public FeedPoll getPoll(long id){
+    public FeedPoll getPoll(Long id){
         return entityManager.find(FeedPoll.class, id);
    }
 

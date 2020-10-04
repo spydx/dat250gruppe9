@@ -40,10 +40,30 @@ public class PollService {
         return feedPollResultDAO.getResult(pollId);
     }
 
-    private boolean hasPoolResutl(Long id) {
+    private boolean hasPollResult(Long id) {
         var p = feedPollDAO.getPoll(id);
         return p.getFeedPollResult() != null;
     }
+
+    public boolean createPoll(Long id){ // TODO: how do this?
+        //If the poll doesn't exist return false else create poll and return true
+        if(feedPollDAO.getPoll(id) == null){
+            return false;
+        }else{
+            FeedPoll newPoll = new FeedPoll();
+            newPoll.setId(id);
+
+            return true;
+        }
+    }
+
+    public FeedPoll deletePoll(Long id){
+        //Todo: check if the user owns the poll , or is an admin
+        FeedPoll tobeDeleted = feedPollDAO.getPoll(id);
+        feedPollDAO.deletePoll(tobeDeleted);
+        return tobeDeleted;
+    }
+
     //TODO: if vote is null then the result will be wrong
     public FeedPollResult generateResult(FeedPoll poll) {
 

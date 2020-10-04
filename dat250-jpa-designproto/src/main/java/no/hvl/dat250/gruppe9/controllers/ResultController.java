@@ -15,12 +15,12 @@ public class ResultController {
         this.pollService = pollService;
     }
 
-    @GetMapping("/{pollId}")
+    @GetMapping(value = "/{pollId}")
     public FeedPollResult getResult(@PathVariable(value = "pollId") final Long id) {
         return pollService.getResult(id);
     }
 
-    @DeleteMapping("/{pollId}")
+    @DeleteMapping(value = "/{pollId}") //TODO: is this necessary. Could be done if a poll gets deleted
     public String deleteResult(@PathVariable(value = "pollId") final Long id) {
         return "deleted the result for " + id;
     }
