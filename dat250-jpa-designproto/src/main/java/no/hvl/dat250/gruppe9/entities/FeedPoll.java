@@ -27,16 +27,16 @@ public class FeedPoll {
     private String answeryes;
     private String answerno;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     private FeedUser owner;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.MERGE)
     private List<FeedVotes> votes = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private FeedPollResult feedPollResult;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<FeedIoTDevice> ioTDevicesList;
 
     public long getId() {

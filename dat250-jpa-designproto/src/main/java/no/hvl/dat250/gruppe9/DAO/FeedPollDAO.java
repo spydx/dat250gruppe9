@@ -47,6 +47,8 @@ public class FeedPollDAO {
         entityManager.getTransaction().commit();
     }
 
+
+
     /**
      * Update poll with id equal to given id and the parameters from the new/existing poll
      * @param id

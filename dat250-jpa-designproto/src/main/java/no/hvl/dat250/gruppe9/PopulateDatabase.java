@@ -49,12 +49,15 @@ public class PopulateDatabase {
             pollList.add(f);
         }
 
-        FeedPoll voting = new FeedPoll();
-        voting.setOwner(userList.get(random.nextInt(LIMIT)));
-        voting.setAnsweryes("ACcepted");
-        voting.setAnswerno("UnaceTAble");
-        voting.setName("Is it...");
-        voting.setQuestion("Accetable?");
+        FeedPoll poll = new FeedPoll();
+        poll.setOwner(userList.get(random.nextInt(LIMIT)));
+        poll.setAnsweryes("ACcepted");
+        poll.setAnswerno("UnaceTAble");
+        poll.setName("Is it...");
+        poll.setQuestion("Accetable?");
+        var date = new Date();
+        poll.setTimestart(date);
+        poll.setFeedaccess(FeedAccess.PUBLIC);
         List<FeedVotes> votesList = new ArrayList<>();
         for (int i = 0; i < LIMIT; i++) {
             FeedVotes v = new FeedVotes();
@@ -70,11 +73,12 @@ public class PopulateDatabase {
             List<FeedVotes> vl = new ArrayList<>();
             vl.add(v);
             u.setVotedOn(vl);
+            udao.setVotedOnList(u.getId(),vl);
             votesList.add(v);
         }
-        voting.setVotes(votesList);
-        pdao.addPoll(voting);
-        pollList.add(voting);
+        poll.setVotes(votesList);
+        pdao.addPoll(poll);
+        pollList.add(poll);
 
     }
 }

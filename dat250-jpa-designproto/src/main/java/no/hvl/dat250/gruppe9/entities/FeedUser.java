@@ -9,6 +9,7 @@ public class FeedUser {
     @Id
     @GeneratedValue
     private long id;
+
     private String firstname;
     private String lastname;
 
@@ -20,7 +21,7 @@ public class FeedUser {
     @Enumerated(EnumType.STRING)
     private FeedRoles role;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.MERGE)
     private List<FeedPoll> pollsList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.PERSIST)
@@ -77,6 +78,7 @@ public class FeedUser {
         this.role = role;
     }
 
+    @OneToMany
     public List<FeedPoll> getPollsList() {
         return pollsList;
     }
@@ -85,6 +87,7 @@ public class FeedUser {
         this.pollsList = pollsList;
     }
 
+    @OneToMany
     public List<FeedVotes> getVotedOn() {
         return votedOn;
     }
@@ -100,7 +103,7 @@ public class FeedUser {
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", password='" + null + '\'' +
                 ", role=" + role +
                 ", pollsList=" + pollsList +
                 ", votedOn=" + votedOn +

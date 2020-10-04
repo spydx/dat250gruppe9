@@ -82,6 +82,15 @@ public class FeedUserDAO {
         return user.getVotedOn();
     }
 
+    public FeedUser setVotedOnList(long userId, List<FeedVotes> votes) {
+        var user = entityManager.find(FeedUser.class, userId);
+        user.setVotedOn(votes);
+        entityManager.getTransaction().begin();
+        entityManager.persist(user);
+        entityManager.getTransaction().commit();
+        return user;
+    }
+
     public void addUser(String firstName, String lastName, FeedRoles role, String email, String password) {
         FeedUser user = new FeedUser();
         user.setFirstname(firstName);
