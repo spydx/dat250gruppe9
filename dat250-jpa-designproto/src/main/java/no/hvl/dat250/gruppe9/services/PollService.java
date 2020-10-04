@@ -36,6 +36,10 @@ public class PollService {
         return poll.getOwner();
     }
 
+    public FeedPollResult getResult(long pollId) {
+        return feedPollResultDAO.getResult(pollId);
+    }
+
     private boolean hasPoolResutl(Long id) {
         var p = feedPollDAO.getPoll(id);
         return p.getFeedPollResult() != null;

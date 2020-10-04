@@ -1,15 +1,23 @@
 package no.hvl.dat250.gruppe9.controllers;
 
 
+import no.hvl.dat250.gruppe9.entities.FeedPollResult;
+import no.hvl.dat250.gruppe9.services.PollService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/result")
 public class ResultController {
 
+    private PollService pollService;
+
+    public ResultController(PollService pollService) {
+        this.pollService = pollService;
+    }
+
     @GetMapping("/{pollId}")
-    public String getResult(@RequestParam(value = "pollId") Long pollId) {
-        return "found the reust for " + pollId;
+    public FeedPollResult getResult(@RequestParam(value = "pollId") Long pollId) {
+        return pollService.getResult(pollId);
     }
 
     @DeleteMapping("/{pollId}")
