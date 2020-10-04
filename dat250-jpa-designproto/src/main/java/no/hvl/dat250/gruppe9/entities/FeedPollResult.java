@@ -1,12 +1,9 @@
 package no.hvl.dat250.gruppe9.entities;
 
-import lombok.Data;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Data
 @Entity
 public class FeedPollResult {
 

@@ -1,7 +1,5 @@
 package no.hvl.dat250.gruppe9.entities;
 
-import lombok.Data;
-
 import java.util.Date;
 
 import javax.persistence.*;
