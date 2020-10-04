@@ -18,7 +18,8 @@ public class PollController {
         this.pollService = pollService;
     }
 
-    @GetMapping("/") //TODO: this returns the owners password!! fix it
+    //TODO: Returns incorrect JSON due to looping in relations.
+    @GetMapping("/")
     public List<FeedPoll> getAllPolls() {
         return pollService.getAll();
     }

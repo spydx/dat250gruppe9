@@ -15,7 +15,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
+    //TODO: Returns uncorrectly formated JSON.
     @GetMapping("/")
     public List<FeedUser> allUsers() {
         return userService.getAll();

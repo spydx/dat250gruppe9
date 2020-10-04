@@ -63,7 +63,7 @@ public class FeedUser {
     }
 
     public String getPassword() {
-        return password;
+        return null;
     }
 
     public void setPassword(String password) {
