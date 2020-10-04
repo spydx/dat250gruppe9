@@ -15,9 +15,6 @@ public class FeedPollResult {
     private int nos;
     private int total;
 
-    @OneToMany
-    private List<FeedVotes> votes;
-
     public FeedPollResult() {}
 
     public int getYes() {
@@ -44,14 +41,6 @@ public class FeedPollResult {
         this.total = total;
     }
 
-    public void Vote(FeedVotes vote) {
-        vote.setVotetime(new Date());
-        if (vote.getAnswer()) yes++;
-        else nos++;
-        total++;
-        this.votes.add(vote);
-    }
-
     @Override
     public String toString() {
         return "PollResult{" +
@@ -61,7 +50,5 @@ public class FeedPollResult {
                 '}';
     }
 
-    public List<FeedVotes> getVotes() {
-        return votes;
-    }
+
 }

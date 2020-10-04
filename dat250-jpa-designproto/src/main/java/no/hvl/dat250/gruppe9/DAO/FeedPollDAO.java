@@ -1,56 +1,50 @@
 package no.hvl.dat250.gruppe9.DAO;
 
 import no.hvl.dat250.gruppe9.entities.*;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Repository
 public class FeedPollDAO {
 
     private static final String ENTITY_NAME = "feedapp";
     private static EntityManagerFactory entityManagerFactory;
-    private EntityManager manager;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public FeedPollDAO(){
         this.entityManagerFactory = Persistence.createEntityManagerFactory(ENTITY_NAME);
-        this.manager = entityManagerFactory.createEntityManager();
+        this.entityManager = entityManagerFactory.createEntityManager();
     }
 
     public FeedPoll getPoll(int id){
-        try {
-            Query q = manager.createQuery("SELECT poll FROM FeedPoll poll WHERE poll.id = ?1");
-            q.setParameter(1, id);
-            return (FeedPoll) q.getSingleResult();
-        }catch (NoResultException e){
-            System.out.println(e);
-            return null;
-        }
-    }
+        return entityManager.find(FeedPoll.class, id);
+   }
 
     public List<FeedPoll> getAll(){
-        Query q = manager.createQuery("SELECT poll FROM FeedPoll poll");
+        Query q = entityManager.createQuery("SELECT poll FROM FeedPoll poll");
         return q.getResultList();
     }
 
-    public boolean deletePoll(int id){
-        try{
-            Query q = manager.createQuery("DELETE FROM FeedPoll WHERE FeedPoll.id = ?1");
-            q.setParameter(1, id);
-            manager.getTransaction().begin();
-            q.executeUpdate();
-            manager.getTransaction().commit();
-            return true;
-        }catch (EntityExistsException e){
-            return false;
-        }
+
+    //TODO: Should not be void
+    public void deletePoll(FeedPoll poll){
+        entityManager.getTransaction().begin();
+        entityManager.remove(poll);
+        entityManager.getTransaction().commit();
+
     }
 
+    //TODO: missing return type?
     public void addPoll(FeedPoll poll){
-        manager.getTransaction().begin();
-        manager.persist(poll);
-        manager.getTransaction().commit();
+        entityManager.getTransaction().begin();
+        entityManager.persist(poll);
+        entityManager.getTransaction().commit();
     }
 
     /**
@@ -61,35 +55,35 @@ public class FeedPollDAO {
      */
     public boolean updatePoll(int id, FeedPoll poll){
         try{
-            Query q = manager.createQuery("UPDATE FeedPoll SET answerno = ?1, answeryes = ?2, name = ?3, question = ?4, timeend = ?5, timestart = ?6, owner = ?7 " +
+            Query q = entityManager.createQuery("UPDATE FeedPoll SET answerno = ?1, answeryes = ?2, name = ?3, question = ?4, timeend = ?5, timestart = ?6, owner = ?7 " +
                                              "WHERE  id = ?8");
             q.setParameter(1, poll.getAnswerno());
             q.setParameter(2, poll.getAnsweryes());
             q.setParameter(3, poll.getName());
             q.setParameter(4, poll.getQuestion());
-            q.setParameter(5, poll.getEndTime());
-            q.setParameter(6, poll.getStartTime());
+            q.setParameter(5, poll.getTimeend());
+            q.setParameter(6, poll.getTimestart());
             q.setParameter(7, poll.getOwner());
             q.setParameter(8, id);
-            manager.getTransaction().begin();
+            entityManager.getTransaction().begin();
             q.executeUpdate();
-            manager.getTransaction().commit();
+            entityManager.getTransaction().commit();
             return true;
         }catch (EntityExistsException e){
             return false;
         }
     }
-
+/*
     public FeedVotes addVote(int id, int userId, boolean answer) {
         // Getting poll
-        FeedPoll poll = manager.find(FeedPoll.class,id);
+        FeedPoll poll = entityManager.find(FeedPoll.class,id);
         if (poll == null) return null;
         // Creating vote
         FeedVotes vote = new FeedVotes();
         vote.setVoterid(userId);
         vote.setAnswer(answer);
         // Getting the result
-        FeedPollResult result = poll.getPollResult();
+        FeedPollResult result = poll.getFeedPollResult();
         if (result == null) return null;
         // Checking if the vote is already present
         for (FeedVotes currentVotes: result.getVotes()) {
@@ -97,25 +91,25 @@ public class FeedPollDAO {
         }
         // voting and updating the database
         result.Vote(vote);
-        manager.getTransaction().begin();
-        manager.persist(vote);
-        manager.persist(result);
-        manager.getTransaction().commit();
+        entityManager.getTransaction().begin();
+        entityManager.persist(vote);
+        entityManager.persist(result);
+        entityManager.getTransaction().commit();
         return vote;
     }
 
     public FeedVotes deleteVote(int pollId, int userId) {
-        FeedPoll poll = manager.find(FeedPoll.class,pollId);
+        FeedPoll poll = entityManager.find(FeedPoll.class,pollId);
         if (poll == null) return null;
-        FeedPollResult result = poll.getPollResult();
+        FeedPollResult result = poll.getFeedPollResult();
         List<FeedVotes> votes = result.getVotes();
         for (FeedVotes vote: votes) {
             if(vote.getVoterid() == userId) {
-                manager.getTransaction().begin();
+                entityManager.getTransaction().begin();
                 votes.remove(vote);
-                manager.persist(result);
-                manager.remove(vote);
-                manager.getTransaction().commit();
+                entityManager.persist(result);
+                entityManager.remove(vote);
+                entityManager.getTransaction().commit();
                 return vote;
             }
         }
@@ -123,16 +117,16 @@ public class FeedPollDAO {
     }
 
     public FeedVotes updateVote(int userId, int pollId, boolean answer) {
-        FeedPoll poll = manager.find(FeedPoll.class,pollId);
+        FeedPoll poll = entityManager.find(FeedPoll.class,pollId);
         if (poll == null) return null;
-        FeedPollResult result = poll.getPollResult();
+        FeedPollResult result = poll.getFeedPollResult();
         List<FeedVotes> votes = result.getVotes();
         for (FeedVotes vote: votes) {
             if(vote.getVoterid() == userId) {
-                manager.getTransaction().begin();
+                entityManager.getTransaction().begin();
                 vote.setAnswer(answer);
-                manager.persist(vote);
-                manager.getTransaction().commit();
+                entityManager.persist(vote);
+                entityManager.getTransaction().commit();
                 return vote;
             }
         }
@@ -140,9 +134,9 @@ public class FeedPollDAO {
     }
 
     public List<FeedVotes> getVoteList(int pollId) {
-        FeedPoll poll = manager.find(FeedPoll.class,pollId);
+        FeedPoll poll = entityManager.find(FeedPoll.class,pollId);
         if (poll == null) return null;
-        FeedPollResult result = poll.getPollResult();
+        FeedPollResult result = poll.getFeedPollResult();
         if (result == null) return null;
         return result.getVotes();
     }
@@ -151,19 +145,21 @@ public class FeedPollDAO {
         FeedPoll poll = new FeedPoll();
         poll.setName(pollName);
         poll.setQuestion(question);
-        poll.setFeedAccess(access);
+        poll.setFeedaccess(access);
         poll.setAnsweryes(yes);
         poll.setAnswerno(no);
         poll.setOwner(user);
-        poll.setPollResult(result);
-        poll.setStartTime(new Date());
+        poll.setFeedPollResult(result);
+        poll.setTimestart(new Date());
         if (user.getPollsList() == null) user.setPollsList(new ArrayList<>());
         user.getPollsList().add(poll);
-        manager.getTransaction().begin();
+        entityManager.getTransaction().begin();
         //manager.persist(user);
-        manager.persist(poll);
-        manager.persist(result);
-        manager.getTransaction().commit();
+        entityManager.persist(poll);
+        entityManager.persist(result);
+        entityManager.getTransaction().commit();
 
     }
+
+ */
 }

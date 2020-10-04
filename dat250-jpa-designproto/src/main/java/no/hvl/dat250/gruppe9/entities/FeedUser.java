@@ -8,83 +8,90 @@ import java.util.List;
 public class FeedUser {
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
     private String firstname;
     private String lastname;
 
     @Column(unique=true)
     private String email;
+
     private String password;
 
     @Enumerated(EnumType.STRING)
     private FeedRoles role;
 
-    @OneToMany
-    private List<FeedPoll> pollsList;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<FeedPoll> pollsList = new ArrayList<>();
 
-    @OneToMany
-    private List<FeedPoll> votedOn;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<FeedVotes> votedOn = new ArrayList<>();
 
     public FeedUser() {
 
     }
-    public String getName() {
-        return this.firstname + "" + this.lastname;
+
+    public long getId() {
+        return id;
     }
-    public void setFirstname(String name) {
-        this.firstname = name;
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getFirstname() {
         return firstname;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
     public String getLastname() {
         return lastname;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Boolean checkPassword(String password) {
-        return this.password == password;
-    }
-
-    public void setRole(FeedRoles role) {
-        this.role = role;
     }
 
     public FeedRoles getRole() {
         return role;
     }
 
-    public void setVotedOn(List<FeedPoll> votedOn) {
-        this.votedOn = votedOn;
+    public void setRole(FeedRoles role) {
+        this.role = role;
     }
 
-    public List<FeedPoll> getVotedOn() {
-        return votedOn;
+    public List<FeedPoll> getPollsList() {
+        return pollsList;
     }
 
     public void setPollsList(List<FeedPoll> pollsList) {
         this.pollsList = pollsList;
     }
 
-    public List<FeedPoll> getPollsList() {
-        return pollsList;
+    public List<FeedVotes> getVotedOn() {
+        return votedOn;
+    }
+
+    public void setVotedOn(List<FeedVotes> votedOn) {
+        this.votedOn = votedOn;
     }
 
     @Override
@@ -94,6 +101,7 @@ public class FeedUser {
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", role=" + role +
                 ", pollsList=" + pollsList +
                 ", votedOn=" + votedOn +

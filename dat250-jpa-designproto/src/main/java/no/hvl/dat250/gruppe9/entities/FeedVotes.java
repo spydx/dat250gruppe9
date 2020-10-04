@@ -6,18 +6,23 @@ import javax.persistence.*;
 
 @Entity
 public class FeedVotes {
+
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
 
-    @Column(unique=true)
-    private int voterid;
+    //@Column(unique=true)
+    private long voterid;
 
     // is true it is option a else option b
     private Boolean answer;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date votetime;
+
+    public long getId() {
+        return this.id;
+    }
 
     public Boolean getAnswer() {
         return answer;
@@ -35,11 +40,11 @@ public class FeedVotes {
         this.votetime = votetime;
     }
 
-    public int getVoterid() {
+    public long getVoterid() {
         return voterid;
     }
 
-    public void setVoterid(int voterid) {
+    public void setVoterid(long voterid) {
         this.voterid = voterid;
     }
 

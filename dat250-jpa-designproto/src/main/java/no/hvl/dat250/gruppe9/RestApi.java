@@ -1,4 +1,4 @@
-package no.hvl.dat250.gruppe9.restservice;
+package no.hvl.dat250.gruppe9;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

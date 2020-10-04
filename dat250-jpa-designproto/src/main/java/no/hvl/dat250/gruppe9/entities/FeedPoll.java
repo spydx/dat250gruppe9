@@ -1,6 +1,7 @@
 package no.hvl.dat250.gruppe9.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,7 @@ public class FeedPoll {
 
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
 
     private String name;
 
@@ -29,6 +30,9 @@ public class FeedPoll {
     @OneToOne
     private FeedUser owner;
 
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<FeedVotes> votes = new ArrayList<>();
+
     @OneToOne
     private FeedPollResult feedPollResult;
 
@@ -37,6 +41,54 @@ public class FeedPoll {
 
     public FeedPoll() {
 
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public Date getTimestart() {
+        return timestart;
+    }
+
+    public void setTimestart(Date timestart) {
+        this.timestart = timestart;
+    }
+
+    public Date getTimeend() {
+        return timeend;
+    }
+
+    public void setTimeend(Date timeend) {
+        this.timeend = timeend;
+    }
+
+    public FeedAccess getFeedaccess() {
+        return feedaccess;
+    }
+
+    public void setFeedaccess(FeedAccess feedaccess) {
+        this.feedaccess = feedaccess;
     }
 
     public String getAnsweryes() {
@@ -55,76 +107,53 @@ public class FeedPoll {
         this.answerno = answerno;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public String getQuestion() {
-        return question;
+    public FeedUser getOwner() {
+        return owner;
     }
 
     public void setOwner(FeedUser owner) {
         this.owner = owner;
     }
 
-    public void setEndTime(Date timeend) {
-        this.timeend = timeend;
+    public List<FeedVotes> getVotes() {
+        return votes;
     }
 
-    public void setStartTime(Date timestart) {
-        this.timestart = timestart;
+    public void setVotes(List<FeedVotes> votes) {
+        this.votes = votes;
     }
 
-    public Date getStartTime() {
-        return timestart;
-    }
-
-    public Date getEndTime() {
-        return timeend;
-    }
-
-    public FeedUser getOwner() {
-        return owner;
-    }
-
-    public void setPollResult(FeedPollResult feedPollResult) {
-        this.feedPollResult = feedPollResult;
-    }
-
-    public FeedPollResult getPollResult() {
+    public FeedPollResult getFeedPollResult() {
         return feedPollResult;
     }
 
-    public void setIoTDevicesList(List<FeedIoTDevice> ioTDevicesList) {
-        this.ioTDevicesList = ioTDevicesList;
+    public void setFeedPollResult(FeedPollResult feedPollResult) {
+        this.feedPollResult = feedPollResult;
     }
 
     public List<FeedIoTDevice> getIoTDevicesList() {
         return ioTDevicesList;
     }
 
-    public void setFeedAccess(FeedAccess feedAccess) {
-        this.feedaccess = feedAccess;
-    }
-
-    public FeedAccess getFeedAccess() {
-        return feedaccess;
+    public void setIoTDevicesList(List<FeedIoTDevice> ioTDevicesList) {
+        this.ioTDevicesList = ioTDevicesList;
     }
 
     @Override
     public String toString() {
-        return "Poll {" +
-                "Name='" + name + '\'' +
-                ", Question='" + question + '\'' +
-                ", PollResult=" + feedPollResult +
+        return "FeedPoll{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", question='" + question + '\'' +
+                ", timestart=" + timestart +
+                ", timeend=" + timeend +
+                ", feedaccess=" + feedaccess +
+                ", answeryes='" + answeryes + '\'' +
+                ", answerno='" + answerno + '\'' +
+                ", owner=" + owner +
+                ", votes=" + votes +
+                ", feedPollResult=" + feedPollResult +
+                ", ioTDevicesList=" + ioTDevicesList +
                 '}';
     }
 }
