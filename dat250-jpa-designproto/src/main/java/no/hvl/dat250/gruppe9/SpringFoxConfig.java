@@ -13,6 +13,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 
+import static springfox.documentation.builders.PathSelectors.regex;
+
 @Configuration
 @EnableSwagger2
 public class SpringFoxConfig {
@@ -20,7 +22,7 @@ public class SpringFoxConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("no.hvl.dat250.gruppe9"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo())
