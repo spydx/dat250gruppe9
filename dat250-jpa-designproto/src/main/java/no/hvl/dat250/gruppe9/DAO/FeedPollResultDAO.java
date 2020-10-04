@@ -1,53 +1,41 @@
 package no.hvl.dat250.gruppe9.DAO;
 
 import no.hvl.dat250.gruppe9.entities.FeedPollResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 
+@Repository
 public class FeedPollResultDAO {
 
     private static final String ENTITY_NAME = "feedapp";
     private static EntityManagerFactory entityManagerFactory;
-    private EntityManager manager;
+    private EntityManager entityManager;
 
+    @Autowired
     public FeedPollResultDAO(){
         this.entityManagerFactory = Persistence.createEntityManagerFactory(ENTITY_NAME);
-        this.manager = entityManagerFactory.createEntityManager();
+        this.entityManager = entityManagerFactory.createEntityManager();
     }
 
-    public FeedPollResult getResult(int id){
-        try {
-            Query q = manager.createQuery("SELECT result FROM FeedPollResult result WHERE result.id = ?1");
-            q.setParameter(1, id);
-            return (FeedPollResult) q.getSingleResult();
-        }catch (NoResultException e){
-            System.out.println(e);
-            return null;
-        }
+    public FeedPollResult getResult(int resultId){
+        return entityManager.find(FeedPollResult.class, resultId);
     }
 
-    public void addresult(FeedPollResult result){
-        manager.getTransaction().begin();
-        manager.persist(result);
-        manager.getTransaction().commit();
-    }
-/*
-    public boolean updateResult(int id, FeedPollResult result){
-        try{
-            Query q = manager.createQuery("UPDATE FeedPollResult SET nos = ?1, total = ?2, yes = ?3 " +
-                    "WHERE FeedIoTDevice.id = ?4");
-            q.setParameter(1, result.getNo());
-            q.setParameter(2, result.getTotal());
-            q.setParameter(3, result.getYes());
-            q.setParameter(4, id);
-            manager.getTransaction().begin();
-            q.executeUpdate();
-            manager.getTransaction().commit();
-            return true;
-        }catch (EntityExistsException e){
-            return false;
-        }
+    public FeedPollResult addResult(FeedPollResult result){
+        entityManager.getTransaction().begin();
+        entityManager.persist(result);
+        entityManager.getTransaction().commit();
+        return result;
     }
 
- */
+    // delete by nulling the row except the resultId
+    public void deleteResult(FeedPollResult result) {
+        var update = new FeedPollResult();
+        update.setId(result.getId());
+        entityManager.getTransaction().begin();
+        entityManager.merge(update);
+        entityManager.getTransaction().commit();
+    }
 }

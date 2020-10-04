@@ -3,6 +3,7 @@ package no.hvl.dat250.gruppe9.controllers;
 import java.util.List;
 
 import no.hvl.dat250.gruppe9.entities.FeedPoll;
+import no.hvl.dat250.gruppe9.entities.FeedPollResult;
 import no.hvl.dat250.gruppe9.entities.FeedUser;
 import no.hvl.dat250.gruppe9.entities.FeedVotes;
 import no.hvl.dat250.gruppe9.services.PollService;
@@ -48,15 +49,13 @@ public class PollController {
     public String updatePoll(@PathVariable("pollId") final Long id) {
         return "Update poll id" + id;
     }
-/*
-    @GetMapping("/userPolls")
-    public List<FeedPoll> userPolls(@RequestParam(value = "user_id") int userId) {
-        return userDAO.getPollList(userId);
+
+    @GetMapping(value = "/{pollId}/result")
+    public FeedPollResult getResult(@PathVariable("pollId") final Long pollId) {
+        var p = pollService.getById(pollId);
+        if(p != null) {
+            return pollService.generateResult(p);
+        }
+        return null;
     }
-
-    @GetMapping("/userVotedOn")
-    public List<FeedVotes> userVotedOn(@RequestParam(value = "user_id") int userId) {
-        return userDAO.getVotedOnList(userId);
-    }*/
-
 }
