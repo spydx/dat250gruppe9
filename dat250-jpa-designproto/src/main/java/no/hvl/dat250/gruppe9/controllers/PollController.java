@@ -2,8 +2,6 @@ package no.hvl.dat250.gruppe9.controllers;
 
 import java.util.List;
 
-import no.hvl.dat250.gruppe9.DAO.FeedPollDAO;
-import no.hvl.dat250.gruppe9.DAO.FeedUserDAO;
 import no.hvl.dat250.gruppe9.entities.FeedPoll;
 import no.hvl.dat250.gruppe9.entities.FeedUser;
 import no.hvl.dat250.gruppe9.entities.FeedVotes;
@@ -25,16 +23,30 @@ public class PollController {
         return pollService.getAll();
     }
 
-    @RequestMapping(value = "/{pollid}", method = RequestMethod.GET)
-    @ResponseBody
+    @GetMapping(value = "/{pollid}")
     public FeedPoll pollById(@PathVariable("pollid") final Long id)
     {
         return pollService.getById(id);
     }
-    @RequestMapping(value = "/{pollid}/owner", method = RequestMethod.GET)
-    @ResponseBody
+
+    @GetMapping(value = "/{pollid}/owner")
     public FeedUser getOwner(@PathVariable("pollid") final Long id) {
         return pollService.getPollOwner(id);
+    }
+
+    @PostMapping(value = "/{pollId}")
+    public String createPoll(@PathVariable("pollId") final Long id) {
+        return "created poll id" + id;
+    }
+
+    @DeleteMapping(value = "/{pollId}")
+    public String deletePoll(@PathVariable("pollId") final Long id) {
+        return "DELETED poll id" + id;
+    }
+
+    @PutMapping(value = "/{pollId}")
+    public String updatePoll(@PathVariable("pollId") final Long id) {
+        return "Update poll id" + id;
     }
 /*
     @GetMapping("/userPolls")
