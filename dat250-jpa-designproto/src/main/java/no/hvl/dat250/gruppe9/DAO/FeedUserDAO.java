@@ -32,42 +32,34 @@ public class FeedUserDAO {
         return q.getResultList();
     }
 
-    public boolean deleteUser(int id){
-        try{
-            Query q = entityManager.createQuery("DELETE FROM FeedUser WHERE id = ?1");
-            q.setParameter(1, id);
-            entityManager.getTransaction().begin();
-            q.executeUpdate();
+    public boolean deleteUser(long id){
+        entityManager.getTransaction().begin();
+        var u = entityManager.find(FeedUser.class, id);
+        if(u != null) {
+            FeedUser update = new FeedUser();
+            update.setId(u.getId());
+            update.setRole(FeedRoles.DELETED);
+            entityManager.merge(update);
             entityManager.getTransaction().commit();
             return true;
-        }catch (EntityExistsException e){
-            return false;
         }
+        entityManager.getTransaction().rollback();
+        return false;
     }
 
-    public void addUser(FeedUser user){
+    public FeedUser addUser(FeedUser user){
         entityManager.getTransaction().begin();
         entityManager.persist(user);
         entityManager.getTransaction().commit();
+        return user;
     }
 
-    public boolean updateUser(int id, FeedUser user, String newPassword){
-        try{
-            Query q = entityManager.createQuery("UPDATE FeedUser SET email = ?1, firstname = ?2, lastname = ?3, password = ?4, role = ?5" +
-                    " WHERE id = ?6");
-            q.setParameter(1, user.getEmail());
-            q.setParameter(2, user.getFirstname());
-            q.setParameter(3, user.getLastname());
-            q.setParameter(4, newPassword);
-            q.setParameter(5, user.getRole());
-            q.setParameter(6, id);
-            entityManager.getTransaction().begin();
-            q.executeUpdate();
-            entityManager.getTransaction().commit();
-            return true;
-        }catch (EntityExistsException e){
-            return false;
-        }
+    public FeedUser updateUser(FeedUser user) {
+        entityManager.getTransaction().begin();
+        entityManager.merge(user);
+        var updatedUser = entityManager.find(FeedUser.class, user.getId());
+        entityManager.getTransaction().commit();
+        return updatedUser;
     }
 
     public List<FeedPoll> getPollList(int userId) {
@@ -86,7 +78,7 @@ public class FeedUserDAO {
         var user = entityManager.find(FeedUser.class, userId);
         user.setVotedOn(votes);
         entityManager.getTransaction().begin();
-        entityManager.persist(user);
+        entityManager.merge(user);
         entityManager.getTransaction().commit();
         return user;
     }

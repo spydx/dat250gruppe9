@@ -22,10 +22,16 @@ public class UserService {
         return feedUserDAO.getAll();
     }
 
-    public void addUser(FeedUser user){
-        feedUserDAO.addUser(user);
+    public FeedUser addUser(FeedUser user){
+        return feedUserDAO.addUser(user);
+    }
+    public boolean deleteUser(long userid) {
+        return feedUserDAO.deleteUser(userid);
     }
 
+    public FeedUser updateUser(FeedUser user) {
+        return feedUserDAO.updateUser(user);
+    }
 
 
 

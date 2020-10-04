@@ -26,21 +26,30 @@ public class UserController {
         return userService.getAll().get(1);
     }
 
-    @PostMapping(value = "/{userId}")
-    public String createPoll(@PathVariable("userId") final Long id) {
-        return "created user id" + id;
+    @PostMapping(value = "/")
+    public FeedUser createUser(@RequestBody FeedUser newUser) {
+        return userService.addUser(newUser);
     }
 
+    //200 (OK). 404 (Not Found), if ID not found or invalid.
     @DeleteMapping(value = "/{userId}")
-    public String deletePoll(@PathVariable("userId") final Long id) {
-        return "DELETED user id" + id;
+    public String deleteUser(@PathVariable("userId") final Long id) {
+        var res = userService.deleteUser(id);
+        if(res) {
+            return "DELETED user id " + id;
+        } else {
+            return "User not found";
+        }
     }
 
+    //200 (OK) or 204 (No Content). 404 (Not Found), if ID not found or invalid.
     @PutMapping(value = "/{userId}")
-    public String updatePoll(@PathVariable("userId") final Long id) {
-        return "Update user id" + id;
+    public String updateUser(@PathVariable("userId") final Long userid,
+                             @RequestBody FeedUser updatedUser) {
+        if(userid == updatedUser.getId()) {
+            userService.updateUser(updatedUser);
+            return "Update user id" + userid + updatedUser;
+        }
+        return "Failed to update user " + updatedUser;
     }
-
-
-
 }
