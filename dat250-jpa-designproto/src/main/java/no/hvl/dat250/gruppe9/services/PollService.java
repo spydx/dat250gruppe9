@@ -36,8 +36,13 @@ public class PollService {
         return poll.getOwner();
     }
 
+    private boolean hasPoolResutl(Long id) {
+        var p = feedPollDAO.getPoll(id);
+        return p.getFeedPollResult() != null;
+    }
     //TODO: if vote is null then the result will be wrong
     public FeedPollResult generateResult(FeedPoll poll) {
+
         var result = new FeedPollResult();
         List<FeedVotes> votes = poll.getVotes();
         int total = votes.size();
@@ -51,6 +56,7 @@ public class PollService {
         result.setYes(yesvotes);
         result.setNos(novotes);
         result.setTotal(total);
+        //feedPollDAO.updatePollWithResult
         feedPollResultDAO.addResult(result);
         return result;
     }
