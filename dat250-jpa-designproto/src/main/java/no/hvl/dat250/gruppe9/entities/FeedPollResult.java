@@ -1,15 +1,13 @@
 package no.hvl.dat250.gruppe9.entities;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 public class FeedPollResult {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     private int yes;
     private int nos;
@@ -18,11 +16,11 @@ public class FeedPollResult {
     public FeedPollResult() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

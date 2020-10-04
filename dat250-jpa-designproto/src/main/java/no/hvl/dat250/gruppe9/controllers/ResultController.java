@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/result")
 public class ResultController {
 
-    private PollService pollService;
+    private final PollService pollService;
 
     public ResultController(PollService pollService) {
         this.pollService = pollService;
     }
 
     @GetMapping("/{pollId}")
-    public FeedPollResult getResult(@RequestParam(value = "pollId") Long pollId) {
-        return pollService.getResult(pollId);
+    public FeedPollResult getResult(@PathVariable(value = "pollId") final Long id) {
+        return pollService.getResult(id);
     }
 
     @DeleteMapping("/{pollId}")
-    public String deleteResult(@RequestParam(value = "pollId") Long pollId) {
-        return "deleted the result for " + pollId;
+    public String deleteResult(@PathVariable(value = "pollId") final Long id) {
+        return "deleted the result for " + id;
     }
 }
