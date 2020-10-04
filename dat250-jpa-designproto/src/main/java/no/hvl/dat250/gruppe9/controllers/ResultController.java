@@ -1,4 +1,4 @@
-package no.hvl.dat250.gruppe9.restservice;
+package no.hvl.dat250.gruppe9.controllers;
 
 import no.hvl.dat250.gruppe9.DAO.FeedPollResultDAO;
 import no.hvl.dat250.gruppe9.entities.FeedPollResult;

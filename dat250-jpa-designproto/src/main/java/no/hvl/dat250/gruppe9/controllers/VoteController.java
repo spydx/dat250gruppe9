@@ -1,14 +1,28 @@
-package no.hvl.dat250.gruppe9.restservice;
+package no.hvl.dat250.gruppe9.controllers;
 
 import java.util.List;
 
-import no.hvl.dat250.gruppe9.DAO.FeedPollDAO;
-import no.hvl.dat250.gruppe9.DAO.FeedVotesDAO;
 import no.hvl.dat250.gruppe9.entities.FeedVotes;
+import no.hvl.dat250.gruppe9.services.VoteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/votes")
 public class VoteController {
+
+    private final VoteService voteService;
+
+    @Autowired
+    public VoteController(VoteService voteService) {
+        this.voteService = voteService;
+    }
+
+    @GetMapping("/")
+    public List<FeedVotes> getAll() {
+        return voteService.getAll();
+    }
+    /*
     FeedVotesDAO votesDAO = new FeedVotesDAO();
     FeedPollDAO pollDAO = new FeedPollDAO();
 
@@ -41,4 +55,6 @@ public class VoteController {
                              @RequestParam(value = "answer") boolean answer) {
         return pollDAO.updateVote(userId, pollId, answer);
     }
+
+     */
 }

@@ -31,7 +31,7 @@ public class FeedPollResultDAO {
         manager.persist(result);
         manager.getTransaction().commit();
     }
-
+/*
     public boolean updateResult(int id, FeedPollResult result){
         try{
             Query q = manager.createQuery("UPDATE FeedPollResult SET nos = ?1, total = ?2, yes = ?3 " +
@@ -48,4 +48,6 @@ public class FeedPollResultDAO {
             return false;
         }
     }
+
+ */
 }

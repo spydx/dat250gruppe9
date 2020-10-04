@@ -1,5 +1,7 @@
 package no.hvl.dat250.gruppe9.entities;
 
+import lombok.Data;
+
 import java.util.Date;
 
 import javax.persistence.*;
@@ -21,7 +23,19 @@ public class FeedVotes {
     private Date votetime;
 
     public long getId() {
-        return this.id;
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getVoterid() {
+        return voterid;
+    }
+
+    public void setVoterid(long voterid) {
+        this.voterid = voterid;
     }
 
     public Boolean getAnswer() {
@@ -40,18 +54,11 @@ public class FeedVotes {
         this.votetime = votetime;
     }
 
-    public long getVoterid() {
-        return voterid;
-    }
-
-    public void setVoterid(long voterid) {
-        this.voterid = voterid;
-    }
-
     @Override
     public String toString() {
         return "FeedVotes{" +
                 "id=" + id +
+                ", voterid=" + voterid +
                 ", answer=" + answer +
                 ", votetime=" + votetime +
                 '}';

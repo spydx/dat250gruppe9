@@ -22,7 +22,7 @@ public class FeedPollDAO {
         this.entityManager = entityManagerFactory.createEntityManager();
     }
 
-    public FeedPoll getPoll(int id){
+    public FeedPoll getPoll(long id){
         return entityManager.find(FeedPoll.class, id);
    }
 
@@ -52,7 +52,7 @@ public class FeedPollDAO {
      * @param id
      * @param poll
      * @return true if success, false otherwise
-     */
+     *
     public boolean updatePoll(int id, FeedPoll poll){
         try{
             Query q = entityManager.createQuery("UPDATE FeedPoll SET answerno = ?1, answeryes = ?2, name = ?3, question = ?4, timeend = ?5, timestart = ?6, owner = ?7 " +

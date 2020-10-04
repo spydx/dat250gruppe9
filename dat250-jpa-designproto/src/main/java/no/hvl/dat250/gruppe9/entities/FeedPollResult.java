@@ -1,9 +1,12 @@
 package no.hvl.dat250.gruppe9.entities;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+@Data
 @Entity
 public class FeedPollResult {
 
@@ -15,7 +18,16 @@ public class FeedPollResult {
     private int nos;
     private int total;
 
-    public FeedPollResult() {}
+    public FeedPollResult() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getYes() {
         return yes;
@@ -25,12 +37,12 @@ public class FeedPollResult {
         this.yes = yes;
     }
 
-    public int getNo() {
+    public int getNos() {
         return nos;
     }
 
-    public void setNo(int no) {
-        this.nos = no;
+    public void setNos(int nos) {
+        this.nos = nos;
     }
 
     public int getTotal() {
@@ -43,12 +55,11 @@ public class FeedPollResult {
 
     @Override
     public String toString() {
-        return "PollResult{" +
-                "yes=" + yes +
-                ", no=" + nos +
-                ", votes=" + total +
+        return "FeedPollResult{" +
+                "id=" + id +
+                ", yes=" + yes +
+                ", nos=" + nos +
+                ", total=" + total +
                 '}';
     }
-
-
 }
