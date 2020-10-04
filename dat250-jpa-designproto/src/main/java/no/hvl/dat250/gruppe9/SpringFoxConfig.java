@@ -9,11 +9,12 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 
 @Configuration
-
+@EnableSwagger2
 public class SpringFoxConfig {
     @Bean
     public Docket api() {
@@ -28,8 +29,8 @@ public class SpringFoxConfig {
     private ApiInfo apiInfo() {
         return new ApiInfo(
                 "FeedApp REST API",
-                "Voting API.",
-                "API TOS",
+                "FeedApp Voting API.",
+                "API PROTO",
                 "Terms of service",
                 new Contact("FeedApp Admin", "www.feedapp.com", "support@feedapp.com"),
                 "License of API", "API license URL", Collections.emptyList());
