@@ -1,11 +1,10 @@
 package no.hvl.dat250.gruppe9.controllers;
 
-import no.hvl.dat250.gruppe9.DAO.FeedPollResultDAO;
-import no.hvl.dat250.gruppe9.entities.FeedPollResult;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("result")
+@RequestMapping("api/result")
 public class ResultController {
 
     @GetMapping("/{pollId}")
@@ -15,8 +14,6 @@ public class ResultController {
 
     @DeleteMapping("/{pollId}")
     public String deleteResult(@RequestParam(value = "pollId") Long pollId) {
-        return "deleted the reust for " + pollId;
+        return "deleted the result for " + pollId;
     }
-
-
 }

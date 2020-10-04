@@ -9,7 +9,7 @@ import no.hvl.dat250.gruppe9.services.PollService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("polls")
+@RequestMapping("api/polls")
 public class PollController {
 
     private final PollService pollService;
@@ -19,7 +19,7 @@ public class PollController {
     }
 
     @GetMapping("/")
-    public List<FeedPoll> polls() {
+    public List<FeedPoll> getAllPolls() {
         return pollService.getAll();
     }
 
