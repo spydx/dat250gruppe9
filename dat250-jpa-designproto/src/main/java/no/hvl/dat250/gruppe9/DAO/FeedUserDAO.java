@@ -23,7 +23,7 @@ public class FeedUserDAO {
         this.entityManager = entityManagerFactory.createEntityManager();
     }
 
-    public FeedUser getUser(int id){
+    public FeedUser getUser(long id){
         return entityManager.find(FeedUser.class, id);
     }
 

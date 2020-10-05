@@ -22,9 +22,12 @@ public class UserService {
         return feedUserDAO.getAll();
     }
 
+    public FeedUser getUser(long id)  { return feedUserDAO.getUser(id); }
+
     public FeedUser addUser(FeedUser user){
         return feedUserDAO.addUser(user);
     }
+
     public boolean deleteUser(long userid) {
         return feedUserDAO.deleteUser(userid);
     }

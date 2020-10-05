@@ -22,8 +22,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/{userId}")
-    public FeedUser getUserById(@PathVariable("userid") final Long id) {
-        return userService.getAll().get(1);
+    public FeedUser getUserById(@PathVariable("userId") final Long id) {
+        return userService.getUser(id);
     }
 
     @PostMapping(value = "/")
