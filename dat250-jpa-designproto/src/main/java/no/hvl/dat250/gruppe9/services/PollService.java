@@ -2,6 +2,7 @@ package no.hvl.dat250.gruppe9.services;
 
 import no.hvl.dat250.gruppe9.DAO.FeedPollDAO;
 import no.hvl.dat250.gruppe9.DAO.FeedPollResultDAO;
+import no.hvl.dat250.gruppe9.DAO.FeedUserDAO;
 import no.hvl.dat250.gruppe9.DAO.FeedVotesDAO;
 import no.hvl.dat250.gruppe9.entities.FeedPoll;
 import no.hvl.dat250.gruppe9.entities.FeedPollResult;
@@ -19,8 +20,12 @@ public class PollService {
     private final FeedPollResultDAO feedPollResultDAO;
     private final FeedVotesDAO feedVotesDAO;
 
+
     @Autowired
-    public PollService(FeedPollDAO feedPollDAO, FeedPollResultDAO feedPollResultDAO, FeedVotesDAO feedVotesDAO) {
+    public PollService(
+            FeedPollDAO feedPollDAO,
+            FeedPollResultDAO feedPollResultDAO,
+            FeedVotesDAO feedVotesDAO) {
         this.feedPollDAO = feedPollDAO;
         this.feedPollResultDAO = feedPollResultDAO;
         this.feedVotesDAO = feedVotesDAO;
@@ -34,7 +39,7 @@ public class PollService {
         return feedPollDAO.getPoll(id);
     }
 
-    public FeedUser getPollOwner(long id) {
+    public long getPollOwner(long id) {
         var poll =  feedPollDAO.getPoll(id);
         return poll.getOwner();
     }
@@ -53,11 +58,14 @@ public class PollService {
         return newPoll;
     }
 
-    public FeedPoll deletePoll(Long id){
+    public boolean deletePoll(Long id){
         //Todo: check if the user owns the poll , or is an admin
-        FeedPoll tobeDeleted = feedPollDAO.getPoll(id);
-        feedPollDAO.deletePoll(tobeDeleted);
-        return tobeDeleted;
+        var tobeDeleted = feedPollDAO.getPoll(id);
+        if (tobeDeleted != null) {
+            feedPollDAO.deletePoll(tobeDeleted);
+            return true;
+        }
+        return false;
     }
 
     public FeedVotes addVote(FeedVotes vote, long pollid){

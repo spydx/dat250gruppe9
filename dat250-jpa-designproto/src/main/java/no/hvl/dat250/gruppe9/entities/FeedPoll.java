@@ -103,8 +103,8 @@ public class FeedPoll {
         this.answerno = answerno;
     }
 
-    public FeedUser getOwner() {
-        return owner;
+    public long getOwner() {
+        return owner.getId();
     }
 
     public void setOwner(FeedUser owner) {
@@ -156,8 +156,8 @@ public class FeedPoll {
                 ", feedaccess=" + feedaccess +
                 ", answeryes='" + answeryes + '\'' +
                 ", answerno='" + answerno + '\'' +
-                ", owner=" + owner +
-                ", votes=" + votes +
+                ", owner=" + owner.getId() +
+                ", votes=" + votes.size() +
                 ", feedPollResult=" + feedPollResult +
                 ", ioTDevicesList=" + ioTDevicesList +
                 '}';

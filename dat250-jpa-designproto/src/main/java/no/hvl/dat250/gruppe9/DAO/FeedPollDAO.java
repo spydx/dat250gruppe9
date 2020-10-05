@@ -30,12 +30,15 @@ public class FeedPollDAO {
     }
 
 
-    //TODO: Should not be void
-    public void deletePoll(FeedPoll poll){
-        entityManager.getTransaction().begin();
-        entityManager.remove(poll);
-        entityManager.getTransaction().commit();
-
+    public boolean deletePoll(FeedPoll poll){
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.remove(poll);
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     //TODO: missing return type?
