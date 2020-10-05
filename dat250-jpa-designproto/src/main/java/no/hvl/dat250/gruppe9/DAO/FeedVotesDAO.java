@@ -41,9 +41,9 @@ public class FeedVotesDAO {
 
     public FeedVotes addVote(FeedVotes vote, long pollid){
         FeedPoll poll = entityManager.find(FeedPoll.class, pollid);
-        poll.getVotes().add(vote);
 
-        if(!poll.getVotebyVoter(vote.getVoterid())){
+        if(!poll.getVotebyVoter(vote.getVoterid())) {
+            poll.getVotes().add(vote);
             entityManager.getTransaction().begin();
             entityManager.merge(poll);
             entityManager.persist(vote);
@@ -51,7 +51,6 @@ public class FeedVotesDAO {
 
             return vote;
         }
-
         return null;
     }
 }
