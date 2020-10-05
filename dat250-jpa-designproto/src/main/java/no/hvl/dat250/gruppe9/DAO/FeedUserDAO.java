@@ -32,7 +32,7 @@ public class FeedUserDAO {
         return q.getResultList();
     }
 
-    public boolean deleteUser(long id){
+    public FeedUser deleteUser(long id){
         entityManager.getTransaction().begin();
         var u = entityManager.find(FeedUser.class, id);
         if(u != null) {
@@ -41,10 +41,10 @@ public class FeedUserDAO {
             update.setRole(FeedRoles.DELETED);
             entityManager.merge(update);
             entityManager.getTransaction().commit();
-            return true;
+            return update;
         }
         entityManager.getTransaction().rollback();
-        return false;
+        return null;
     }
 
     public FeedUser addUser(FeedUser user){

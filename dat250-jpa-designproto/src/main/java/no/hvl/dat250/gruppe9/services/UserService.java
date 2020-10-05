@@ -28,7 +28,7 @@ public class UserService {
         return feedUserDAO.addUser(user);
     }
 
-    public boolean deleteUser(long userid) {
+    public FeedUser deleteUser(long userid) {
         return feedUserDAO.deleteUser(userid);
     }
 

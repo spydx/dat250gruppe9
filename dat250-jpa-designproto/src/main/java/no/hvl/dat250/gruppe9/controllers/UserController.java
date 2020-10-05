@@ -33,13 +33,8 @@ public class UserController {
 
     //200 (OK). 404 (Not Found), if ID not found or invalid.
     @DeleteMapping(value = "/{userId}")
-    public String deleteUser(@PathVariable("userId") final Long id) {
-        var res = userService.deleteUser(id);
-        if(res) {
-            return "DELETED user id " + id;
-        } else {
-            return "User not found";
-        }
+    public FeedUser deleteUser(@PathVariable("userId") final Long id) {
+        return userService.deleteUser(id);
     }
 
     //200 (OK) or 204 (No Content). 404 (Not Found), if ID not found or invalid.
