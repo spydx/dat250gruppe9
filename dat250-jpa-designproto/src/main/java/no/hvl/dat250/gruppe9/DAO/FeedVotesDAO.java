@@ -1,5 +1,6 @@
 package no.hvl.dat250.gruppe9.DAO;
 
+import no.hvl.dat250.gruppe9.entities.FeedPoll;
 import no.hvl.dat250.gruppe9.entities.FeedVotes;
 import org.springframework.stereotype.Repository;
 
@@ -36,39 +37,21 @@ public class FeedVotesDAO {
         return q.getResultList();
     }
 
-    public boolean deleteVotes(int id){
-        try{
-            Query q = entityManager.createQuery("DELETE FROM FeedVotes WHERE id = ?1");
-            q.setParameter(1, id);
-            entityManager.getTransaction().begin();
-            q.executeUpdate();
-            entityManager.getTransaction().commit();
-            return true;
-        }catch (EntityExistsException e){
-            return false;
-        }
-    }
 
-    public void addVote(FeedVotes vote){
-        entityManager.getTransaction().begin();
-        entityManager.persist(vote);
-        entityManager.getTransaction().commit();
-    }
 
-    public boolean updateVote(int id, FeedVotes votes){
-        try{
-            Query q = entityManager.createQuery("UPDATE FeedVotes SET answer = ?1, voterid = ?2, votetime = ?3 " +
-                    "WHERE id = ?4");
-            q.setParameter(1, votes.getAnswer());
-            q.setParameter(2, votes.getVoterid());
-            q.setParameter(3, votes.getVotetime());
-            q.setParameter(4, id);
+    public FeedVotes addVote(FeedVotes vote, long pollid){
+        FeedPoll poll = entityManager.find(FeedPoll.class, pollid);
+        poll.getVotes().add(vote);
+
+        if(!poll.getVotebyVoter(vote.getVoterid())){
             entityManager.getTransaction().begin();
-            q.executeUpdate();
+            entityManager.merge(poll);
+            entityManager.persist(vote);
             entityManager.getTransaction().commit();
-            return true;
-        }catch (EntityExistsException e){
-            return false;
+
+            return vote;
         }
+
+        return null;
     }
 }

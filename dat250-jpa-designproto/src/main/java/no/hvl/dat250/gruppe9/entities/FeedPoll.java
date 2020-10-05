@@ -115,6 +115,15 @@ public class FeedPoll {
         return votes;
     }
 
+    public boolean getVotebyVoter(long voterid){
+        for (FeedVotes vote: votes) {
+            if(vote.getVoterid() == voterid){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void setVotes(List<FeedVotes> votes) {
         this.votes = votes;
     }

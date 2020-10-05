@@ -2,6 +2,7 @@ package no.hvl.dat250.gruppe9.services;
 
 import no.hvl.dat250.gruppe9.DAO.FeedPollDAO;
 import no.hvl.dat250.gruppe9.DAO.FeedPollResultDAO;
+import no.hvl.dat250.gruppe9.DAO.FeedVotesDAO;
 import no.hvl.dat250.gruppe9.entities.FeedPoll;
 import no.hvl.dat250.gruppe9.entities.FeedPollResult;
 import no.hvl.dat250.gruppe9.entities.FeedUser;
@@ -16,11 +17,13 @@ public class PollService {
 
     private final FeedPollDAO feedPollDAO;
     private final FeedPollResultDAO feedPollResultDAO;
+    private final FeedVotesDAO feedVotesDAO;
 
     @Autowired
-    public PollService(FeedPollDAO feedPollDAO, FeedPollResultDAO feedPollResultDAO) {
+    public PollService(FeedPollDAO feedPollDAO, FeedPollResultDAO feedPollResultDAO, FeedVotesDAO feedVotesDAO) {
         this.feedPollDAO = feedPollDAO;
         this.feedPollResultDAO = feedPollResultDAO;
+        this.feedVotesDAO = feedVotesDAO;
     }
 
     public List<FeedPoll> getAll() {
@@ -45,8 +48,7 @@ public class PollService {
         return p.getFeedPollResult() != null;
     }
 
-    public FeedPoll addPoll(FeedPoll newPoll){ // TODO: how do this?
-
+    public FeedPoll addPoll(FeedPoll newPoll){
         feedPollDAO.addPoll(newPoll);
         return newPoll;
     }
@@ -56,6 +58,10 @@ public class PollService {
         FeedPoll tobeDeleted = feedPollDAO.getPoll(id);
         feedPollDAO.deletePoll(tobeDeleted);
         return tobeDeleted;
+    }
+
+    public FeedVotes addVote(FeedVotes vote, long pollid){
+        return feedVotesDAO.addVote(vote, pollid);
     }
 
     //TODO: if vote is null then the result will be wrong

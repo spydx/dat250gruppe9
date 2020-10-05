@@ -4,6 +4,7 @@ import no.hvl.dat250.gruppe9.DAO.FeedUserDAO;
 import no.hvl.dat250.gruppe9.entities.FeedPoll;
 import no.hvl.dat250.gruppe9.entities.FeedPollResult;
 import no.hvl.dat250.gruppe9.entities.FeedUser;
+import no.hvl.dat250.gruppe9.entities.FeedVotes;
 import no.hvl.dat250.gruppe9.services.PollService;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,11 @@ public class PollController {
     public FeedPoll createPoll(@RequestBody FeedPoll newPoll, Long ownerId) {
         newPoll.setOwner(feedUserDAO.getUser(ownerId));
         return pollService.addPoll(newPoll);
+    }
+
+    @PostMapping(value = "/{pollid}/vote")
+    public FeedVotes createVote(@RequestBody FeedVotes vote, @PathVariable Long pollid){
+        return pollService.addVote(vote, pollid);
     }
 
     @DeleteMapping(value = "/{pollId}")
