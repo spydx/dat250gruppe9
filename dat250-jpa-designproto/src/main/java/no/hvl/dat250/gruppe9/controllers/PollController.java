@@ -45,11 +45,6 @@ public class PollController {
         return pollService.deletePoll(id);
     }
 
-    @PutMapping(value = "/{pollId}") //TODO: should this be possible?? brings unwanted consequences
-    public String updatePoll(@PathVariable("pollId") final Long id) {
-        return "Update poll id" + id;
-    }
-
     @GetMapping(value = "/{pollId}/result") //TODO: add the result to feedpollresult, and update feedpoll to link result to poll.
     public FeedPollResult getResult(@PathVariable("pollId") final Long pollId) {
         var p = pollService.getById(pollId);
