@@ -45,4 +45,9 @@ public class FeedPollDAO {
         entityManager.getTransaction().commit();
     }
 
+    public void updatePoll(FeedPoll poll) {
+        entityManager.getTransaction().begin();
+        entityManager.merge(poll);
+        entityManager.getTransaction().commit();
+    }
 }
