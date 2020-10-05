@@ -11,8 +11,8 @@ public class FeedVotes {
     @GeneratedValue
     private long id;
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    private FeedUser voter;
+    //@Column(unique=true)
+    private long voterid;
 
     // is true it is option a else option b
     private Boolean answer;
@@ -29,11 +29,11 @@ public class FeedVotes {
     }
 
     public long getVoterid() {
-        return voter.getId();
+        return voterid;
     }
 
     public void setVoterid(long voterid) {
-        this.voter.setId(voterid);
+        this.voterid = voterid;
     }
 
     public Boolean getAnswer() {
@@ -56,7 +56,7 @@ public class FeedVotes {
     public String toString() {
         return "FeedVotes{" +
                 "id=" + id +
-                ", voterid=" + voter.getId() +
+                ", voterid=" + voterid +
                 ", answer=" + answer +
                 ", votetime=" + votetime +
                 '}';
