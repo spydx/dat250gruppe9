@@ -1,5 +1,6 @@
 package no.hvl.dat250.gruppe9.controllers;
 
+import no.hvl.dat250.gruppe9.DAO.FeedUserDAO;
 import no.hvl.dat250.gruppe9.entities.FeedPoll;
 import no.hvl.dat250.gruppe9.entities.FeedPollResult;
 import no.hvl.dat250.gruppe9.entities.FeedUser;
@@ -13,6 +14,7 @@ import java.util.List;
 public class PollController {
 
     private final PollService pollService;
+    private FeedUserDAO feedUserDAO = new FeedUserDAO();
 
     public PollController(PollService pollService) {
         this.pollService = pollService;
@@ -36,8 +38,9 @@ public class PollController {
     }
 
     @PostMapping(value = "/{pollId}") //TODO: how are we doing this??
-    public String createPoll(@PathVariable("pollId") String yes, String no, String name, String question) {
-        return "Created poll";
+    public FeedPoll createPoll(@RequestBody FeedPoll newPoll, Long ownerId) {
+        newPoll.setOwner(feedUserDAO.getUser(ownerId));
+        return pollService.addPoll(newPoll);
     }
 
     @DeleteMapping(value = "/{pollId}")

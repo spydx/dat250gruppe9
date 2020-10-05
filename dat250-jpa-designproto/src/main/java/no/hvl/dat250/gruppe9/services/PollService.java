@@ -45,16 +45,10 @@ public class PollService {
         return p.getFeedPollResult() != null;
     }
 
-    public boolean createPoll(Long id){ // TODO: how do this?
-        //If the poll doesn't exist return false else create poll and return true
-        if(feedPollDAO.getPoll(id) == null){
-            return false;
-        }else{
-            FeedPoll newPoll = new FeedPoll();
-            newPoll.setId(id);
+    public FeedPoll addPoll(FeedPoll newPoll){ // TODO: how do this?
 
-            return true;
-        }
+        feedPollDAO.addPoll(newPoll);
+        return newPoll;
     }
 
     public FeedPoll deletePoll(Long id){
