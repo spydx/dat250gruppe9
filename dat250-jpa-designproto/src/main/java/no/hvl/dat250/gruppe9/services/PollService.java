@@ -77,8 +77,6 @@ public class PollService {
         if(!poll.getVotebyVoter(vote.getVoterid())) {
             poll.getVotes().add(vote);
             feedPollDAO.updatePoll(poll);
-            user.getVotedOn().add(vote);
-            feedUserDAO.updateUser(user);
             return vote;
         }
         return null;
