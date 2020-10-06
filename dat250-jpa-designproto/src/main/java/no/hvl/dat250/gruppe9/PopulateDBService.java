@@ -101,6 +101,7 @@ public class PopulateDBService {
             for (int i = 0; i < LIMIT; i++) {
                 FeedVotes v = new FeedVotes();
                 FeedUser u = userList.get(i);
+                if (u.getId() == poll.getOwner()) continue;
                 Date d = new Date();
                 v.setVotetime(d);
                 if(i % 2 == 0)
