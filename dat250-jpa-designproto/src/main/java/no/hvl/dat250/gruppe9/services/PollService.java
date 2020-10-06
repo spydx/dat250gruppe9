@@ -58,6 +58,9 @@ public class PollService {
 
     public FeedPoll addPoll(FeedPoll newPoll){
         feedPollDAO.addPoll(newPoll);
+        var user = feedUserDAO.getUser(newPoll.getOwner());
+        user.getPollsList().add(newPoll);
+        feedUserDAO.updateUser(user);
         return newPoll;
     }
 
@@ -71,12 +74,21 @@ public class PollService {
         return false;
     }
 
-    public FeedVotes addVote(FeedVotes vote, long pollid){
+    public FeedVotes addVote(FeedVotes vote, long pollid, long userid){
         var poll = getById(pollid);
-        FeedUser user = feedUserDAO.getUser(vote.getVoterid());
+
+        FeedUser user = feedUserDAO.getUser(userid);
         if(!poll.getVotebyVoter(vote.getVoterid())) {
+            vote.setVoter(user);
+            vote.setPoll(poll);
+            feedVotesDAO.addVote(vote);
+
             poll.getVotes().add(vote);
             feedPollDAO.updatePoll(poll);
+
+            user.getVotedOn().add(vote);
+            feedUserDAO.updateUser(user);
+
             return vote;
         }
         return null;

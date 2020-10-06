@@ -124,7 +124,7 @@ public class PopulateDBService {
                 u.setVotedOn(vl);
                 System.out.println("[ Adding ]" + v);
                 //userService.updateUser(u);
-                pollService.addVote(v,poll.getId());
+                pollService.addVote(v, poll.getId(), u.getId());
                 System.out.println("[ User OK ]");
                 votesList.add(v);
             }

@@ -72,9 +72,9 @@ public class PollController {
         }
     }
 
-    @PostMapping(value = "/{pollid}/vote")
-    public ResponseEntity<String> createVote(@RequestBody FeedVotes vote, @PathVariable Long pollid){
-        var voted = pollService.addVote(vote, pollid);
+    @PostMapping(value = "/{pollid}/{userid}/vote")
+    public ResponseEntity<String> createVote(@RequestBody FeedVotes vote, @PathVariable final Long pollid, @PathVariable final Long userid){
+        var voted = pollService.addVote(vote, pollid, userid);
         if (voted == null) {
             return new ResponseEntity<String>("Not allowed to vote twice", HttpStatus.FORBIDDEN);
         } else {

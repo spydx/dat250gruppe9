@@ -25,10 +25,11 @@ public class FeedUser {
     @Enumerated(EnumType.STRING)
     private FeedRoles role;
 
-    @OneToMany(cascade = CascadeType.MERGE)
+    @OneToMany
     private List<FeedPoll> pollsList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany
+    @JsonIgnore
     private List<FeedVotes> votedOn = new ArrayList<>();
 
     public FeedUser() {

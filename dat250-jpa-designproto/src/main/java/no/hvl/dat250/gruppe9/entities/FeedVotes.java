@@ -14,10 +14,10 @@ public class FeedVotes {
 
     private long voterid;
 
-    @OneToOne
+    @ManyToOne
     private FeedUser voter;
 
-    @OneToOne
+    @ManyToOne
     private FeedPoll poll;
 
     // is true it is option a else option b

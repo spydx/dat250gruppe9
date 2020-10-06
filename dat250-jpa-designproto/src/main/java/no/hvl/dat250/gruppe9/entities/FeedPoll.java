@@ -1,5 +1,7 @@
 package no.hvl.dat250.gruppe9.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,10 +29,11 @@ public class FeedPoll {
     private String answeryes;
     private String answerno;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private FeedUser owner;
 
-    @OneToMany(cascade = CascadeType.MERGE)
+    @OneToMany
+    @JsonIgnore
     private List<FeedVotes> votes = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.PERSIST)
