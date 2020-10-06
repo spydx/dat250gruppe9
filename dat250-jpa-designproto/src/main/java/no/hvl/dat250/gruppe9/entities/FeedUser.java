@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class FeedUser {
@@ -111,5 +112,20 @@ public class FeedUser {
                 ", pollsList=" + pollsList +
                 ", votedOn=" + votedOn +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FeedUser feedUser = (FeedUser) o;
+        return firstname.equals(feedUser.firstname) &&
+                lastname.equals(feedUser.lastname) &&
+                email.equals(feedUser.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstname, lastname, email);
     }
 }

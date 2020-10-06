@@ -61,10 +61,18 @@ public class PopulateDBService {
             f.setFeedaccess(FeedAccess.PUBLIC);
             Date d = new Date();
             f.setTimestart(d);
-            f.setOwner(userList.get(random.nextInt(LIMIT)));
+            var user = userList.get(random.nextInt(LIMIT));
+            f.setOwner(user);
+
+            List<FeedPoll> l = user.getPollsList();
+            l.add(f);
+            user.setPollsList(l);
+
+
             pollList.add(f);
             if(!pollExist(f)) {
                 pollService.addPoll(f);
+                userService.updateUser(user);
                 System.out.println("[ Added ] " + f);
             } else {
                 System.out.println("[ Already Exist ]" + f);
@@ -102,6 +110,8 @@ public class PopulateDBService {
                 FeedVotes v = new FeedVotes();
                 FeedUser u = userList.get(i);
                 Date d = new Date();
+                v.setVoter(u);
+                v.setPoll(votingpoll);
                 v.setVotetime(d);
                 if(i % 2 == 0)
                     v.setAnswer(Boolean.TRUE);
@@ -113,7 +123,7 @@ public class PopulateDBService {
                 vl.add(v);
                 u.setVotedOn(vl);
                 System.out.println("[ Adding ]" + v);
-                userService.updateUser(u);
+                //userService.updateUser(u);
                 pollService.addVote(v,poll.getId());
                 System.out.println("[ User OK ]");
                 votesList.add(v);
