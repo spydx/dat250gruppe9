@@ -1,81 +1,57 @@
 package no.hvl.dat250.gruppe9.DAO;
 
-import no.hvl.dat250.gruppe9.entities.FeedPoll;
+import no.hvl.dat250.gruppe9.entities.*;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
+@Repository
 public class FeedPollDAO {
 
     private static final String ENTITY_NAME = "feedapp";
     private static EntityManagerFactory entityManagerFactory;
-    private EntityManager manager;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public FeedPollDAO(){
         this.entityManagerFactory = Persistence.createEntityManagerFactory(ENTITY_NAME);
-        this.manager = entityManagerFactory.createEntityManager();
+        this.entityManager = entityManagerFactory.createEntityManager();
     }
 
-    public FeedPoll getPoll(int id){
-        try {
-            Query q = manager.createQuery("SELECT poll FROM FeedPoll poll WHERE poll.id = ?1");
-            q.setParameter(1, id);
-            return (FeedPoll) q.getSingleResult();
-        }catch (NoResultException e){
-            System.out.println(e);
-            return null;
-        }
-    }
+    public FeedPoll getPoll(long id){
+        return entityManager.find(FeedPoll.class, id);
+   }
 
     public List<FeedPoll> getAll(){
-        Query q = manager.createQuery("SELECT poll FROM FeedPoll poll");
+        Query q = entityManager.createQuery("SELECT poll FROM FeedPoll poll");
         return q.getResultList();
     }
 
-    public boolean deletePoll(int id){
-        try{
-            Query q = manager.createQuery("DELETE FROM FeedPoll WHERE FeedPoll.id = ?1");
-            q.setParameter(1, id);
-            manager.getTransaction().begin();
-            q.executeUpdate();
-            manager.getTransaction().commit();
+
+    public boolean deletePoll(FeedPoll poll){
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.remove(poll);
+            entityManager.getTransaction().commit();
             return true;
-        }catch (EntityExistsException e){
+        } catch (Exception e) {
             return false;
         }
     }
 
+    //TODO: missing return type?
     public void addPoll(FeedPoll poll){
-        manager.getTransaction().begin();
-        manager.persist(poll);
-        manager.getTransaction().commit();
+        entityManager.getTransaction().begin();
+        entityManager.persist(poll);
+        entityManager.getTransaction().commit();
     }
 
-    /**
-     * Update poll with id equal to given id and the parameters from the new/existing poll
-     * @param id
-     * @param poll
-     * @return true if success, false otherwise
-     */
-    public boolean updatePoll(int id, FeedPoll poll){
-        try{
-            Query q = manager.createQuery("UPDATE FeedPoll SET answerno = ?1, answeryes = ?2, name = ?3, question = ?4, timeend = ?5, timestart = ?6, owner = ?7 " +
-                                             "WHERE  id = ?8");
-            q.setParameter(1, poll.getAnswerno());
-            q.setParameter(2, poll.getAnsweryes());
-            q.setParameter(3, poll.getName());
-            q.setParameter(4, poll.getQuestion());
-            q.setParameter(5, poll.getEndTime());
-            q.setParameter(6, poll.getStartTime());
-            q.setParameter(7, poll.getOwner());
-            q.setParameter(8, id);
-            manager.getTransaction().begin();
-            q.executeUpdate();
-            manager.getTransaction().commit();
-            return true;
-        }catch (EntityExistsException e){
-            return false;
-        }
+    public FeedPoll updatePoll(FeedPoll poll) {
+        entityManager.getTransaction().begin();
+        entityManager.merge(poll);
+        entityManager.getTransaction().commit();
+        return getPoll(poll.getId());
     }
 }

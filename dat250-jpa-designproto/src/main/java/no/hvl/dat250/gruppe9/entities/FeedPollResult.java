@@ -1,23 +1,28 @@
 package no.hvl.dat250.gruppe9.entities;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class FeedPollResult {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     private int yes;
     private int nos;
     private int total;
 
-    @OneToMany
-    private List<FeedVotes> votes;
+    public FeedPollResult() {
+    }
 
-    public FeedPollResult() {}
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public int getYes() {
         return yes;
@@ -27,12 +32,12 @@ public class FeedPollResult {
         this.yes = yes;
     }
 
-    public int getNo() {
+    public int getNos() {
         return nos;
     }
 
-    public void setNo(int no) {
-        this.nos = no;
+    public void setNos(int nos) {
+        this.nos = nos;
     }
 
     public int getTotal() {
@@ -45,10 +50,11 @@ public class FeedPollResult {
 
     @Override
     public String toString() {
-        return "PollResult{" +
-                "yes=" + yes +
-                ", no=" + nos +
-                ", votes=" + total +
+        return "FeedPollResult{" +
+                "id=" + id +
+                ", yes=" + yes +
+                ", nos=" + nos +
+                ", total=" + total +
                 '}';
     }
 }
