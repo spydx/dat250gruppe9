@@ -19,16 +19,18 @@ public class PollService {
     private final FeedPollDAO feedPollDAO;
     private final FeedPollResultDAO feedPollResultDAO;
     private final FeedVotesDAO feedVotesDAO;
+    private final FeedUserDAO feedUserDAO;
 
 
     @Autowired
     public PollService(
             FeedPollDAO feedPollDAO,
             FeedPollResultDAO feedPollResultDAO,
-            FeedVotesDAO feedVotesDAO) {
+            FeedVotesDAO feedVotesDAO, FeedUserDAO feedUserDAO) {
         this.feedPollDAO = feedPollDAO;
         this.feedPollResultDAO = feedPollResultDAO;
         this.feedVotesDAO = feedVotesDAO;
+        this.feedUserDAO = feedUserDAO;
     }
 
     public List<FeedPoll> getAll() {
@@ -71,10 +73,13 @@ public class PollService {
 
     public FeedVotes addVote(FeedVotes vote, long pollid){
         var poll = getById(pollid);
-
+        FeedUser user = feedUserDAO.getUser(vote.getVoterid());
         if(!poll.getVotebyVoter(vote.getVoterid())) {
             poll.getVotes().add(vote);
-            return feedVotesDAO.addVote(vote, poll);
+            feedPollDAO.updatePoll(poll);
+            user.getVotedOn().add(vote);
+            feedUserDAO.updateUser(user);
+            return vote;
         }
         return null;
 

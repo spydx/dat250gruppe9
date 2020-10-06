@@ -14,6 +14,7 @@ public class FeedVotes {
     //@Column(unique=true)
     private long voterid;
 
+
     // is true it is option a else option b
     private Boolean answer;
 

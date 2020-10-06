@@ -55,11 +55,11 @@ public class FeedUserDAO {
     }
 
     public FeedUser updateUser(FeedUser user) {
-        var updatedUser = entityManager.find(FeedUser.class, user.getId());
+
         entityManager.getTransaction().begin();
         entityManager.merge(user);
         entityManager.getTransaction().commit();
-        return updatedUser;
+        return user;
     }
 
     public List<FeedPoll> getPollList(int userId) {

@@ -21,7 +21,7 @@ public class PopulateDBService {
     public static final FeedVotesDAO vdao = new FeedVotesDAO();
     public static final FeedPollResultDAO rdao = new FeedPollResultDAO();
     public static final UserService userService = new UserService(udao);
-    public static final PollService pollService = new PollService(pdao,rdao,vdao);
+    public static final PollService pollService = new PollService(pdao,rdao,vdao, udao);
 
     private static List<FeedUser> userList = new ArrayList<>();
     private static List<FeedPoll> pollList = new ArrayList<>();
@@ -101,7 +101,6 @@ public class PopulateDBService {
             for (int i = 0; i < LIMIT; i++) {
                 FeedVotes v = new FeedVotes();
                 FeedUser u = userList.get(i);
-                if (u.getId() == poll.getOwner()) continue;
                 Date d = new Date();
                 v.setVotetime(d);
                 if(i % 2 == 0)

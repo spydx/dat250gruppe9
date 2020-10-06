@@ -44,7 +44,6 @@ public class FeedVotesDAO {
     public FeedVotes addVote(FeedVotes vote, FeedPoll poll){
             entityManager.getTransaction().begin();
             entityManager.merge(poll);
-            entityManager.persist(vote);
             entityManager.getTransaction().commit();
             return vote;
     }
