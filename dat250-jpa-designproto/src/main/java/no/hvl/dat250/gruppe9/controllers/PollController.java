@@ -53,13 +53,6 @@ public class PollController {
         return userService.getUser(userid);
     }
 
-
-
-    @PostMapping(value = "/{pollid}/vote")
-    public FeedVotes createVote(@RequestBody FeedVotes vote, @PathVariable Long pollid){
-        return pollService.addVote(vote, pollid);
-    }
-
     @DeleteMapping(value = "/{pollId}")
     public ResponseEntity<String> deletePoll(@PathVariable("pollId") final Long id) {
         if (pollService.deletePoll(id)) {
@@ -76,6 +69,16 @@ public class PollController {
             return new ResponseEntity<String>(res.toString(),HttpStatus.OK);
         } else {
             return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping(value = "/{pollid}/vote")
+    public ResponseEntity<String> createVote(@RequestBody FeedVotes vote, @PathVariable Long pollid){
+        var voted = pollService.addVote(vote, pollid);
+        if (voted == null) {
+            return new ResponseEntity<String>("Not allowed to vote twice", HttpStatus.FORBIDDEN);
+        } else {
+            return new ResponseEntity<String>("Created", HttpStatus.CREATED);
         }
     }
 }

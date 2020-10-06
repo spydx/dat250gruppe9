@@ -55,9 +55,9 @@ public class FeedUserDAO {
     }
 
     public FeedUser updateUser(FeedUser user) {
+        var updatedUser = entityManager.find(FeedUser.class, user.getId());
         entityManager.getTransaction().begin();
         entityManager.merge(user);
-        var updatedUser = entityManager.find(FeedUser.class, user.getId());
         entityManager.getTransaction().commit();
         return updatedUser;
     }

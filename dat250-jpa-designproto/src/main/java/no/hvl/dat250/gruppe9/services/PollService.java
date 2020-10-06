@@ -70,7 +70,14 @@ public class PollService {
     }
 
     public FeedVotes addVote(FeedVotes vote, long pollid){
-        return feedVotesDAO.addVote(vote, pollid);
+        var poll = getById(pollid);
+
+        if(!poll.getVotebyVoter(vote.getVoterid())) {
+            poll.getVotes().add(vote);
+            return feedVotesDAO.addVote(vote, poll);
+        }
+        return null;
+
     }
 
     //TODO: if vote is null then the result will be wrong

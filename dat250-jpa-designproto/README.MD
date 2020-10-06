@@ -73,6 +73,18 @@ POST http://localhost:8080/api/users/
 GET http://localhost:8080/api/users/{userid}
 
 PUT http://localhost:8080/api/users/{userid}
+E-mail is the comparison attribute atm.
+````json 
+{
+  "id": 451,
+  "firstname": "user 2",
+  "lastname": "i have a 2lastname",
+  "email": "user2asdfasdf@mail.com",
+  "role": "ADMIN",
+  "pollsList": [],
+  "votedOn": []
+}
+````
 
 DELTE http://localhost:8080/api/users/{userid}
 

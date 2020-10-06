@@ -21,7 +21,9 @@ public class FeedVotesDAO {
         this.entityManager = entityManagerFactory.createEntityManager();
     }
 
-    public FeedVotes getVote(int id){
+    public FeedVotes getVote(int voteId){
+        return entityManager.find(FeedVotes.class, voteId);
+        /*
         try {
             Query q = entityManager.createQuery("SELECT vote FROM FeedVotes vote WHERE vote.id = ?1");
             q.setParameter(1, id);
@@ -29,7 +31,7 @@ public class FeedVotesDAO {
         }catch (NoResultException e){
             System.out.println(e);
             return null;
-        }
+        }*/
     }
 
     public List<FeedVotes> getAll(){
@@ -39,18 +41,11 @@ public class FeedVotesDAO {
 
 
 
-    public FeedVotes addVote(FeedVotes vote, long pollid){
-        FeedPoll poll = entityManager.find(FeedPoll.class, pollid);
-
-        if(!poll.getVotebyVoter(vote.getVoterid())) {
-            poll.getVotes().add(vote);
+    public FeedVotes addVote(FeedVotes vote, FeedPoll poll){
             entityManager.getTransaction().begin();
             entityManager.merge(poll);
             entityManager.persist(vote);
             entityManager.getTransaction().commit();
-
             return vote;
-        }
-        return null;
     }
 }

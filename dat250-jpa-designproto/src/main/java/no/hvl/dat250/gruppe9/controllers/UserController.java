@@ -39,12 +39,14 @@ public class UserController {
 
     //200 (OK) or 204 (No Content). 404 (Not Found), if ID not found or invalid.
     @PutMapping(value = "/{userId}")
-    public String updateUser(@PathVariable("userId") final Long userid,
+    public FeedUser updateUser(@PathVariable("userId") final Long userid,
                              @RequestBody FeedUser updatedUser) {
-        if(userid == updatedUser.getId()) {
-            userService.updateUser(updatedUser);
-            return "Update user id" + userid + updatedUser;
+        var foundUser = userService.getUser(userid);
+
+        if(foundUser.getEmail().equals(updatedUser.getEmail())) {
+            return userService.updateUser(updatedUser);
+
         }
-        return "Failed to update user " + updatedUser;
+        return null;
     }
 }
