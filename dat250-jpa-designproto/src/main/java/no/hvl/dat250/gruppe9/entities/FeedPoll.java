@@ -118,7 +118,6 @@ public class FeedPoll {
     public boolean getVotebyVoter(long voterid){
         for (FeedVotes vote: votes) {
             if(vote.getVoterid() == voterid){
-                System.out.println("Voterid "+ voterid + " already exist.");
                 return true;
             }
         }

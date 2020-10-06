@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Repository
 public class FeedPollResultDAO {
@@ -21,6 +22,11 @@ public class FeedPollResultDAO {
 
     public FeedPollResult getResult(long resultId){
         return entityManager.find(FeedPollResult.class, resultId);
+    }
+
+    public List<FeedPollResult> getAllResult() {
+        Query q = entityManager.createQuery("SELECT res FROM FeedPollResult res");
+        return q.getResultList();
     }
 
     public FeedPollResult addResult(FeedPollResult result){

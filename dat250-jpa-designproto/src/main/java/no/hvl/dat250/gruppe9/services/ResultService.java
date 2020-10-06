@@ -2,7 +2,6 @@ package no.hvl.dat250.gruppe9.services;
 
 import no.hvl.dat250.gruppe9.DAO.FeedPollDAO;
 import no.hvl.dat250.gruppe9.DAO.FeedPollResultDAO;
-import no.hvl.dat250.gruppe9.DAO.FeedVotesDAO;
 import no.hvl.dat250.gruppe9.entities.FeedPoll;
 import no.hvl.dat250.gruppe9.entities.FeedPollResult;
 import no.hvl.dat250.gruppe9.entities.FeedVotes;
@@ -22,6 +21,9 @@ public class ResultService {
         this.feedPollDAO = feedPollDAO;
         this.feedPollResultDAO = feedPollResultDAO;
     }
+    public List<FeedPollResult> getAllResult() {
+        return feedPollResultDAO.getAllResult();
+    }
 
     public FeedPollResult getResult(Long id) {
         if(feedPollDAO.getPoll(id).getFeedPollResult() == null) {
@@ -31,7 +33,17 @@ public class ResultService {
         }
     }
 
-    public FeedPollResult generateResult(FeedPoll poll) {
+    public boolean deleteResult(long id) {
+
+        var p = feedPollResultDAO.getResult(id);
+        if(p != null) {
+            feedPollResultDAO.deleteResult(p);
+            return true;
+        }
+        return false;
+    }
+
+    private FeedPollResult generateResult(FeedPoll poll) {
 
         var result = new FeedPollResult();
         List<FeedVotes> votes = poll.getVotes();

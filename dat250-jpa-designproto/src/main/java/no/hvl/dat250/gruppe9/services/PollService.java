@@ -45,7 +45,8 @@ public class PollService {
     }
 
     public FeedPollResult getResult(long pollId) {
-        return feedPollResultDAO.getResult(pollId);
+        var poll = feedPollDAO.getPoll(pollId);
+        return poll.getFeedPollResult();
     }
 
     private boolean hasPollResult(Long id) {
@@ -88,11 +89,7 @@ public class PollService {
         result.setYes(yesvotes);
         result.setNos(novotes);
         result.setTotal(total);
-        //feedPollDAO.updatePollWithResult
         feedPollResultDAO.addResult(result);
         return result;
     }
-
-
-
 }
