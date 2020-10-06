@@ -1,8 +1,8 @@
 # DAT250 Gruppe 9
 
-Gruppe oppgave for DAT250 H2020
+Gruppeoppgave for DAT250 H2020
 
-[Andre Frøseth Jønland](https://github.com/ImGoze)
+[Andrè Frøseth Jønland](https://github.com/ImGoze)
 
 [Jan-Erik Erstad](https://github.com/Jan-Erik-Erstad)
 
