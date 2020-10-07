@@ -78,12 +78,8 @@ public class PollService {
 
     public FeedVotes addVote(FeedVotes vote, long pollid, long userid){
         var poll = getById(pollid);
-
         FeedUser user = feedUserDAO.getUser(userid);
-        if(poll != null && !poll.getVotebyVoter(vote.getVoterid())) {
-            for (FeedVotes v: poll.getVotes()) {
-                if (v.getVoter().getId() == userid) return null;
-            }
+        if(poll != null && !poll.getVotebyVoter(userid)) {
             poll.getVotes().add(vote);
             user.getVotedOn().add(vote);
             vote.setVoter(user);
