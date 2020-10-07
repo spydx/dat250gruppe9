@@ -3,9 +3,7 @@ package no.hvl.dat250.gruppe9.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class FeedPoll {
@@ -29,18 +27,21 @@ public class FeedPoll {
     private String answeryes;
     private String answerno;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
+    @JsonIgnore
     private FeedUser owner;
 
     @OneToMany
     @JsonIgnore
-    private List<FeedVotes> votes = new ArrayList<>();
+    private Set<FeedVotes> votes;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne
+    @JsonIgnore
     private FeedPollResult feedPollResult;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    private List<FeedIoTDevice> ioTDevicesList;
+    @OneToMany
+    @JsonIgnore
+    private Set<FeedIoTDevice> ioTDevicesList;
 
     public long getId() {
         return id;
@@ -114,7 +115,7 @@ public class FeedPoll {
         this.owner = owner;
     }
 
-    public List<FeedVotes> getVotes() {
+    public Set<FeedVotes> getVotes() {
         return votes;
     }
 
@@ -127,7 +128,7 @@ public class FeedPoll {
         return false;
     }
 
-    public void setVotes(List<FeedVotes> votes) {
+    public void setVotes(Set<FeedVotes> votes) {
         this.votes = votes;
     }
 
@@ -139,11 +140,11 @@ public class FeedPoll {
         this.feedPollResult = feedPollResult;
     }
 
-    public List<FeedIoTDevice> getIoTDevicesList() {
+    public Set<FeedIoTDevice> getIoTDevicesList() {
         return ioTDevicesList;
     }
 
-    public void setIoTDevicesList(List<FeedIoTDevice> ioTDevicesList) {
+    public void setIoTDevicesList(Set<FeedIoTDevice> ioTDevicesList) {
         this.ioTDevicesList = ioTDevicesList;
     }
 
@@ -164,4 +165,18 @@ public class FeedPoll {
                 ", ioTDevicesList=" + ioTDevicesList +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FeedPoll feedPoll = (FeedPoll) o;
+        return id == (feedPoll.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
 }

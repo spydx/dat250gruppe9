@@ -5,8 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class FeedUserDAO {
@@ -19,7 +20,7 @@ public class FeedUserDAO {
 
     @Autowired
     public FeedUserDAO(){
-        this.entityManagerFactory = Persistence.createEntityManagerFactory(ENTITY_NAME);
+        entityManagerFactory = Persistence.createEntityManagerFactory(ENTITY_NAME);
         this.entityManager = entityManagerFactory.createEntityManager();
     }
 
@@ -62,19 +63,19 @@ public class FeedUserDAO {
         return user;
     }
 
-    public List<FeedPoll> getPollList(int userId) {
+    public Set<FeedPoll> getPollList(int userId) {
         FeedUser user = entityManager.find(FeedUser.class, userId);
         if (user == null) return null;
         return user.getPollsList();
     }
 
-    public List<FeedVotes> getVotedOnList(int userId) {
+    public Set<FeedVotes> getVotedOnList(int userId) {
         FeedUser user = entityManager.find(FeedUser.class, userId);
         if (user == null) return null;
         return user.getVotedOn();
     }
 
-    public FeedUser setVotedOnList(long userId, List<FeedVotes> votes) {
+    public FeedUser setVotedOnList(long userId, Set<FeedVotes> votes) {
         var user = entityManager.find(FeedUser.class, userId);
         user.setVotedOn(votes);
         entityManager.getTransaction().begin();
@@ -90,8 +91,8 @@ public class FeedUserDAO {
         user.setRole(role);
         user.setEmail(email);
         user.setPassword(password);
-        user.setPollsList(new ArrayList<>());
-        user.setVotedOn(new ArrayList<>());
+        user.setPollsList(new HashSet<>());
+        user.setVotedOn(new HashSet<>());
         entityManager.getTransaction().begin();
         entityManager.persist(user);
         entityManager.getTransaction().commit();

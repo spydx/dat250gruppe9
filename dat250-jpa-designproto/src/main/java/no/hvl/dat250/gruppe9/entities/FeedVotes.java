@@ -1,5 +1,7 @@
 package no.hvl.dat250.gruppe9.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 import java.util.Objects;
 
@@ -14,9 +16,11 @@ public class FeedVotes {
 
     private long voterid;
 
+    @JsonIgnore
     @ManyToOne
     private FeedUser voter;
 
+    @JsonIgnore
     @ManyToOne
     private FeedPoll poll;
 
@@ -79,6 +83,8 @@ public class FeedVotes {
         return "FeedVotes{" +
                 "id=" + id +
                 ", voterid=" + voterid +
+                ", voter_id=" + voter.getId() +
+                ", poll_id=" + poll.getId() +
                 ", answer=" + answer +
                 ", votetime=" + votetime +
                 '}';

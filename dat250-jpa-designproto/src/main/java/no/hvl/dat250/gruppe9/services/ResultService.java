@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ResultService {
@@ -44,25 +45,26 @@ public class ResultService {
     }
 
     private FeedPollResult generateResult(FeedPoll poll) {
-
-        var result = new FeedPollResult();
-        List<FeedVotes> votes = poll.getVotes();
-        int total = votes.size();
+        if (poll.getFeedPollResult() == null) {
+            poll.setFeedPollResult(new FeedPollResult());
+        }
+        Set<FeedVotes> votes = poll.getVotes();
+        int total = 0;
         int yesvotes = 0;
         for(FeedVotes v : votes ) {
+            if (v == null) continue;
             if(Boolean.TRUE.equals(v.getAnswer()))
                 yesvotes++;
+            total++;
         }
 
         int novotes = total-yesvotes;
-        result.setYes(yesvotes);
-        result.setNos(novotes);
-        result.setTotal(total);
-        poll.setFeedPollResult(result);
+        poll.getFeedPollResult().setYes(yesvotes);
+        poll.getFeedPollResult().setNos(novotes);
+        poll.getFeedPollResult().setTotal(total);
 
         feedPollDAO.updatePoll(poll);
-        feedPollResultDAO.addResult(result);
 
-        return result;
+        return poll.getFeedPollResult();
     }
 }

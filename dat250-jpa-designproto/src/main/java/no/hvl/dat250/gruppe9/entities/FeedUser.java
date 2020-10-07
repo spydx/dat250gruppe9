@@ -1,11 +1,10 @@
 package no.hvl.dat250.gruppe9.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class FeedUser {
@@ -26,11 +25,12 @@ public class FeedUser {
     private FeedRoles role;
 
     @OneToMany
-    private List<FeedPoll> pollsList = new ArrayList<>();
+    @JsonIgnore
+    private Set<FeedPoll> pollsList = new HashSet<>();
 
     @OneToMany
     @JsonIgnore
-    private List<FeedVotes> votedOn = new ArrayList<>();
+    private Set<FeedVotes> votedOn = new HashSet<>();
 
     public FeedUser() {
     }
@@ -84,20 +84,20 @@ public class FeedUser {
     }
 
     @OneToMany
-    public List<FeedPoll> getPollsList() {
+    public Set<FeedPoll> getPollsList() {
         return pollsList;
     }
 
-    public void setPollsList(List<FeedPoll> pollsList) {
+    public void setPollsList(Set<FeedPoll> pollsList) {
         this.pollsList = pollsList;
     }
 
     @OneToMany
-    public List<FeedVotes> getVotedOn() {
+    public Set<FeedVotes> getVotedOn() {
         return votedOn;
     }
 
-    public void setVotedOn(List<FeedVotes> votedOn) {
+    public void setVotedOn(Set<FeedVotes> votedOn) {
         this.votedOn = votedOn;
     }
 

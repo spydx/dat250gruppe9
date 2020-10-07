@@ -11,7 +11,9 @@ import no.hvl.dat250.gruppe9.entities.FeedVotes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PollService {
@@ -48,7 +50,7 @@ public class PollService {
 
     public FeedPollResult getResult(long pollId) {
         var poll = feedPollDAO.getPoll(pollId);
-        return poll.getFeedPollResult();
+        return generateResult(poll);
     }
 
     private boolean hasPollResult(Long id) {
@@ -78,17 +80,17 @@ public class PollService {
         var poll = getById(pollid);
 
         FeedUser user = feedUserDAO.getUser(userid);
-        if(!poll.getVotebyVoter(vote.getVoterid())) {
+        if(poll != null && !poll.getVotebyVoter(vote.getVoterid())) {
+            for (FeedVotes v: poll.getVotes()) {
+                if (v.getVoter().getId() == userid) return null;
+            }
+            poll.getVotes().add(vote);
+            user.getVotedOn().add(vote);
             vote.setVoter(user);
             vote.setPoll(poll);
             feedVotesDAO.addVote(vote);
-
-            poll.getVotes().add(vote);
-            feedPollDAO.updatePoll(poll);
-
-            user.getVotedOn().add(vote);
             feedUserDAO.updateUser(user);
-
+            feedPollDAO.updatePoll(poll);
             return vote;
         }
         return null;
@@ -97,21 +99,26 @@ public class PollService {
 
     //TODO: if vote is null then the result will be wrong
     public FeedPollResult generateResult(FeedPoll poll) {
-
-        var result = new FeedPollResult();
-        List<FeedVotes> votes = poll.getVotes();
-        int total = votes.size();
+        if (poll.getFeedPollResult() == null) {
+            poll.setFeedPollResult(new FeedPollResult());
+        }
+        Set<FeedVotes> votes = poll.getVotes();
+        int total = 0;
         int yesvotes = 0;
         for(FeedVotes v : votes ) {
+            if (v == null) continue;
             if(Boolean.TRUE.equals(v.getAnswer()))
                 yesvotes++;
+            total++;
         }
 
         int novotes = total-yesvotes;
-        result.setYes(yesvotes);
-        result.setNos(novotes);
-        result.setTotal(total);
-        feedPollResultDAO.addResult(result);
-        return result;
+        poll.getFeedPollResult().setYes(yesvotes);
+        poll.getFeedPollResult().setNos(novotes);
+        poll.getFeedPollResult().setTotal(total);
+
+        feedPollDAO.updatePoll(poll);
+
+        return poll.getFeedPollResult();
     }
 }
