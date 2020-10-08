@@ -1,60 +1,27 @@
 package no.hvl.dat250.gruppe9.entities;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 public class FeedPollResult {
 
     @Id
     @GeneratedValue
-    private Long id;
-
+    private int id;
     private int yes;
-    private int nos;
-    private int total;
+    private int no;
+    private int votes;
 
-    public FeedPollResult() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getYes() {
-        return yes;
-    }
-
-    public void setYes(int yes) {
-        this.yes = yes;
-    }
-
-    public int getNos() {
-        return nos;
-    }
-
-    public void setNos(int nos) {
-        this.nos = nos;
-    }
-
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
+    public FeedPollResult() {}
 
     @Override
     public String toString() {
-        return "FeedPollResult{" +
-                "id=" + id +
-                ", yes=" + yes +
-                ", nos=" + nos +
-                ", total=" + total +
+        return "PollResult{" +
+                "yes=" + yes +
+                ", no=" + no +
+                ", votes=" + votes +
                 '}';
     }
 }
