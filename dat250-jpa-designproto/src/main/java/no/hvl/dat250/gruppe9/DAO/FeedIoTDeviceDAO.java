@@ -1,11 +1,8 @@
 package no.hvl.dat250.gruppe9.DAO;
 
 import no.hvl.dat250.gruppe9.entities.FeedIoTDevice;
-import no.hvl.dat250.gruppe9.entities.FeedPoll;
-
 
 import javax.persistence.*;
-import java.sql.PreparedStatement;
 import java.util.List;
 
 
@@ -16,7 +13,7 @@ public class FeedIoTDeviceDAO {
     private EntityManager manager;
 
     public FeedIoTDeviceDAO(){
-        this.entityManagerFactory = Persistence.createEntityManagerFactory(ENTITY_NAME);
+        entityManagerFactory = Persistence.createEntityManagerFactory(ENTITY_NAME);
         this.manager = entityManagerFactory.createEntityManager();
     }
 

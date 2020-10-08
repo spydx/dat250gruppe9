@@ -64,15 +64,10 @@ public class PopulateDBService {
             var user = userList.get(random.nextInt(LIMIT));
             f.setOwner(user);
 
-            List<FeedPoll> l = user.getPollsList();
-            l.add(f);
-            user.setPollsList(l);
-
 
             pollList.add(f);
             if(!pollExist(f)) {
                 pollService.addPoll(f);
-                userService.updateUser(user);
                 System.out.println("[ Added ] " + f);
             } else {
                 System.out.println("[ Already Exist ]" + f);
@@ -101,8 +96,6 @@ public class PopulateDBService {
         list.add(votingpoll);
         owner.setPollsList(list);
 
-        userService.updateUser(owner);
-
         System.out.println(votingpoll);
         List<FeedVotes> votesList = new ArrayList<>();
         if(votingpoll != null) {
@@ -119,12 +112,10 @@ public class PopulateDBService {
                     v.setAnswer(Boolean.FALSE);
 
                 v.setVoterid(u.getId());
-                List<FeedVotes> vl = new ArrayList<>();
-                vl.add(v);
-                u.setVotedOn(vl);
+
                 System.out.println("[ Adding ]" + v);
                 //userService.updateUser(u);
-                pollService.addVote(v, poll.getId(), u.getId());
+                pollService.addVote(v, votingpoll.getId(), u.getId());
                 System.out.println("[ User OK ]");
                 votesList.add(v);
             }
@@ -148,16 +139,11 @@ public class PopulateDBService {
 
     public static boolean pollExist(FeedPoll p) {
         var list = pollService.getAll();
-        if(list.contains(p))
-            return true;
-        return false;
+        return list.contains(p);
     }
     public static boolean userExist(FeedUser user) {
         var list = userService.getAll();
-        if(list.contains(user)) {
-            return true;
-        }
-        return false;
+        return list.contains(user);
     }
 }
 

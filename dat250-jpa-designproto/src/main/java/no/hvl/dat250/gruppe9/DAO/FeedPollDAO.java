@@ -16,7 +16,7 @@ public class FeedPollDAO {
     private EntityManager entityManager;
 
     public FeedPollDAO(){
-        this.entityManagerFactory = Persistence.createEntityManagerFactory(ENTITY_NAME);
+        entityManagerFactory = Persistence.createEntityManagerFactory(ENTITY_NAME);
         this.entityManager = entityManagerFactory.createEntityManager();
     }
 
