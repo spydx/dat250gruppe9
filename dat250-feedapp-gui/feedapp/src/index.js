@@ -1,6 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Votebutton from './components/Votebutton'
+import PollOverview from './components/PollComponents/PollOverview';
 
-ReactDOM.render(<Votebutton/>, document.getElementById("root"));
+class Feedapp extends React.Component {
+    render(){
+        return (
+            <div>
+                <PollOverview></PollOverview>
+                <PollOverview></PollOverview>
+            </div>
+        );
+    }
+}
+
+
+ 
+ReactDOM.render(<Feedapp />, document.getElementById("root"));
 
