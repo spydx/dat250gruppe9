@@ -8,6 +8,7 @@ class Feedapp extends React.Component {
             <div>
                 <PollOverview></PollOverview>
                 <PollOverview></PollOverview>
+                <PollOverview></PollOverview>
             </div>
         );
     }
