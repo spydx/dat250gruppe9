@@ -1,20 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PollOverview from './components/PollComponents/PollOverview';
+import PublicPollOverview from './components/PublicPollOverview';
 
 class Feedapp extends React.Component {
     render(){
         return (
             <div>
-                <PollOverview></PollOverview>
-                <PollOverview></PollOverview>
-                <PollOverview></PollOverview>
+                <PublicPollOverview/>
             </div>
         );
     }
 }
 
 
- 
 ReactDOM.render(<Feedapp />, document.getElementById("root"));
 

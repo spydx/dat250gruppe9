@@ -1,16 +1,16 @@
 import React from 'react';
 
-class DateEnded extends React.Component {
+class PollStatus extends React.Component {
     state={
         curTime : new Date().toLocaleString(),
     }
         render() {
         return (
-            <div className="DateEnded">
+            <div className="PollStatus">
             <p>Poll ended: {this.state.curTime}</p>
             </div>
         );
     }
 }
 
-export default DateEnded;
+export default PollStatus;

@@ -1,6 +1,6 @@
 import React from 'react';
 import Votebutton from './Votebutton';
-import DateEnded from './DateEnded';
+import PollStatus from './PollStatus';
 import Question from './Question';
 
 
@@ -17,11 +17,11 @@ const QuestionStyle = {
     textAlign: "center"
 }
 
-class PollOverview extends React.Component {
+class Poll extends React.Component {
     render() {
         return (
             <div style={PollOverviewStyle}>
-                <DateEnded></DateEnded>
+                <PollStatus></PollStatus>
                 <div style={QuestionStyle}>
                     <Question></Question>
                 </div>
@@ -35,4 +35,4 @@ class PollOverview extends React.Component {
     }
 }
 
-export default PollOverview;
+export default Poll;
