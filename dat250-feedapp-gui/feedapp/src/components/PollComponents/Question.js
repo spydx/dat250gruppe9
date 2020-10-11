@@ -3,7 +3,7 @@ import React from 'react';
 class Question extends React.Component {
     render() {
         return (
-            <p>This is the question for this poll</p> 
+            <p style={{textAlign:"center", fontStyle: "italic"}}>How good is this design?</p> 
         );
     }
 }

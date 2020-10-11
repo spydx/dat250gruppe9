@@ -2,7 +2,7 @@ import React from 'react';
 import Votebutton from './Votebutton';
 import PollStatus from './PollStatus';
 import Question from './Question';
-
+import Card from 'react-bootstrap/Card';
 
 const PollOverviewStyle = {
     border: "1px solid black",
@@ -20,17 +20,11 @@ const QuestionStyle = {
 class Poll extends React.Component {
     render() {
         return (
-            <div style={PollOverviewStyle}>
-                <PollStatus></PollStatus>
-                <div style={QuestionStyle}>
-                    <Question></Question>
-                </div>
-                
-                <div style ={votebuttonStyle}>
-                    <Votebutton></Votebutton>
-                </div>
-                
-            </div>
+            <Card style={{ width: '25rem', marginLeft: "0.5rem", marginBottom: "1rem"}}>
+                <PollStatus />
+                <Question />
+                <Votebutton />
+            </Card>
         );
     }
 }

@@ -6,7 +6,7 @@ class PublicPollOverview extends React.Component {
         return (
             <div>
                 <div>
-                    <h1>Public Poll Overview</h1>
+                    <h1 style={{textAlign:"center"}}>Public Poll Overview</h1>
                 </div>
                 <div>
                     <PollList />
