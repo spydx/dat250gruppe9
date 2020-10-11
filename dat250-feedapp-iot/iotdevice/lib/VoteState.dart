@@ -37,7 +37,7 @@ class VoteState with ChangeNotifier {
   }
 
   _generateJson() {
-      
+
   }
 
   String getStatus() {
