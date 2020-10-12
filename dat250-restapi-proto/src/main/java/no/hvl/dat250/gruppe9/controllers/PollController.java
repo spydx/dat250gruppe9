@@ -30,6 +30,7 @@ public class PollController {
         this.userService = userService;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/")
     public List<FeedPoll> getAllPolls() {
         return pollService.getAll();
