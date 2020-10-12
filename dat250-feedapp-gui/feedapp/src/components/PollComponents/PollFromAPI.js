@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
+import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -76,31 +77,48 @@ class PollFromAPI extends React.Component {
       <div>
         {pollData.map((poll) => (
           <div key={poll.id} class="mt-2">
-            <button type="button" className="btn btn-light btn-lg btn-block">
-              <h1 class="display-4">{poll.name}</h1>
-              <p class="font-weight-light">{poll.question}</p>
-              <Card
-                bg={"light"}
-                text={"dark"}
-                style={{ width: "90%", marginLeft: "5%" }}
-                className="mb-2"
-              >
-                <h6 class="text-dark">{poll.answeryes}</h6>
-                <h6 class="text-dark">{poll.answerno}</h6>
-              </Card>
+            <Card bg={"light"} text={"dark"} className="mb-2">
+              <h1 class="display-4" style={{ textAlign: "center" }}>
+                {poll.name}
+              </h1>
+              <h3 class="font-weight-light" style={{ textAlign: "center" }}>
+                {poll.question}
+              </h3>
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm">
+                    <Button
+                      variant="info"
+                      style={{ width: "90%", marginLeft: "5%" }}
+                      block
+                    >
+                      result
+                    </Button>
+                  </div>
+                  <div class="col-sm">
+                    <Button
+                      variant="success"
+                      style={{ width: "90%", marginLeft: "5%" }}
+                      block
+                    >
+                      vote
+                    </Button>
+                  </div>
+                </div>
+              </div>
               <Card
                 bg={"dark"}
                 text={"light"}
-                style={{ width: "90%", marginLeft: "5%" }}
-                className="mb-2"
+                style={{ width: "50%", marginLeft: "25%" }}
+                className="mb-3 mt-3"
               >
-                <h6>
+                <h6 style={{ textAlign: "center" }}>
                   <small>
                     Poll status: {this.getdate(poll.timestart, poll.timeend)}
                   </small>
                 </h6>
               </Card>
-            </button>
+            </Card>
           </div>
         ))}
       </div>
