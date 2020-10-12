@@ -42,6 +42,7 @@ public class PollController {
         return pollService.addPoll(newPoll);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/{pollid}")
     public FeedPoll pollById(@PathVariable("pollid") final Long id)
     {

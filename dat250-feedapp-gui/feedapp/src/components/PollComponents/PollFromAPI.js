@@ -42,7 +42,7 @@ class PollFromAPI extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:8080/api/polls/")
+    fetch("http://localhost:8080/api/" + this.props.url)
       .then((res) => res.json())
       .then(
         (result) => {

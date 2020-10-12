@@ -97,4 +97,9 @@ public class FeedUserDAO {
         entityManager.persist(user);
         entityManager.getTransaction().commit();
     }
+
+    public Set<FeedPoll> getAllPolls(Long id) {
+        FeedUser user = entityManager.find(FeedUser.class, id);
+        return user.getPollsList();
+    }
 }

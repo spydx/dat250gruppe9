@@ -1,11 +1,13 @@
 package no.hvl.dat250.gruppe9.services;
 
 import no.hvl.dat250.gruppe9.DAO.FeedUserDAO;
+import no.hvl.dat250.gruppe9.entities.FeedPoll;
 import no.hvl.dat250.gruppe9.entities.FeedUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -36,6 +38,5 @@ public class UserService {
         return feedUserDAO.updateUser(user);
     }
 
-
-
+    public Set<FeedPoll> getAllPolls(Long id) { return feedUserDAO.getAllPolls(id); }
 }
