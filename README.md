@@ -12,6 +12,19 @@ Gruppeoppgave for DAT250 H2020
 
 ## Design Document
 
-[Design](DesignDocument/designdocument.md)
+[Design: High-level application design and persistence ](DesignDocument/designdocument.md)
 
-[JPA ProtoType](dat250-jps-designproto)
+First assignment to design the application.
+
+## Prototyping 
+
+[Prototyping: High-level application persistence](dat250-jps-designproto)
+
+Persistent prototyping for the first assignment creating our datamodel for the app.
+
+[Design and Prototyping: Business logic and REST API ](dat250-restapi-proto)
+
+Second assignment where we designed and implemented the RESTAPI w/swagger and the businesslogic in Services.
+
+## FeedApp
+
