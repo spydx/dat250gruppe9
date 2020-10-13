@@ -64,14 +64,10 @@ public class PollController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/{pollId}/result")
-    public ResponseEntity<String> getResult(@PathVariable("pollId") final Long pollId) {
-        var res = pollService.getResult(pollId);
-        if (res != null) {
-            return new ResponseEntity<String>(res.toString(),HttpStatus.OK);
-        } else {
-            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
-        }
+    public FeedPollResult getResult(@PathVariable("pollId") final Long pollId) {
+        return pollService.getResult(pollId);
     }
 
     @PostMapping(value = "/{pollid}/{userid}/vote")

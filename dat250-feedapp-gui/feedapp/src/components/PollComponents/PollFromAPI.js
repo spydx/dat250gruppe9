@@ -2,7 +2,6 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -23,7 +22,7 @@ class PollFromAPI extends React.Component {
     var started = currentDate > startDate;
     var ended = currentDate > endDate && endDate.getFullYear() !== 1970;
     if (started && !ended) {
-      if (endDate.getFullYear() == 1970) return "On Going, no endtime set";
+      if (endDate.getFullYear() === 1970) return "On Going, no endtime set";
       else
         return (
           "On Going, poll ends in " +
@@ -77,20 +76,20 @@ class PollFromAPI extends React.Component {
     return (
       <div>
         {pollData.map((poll) => (
-          <div key={poll.id} class="mt-2">
+          <div key={poll.id} className="mt-2">
             <Card bg={"light"} text={"dark"} className="mb-2">
-              <h1 class="display-4" style={{ textAlign: "center" }}>
+              <h1 className="display-4" style={{ textAlign: "center" }}>
                 {poll.name}
               </h1>
-              <h3 class="font-weight-light" style={{ textAlign: "center" }}>
+              <h3 className="font-weight-light" style={{ textAlign: "center" }}>
                 {poll.question}
               </h3>
-              <div class="container">
-                <div class="row">
-                  <div class="col-sm">
+              <div className="container">
+                <div className="row">
+                  <div className="col-sm">
                     <Button
                       onClick={() => {
-                        alert("todo, Result");
+                        alert("todo, Vote");
                       }}
                       variant="info"
                       style={{ width: "90%", marginLeft: "5%" }}
@@ -99,7 +98,7 @@ class PollFromAPI extends React.Component {
                       result
                     </Button>
                   </div>
-                  <div class="col-sm">
+                  <div className="col-sm">
                     <Button
                       onClick={() => {
                         alert("todo, Vote");

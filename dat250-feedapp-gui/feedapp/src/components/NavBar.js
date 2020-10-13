@@ -10,6 +10,7 @@ class NavBar extends React.Component {
         <Container>
           <Navbar.Brand href="\">
             <img
+              alt="F"
               src="/feedApp-logo.png"
               width="100"
               height="70"
@@ -19,7 +20,7 @@ class NavBar extends React.Component {
 
           <Navbar.Collapse className="justify-content-center">
             <Navbar.Text>
-              <h1 class="display-4"> FeedApp voting service </h1>
+              <h1 className="display-4"> FeedApp voting service </h1>
             </Navbar.Text>
           </Navbar.Collapse>
 

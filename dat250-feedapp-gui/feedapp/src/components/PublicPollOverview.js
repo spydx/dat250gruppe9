@@ -1,7 +1,5 @@
 import React from "react";
 import PollFromAPI from "./PollComponents/PollFromAPI";
-import Card from "react-bootstrap/Card";
-import PollList from "./PollComponents/PollList";
 
 class PublicPollOverview extends React.Component {
   render() {
@@ -18,16 +16,16 @@ class PublicPollOverview extends React.Component {
           Poll Overview
         </h1>
         */}
-        <div class="container">
-          <div class="row">
-            <div class="col-sm">
-              <h1 class="display-4" style={{ textAlign: "center" }}>
+        <div className="container">
+          <div className="row">
+            <div className="col-sm">
+              <h1 className="display-4" style={{ textAlign: "center" }}>
                 All polls
               </h1>
               <PollFromAPI url="polls/" />
             </div>
-            <div class="col-sm">
-              <h1 class="display-4" style={{ textAlign: "center" }}>
+            <div className="col-sm">
+              <h1 className="display-4" style={{ textAlign: "center" }}>
                 Created polls
               </h1>
               <PollFromAPI url="users/polls/1" />
