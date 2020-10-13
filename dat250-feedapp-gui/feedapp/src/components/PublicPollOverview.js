@@ -7,22 +7,29 @@ class PublicPollOverview extends React.Component {
   render() {
     return (
       <div>
+        {/*
         <div>
           <h1 style={{ textAlign: "center" }}>Public Poll Overview</h1>
         </div>
-        <div>
-          <PollList />
-        </div>
-
-        <h1 style={{ textAlign: "center" }}>Poll Overview</h1>
+        <div> <PollList /> </div>
+*/}
+        {/*
+        <h1 class="display-3" style={{ textAlign: "center" }}>
+          Poll Overview
+        </h1>
+        */}
         <div class="container">
           <div class="row">
             <div class="col-sm">
-              <h1 style={{ textAlign: "center" }}>All polls</h1>
+              <h1 class="display-4" style={{ textAlign: "center" }}>
+                All polls
+              </h1>
               <PollFromAPI url="polls/" />
             </div>
             <div class="col-sm">
-              <h1 style={{ textAlign: "center" }}>Created polls</h1>
+              <h1 class="display-4" style={{ textAlign: "center" }}>
+                Created polls
+              </h1>
               <PollFromAPI url="users/polls/1" />
             </div>
           </div>

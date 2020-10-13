@@ -2,6 +2,7 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -88,6 +89,9 @@ class PollFromAPI extends React.Component {
                 <div class="row">
                   <div class="col-sm">
                     <Button
+                      onClick={() => {
+                        alert("todo, Result");
+                      }}
                       variant="info"
                       style={{ width: "90%", marginLeft: "5%" }}
                       block
@@ -97,6 +101,9 @@ class PollFromAPI extends React.Component {
                   </div>
                   <div class="col-sm">
                     <Button
+                      onClick={() => {
+                        alert("todo, Vote");
+                      }}
                       variant="success"
                       style={{ width: "90%", marginLeft: "5%" }}
                       block
