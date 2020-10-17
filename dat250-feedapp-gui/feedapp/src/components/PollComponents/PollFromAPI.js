@@ -126,7 +126,7 @@ class PollFromAPI extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    poll: state.poll
+    poll: state
   };
 };
 

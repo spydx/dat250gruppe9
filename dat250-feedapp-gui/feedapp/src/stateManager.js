@@ -7,8 +7,6 @@ const initialState = {
 }
 
 const pollReducer = (state = initialState, action) => {
-    console.log("action type:", action.type)
-    console.log("Action poll data:", action.pollData) 
     switch (action.type) {
         case "SET_ERROR":
             state = {
@@ -25,9 +23,7 @@ const pollReducer = (state = initialState, action) => {
             }
             break;
         default:
-            state = {
-                ...state
-            }
+            break;
     }
     return state;
 }    
