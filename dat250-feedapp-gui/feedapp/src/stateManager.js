@@ -1,12 +1,47 @@
 import { createStore, combineReducers } from "redux";
 
-const initialState = {
+const pollinitialState = {
     error: null,
     isLoaded: false,
-    pollData:[]
+    pollData:[] 
 }
 
-const pollReducer = (state = initialState, action) => {
+const userinitialState = {
+    error: null,
+    isLoggedin: false,
+    id: null,
+    firstname: null,
+    lastname: null,
+    email: null,
+    role: null,
+    polls: []
+}
+
+const userReducer = (state = userinitialState, action) => {
+    switch (action.type) {
+        case "SET_ERROR":
+            state = {
+                ...state,
+                error: action.error,
+                isLoggedin: false
+            }
+        case "SET_LOGGIN":
+            state = {
+                ...state,
+                isLoggedin: true,
+                id: action.id,
+                firstname: action,
+                lastname: action.lastname,
+                email: action.email,
+                role: action.role,
+                polls: action.polls
+            }
+        default:
+            break;
+    }
+}
+
+const pollReducer = (state = pollinitialState, action) => {
     switch (action.type) {
         case "SET_ERROR":
             state = {
@@ -23,9 +58,9 @@ const pollReducer = (state = initialState, action) => {
             }
             break;
         default:
-            break;
+            break; 
     }
     return state;
 }    
 
-export const store = createStore(combineReducers({poll: pollReducer})); 
+export const store = createStore(combineReducers({poll: pollReducer, user: userReducer})); 

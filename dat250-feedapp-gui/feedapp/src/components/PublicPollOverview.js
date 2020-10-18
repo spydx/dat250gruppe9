@@ -28,7 +28,7 @@ class PublicPollOverview extends React.Component {
               <h1 className="display-4" style={{ textAlign: "center" }}>
                 Created polls
               </h1>
-              <PollFromAPI url="users/polls/1" />
+              {/*<PollFromAPI url="users/polls/1" />*/}
             </div>
           </div>
         </div>

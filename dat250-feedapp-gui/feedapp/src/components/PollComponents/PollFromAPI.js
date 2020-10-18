@@ -43,17 +43,18 @@ class PollFromAPI extends React.Component {
       .then((res) => res.json())
       .then(
         (result) => {
-          this.props.setData(result)
+          this.props.setData(result);
         },
         (error) => {
           this.props.setError(error);
         }
     );
-    
   }
 
   render() {
-    const { error, isLoaded, pollData } = this.props.poll;
+    console.log("poll state: ", this.props.state.poll)
+    const { error, isLoaded, pollData } = this.props.state.poll;
+
     if (error) {
       return <div>Something went wrong: {error.message}</div>;
     } else if (!isLoaded) {
@@ -125,8 +126,9 @@ class PollFromAPI extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log("state:", state)
   return {
-    poll: state
+    state: state
   };
 };
 

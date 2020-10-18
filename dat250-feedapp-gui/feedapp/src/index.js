@@ -9,6 +9,9 @@ import { Provider } from "react-redux";
 import { store } from "./stateManager";
 
 class Feedapp extends React.Component {
+
+  /*TODO: initiate public poll data*/
+
   render() {
     return (
       <div>
