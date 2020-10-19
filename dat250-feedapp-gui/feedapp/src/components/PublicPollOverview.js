@@ -14,7 +14,7 @@ class PublicPollOverview extends React.Component {
         (error) => {
           this.props.setError(error);
         }
-    );
+      );
   };
 
   render() {

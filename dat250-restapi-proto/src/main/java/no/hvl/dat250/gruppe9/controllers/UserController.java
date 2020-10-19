@@ -23,6 +23,7 @@ public class UserController {
         return userService.getAll();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value = "/{userId}")
     public FeedUser getUserById(@PathVariable("userId") final Long id) {
         return userService.getUser(id);

@@ -23,19 +23,21 @@ const userReducer = (state = userinitialState, action) => {
             state = {
                 ...state,
                 error: action.error,
-                isLoggedin: false
+                isLoggedin: action.isLoggedin,
+                isLoaded: action.isLoaded
             }
             break;
-        case "SET_LOGGIN":
+        case "SET_LOGIN":
             state = {
                 ...state,
-                isLoggedin: true,
+                isLoggedin: action.isLoggedin,
+                isLoaded: action.isLoaded,
                 id: action.id,
                 firstname: action,
                 lastname: action.lastname,
                 email: action.email,
                 role: action.role,
-                polls: action.polls
+                pollData: action.pollData
             }
             break;
         default:
