@@ -1,34 +1,42 @@
 import React from "react";
 import PollFromAPI from "./PollComponents/PollFromAPI";
+import { connect } from "react-redux";
 
 class PublicPollOverview extends React.Component {
+
+  fetchPollData() {
+      fetch("http://localhost:8080/api/polls/")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          this.props.setData(result);
+        },
+        (error) => {
+          this.props.setError(error);
+        }
+    );
+  };
+
   render() {
+    if (!this.props.state.poll.isLoaded) {
+      this.fetchPollData();
+    }
+    console.log(this.props.state)
     return (
       <div>
-        {/*
-        <div>
-          <h1 style={{ textAlign: "center" }}>Public Poll Overview</h1>
-        </div>
-        <div> <PollList /> </div>
-*/}
-        {/*
-        <h1 class="display-3" style={{ textAlign: "center" }}>
-          Poll Overview
-        </h1>
-        */}
         <div className="container">
           <div className="row">
             <div className="col-sm">
               <h1 className="display-4" style={{ textAlign: "center" }}>
                 All polls
               </h1>
-              <PollFromAPI url="polls/" />
+              <PollFromAPI poll={this.props.state.poll}/>
             </div>
             <div className="col-sm">
               <h1 className="display-4" style={{ textAlign: "center" }}>
                 Created polls
               </h1>
-              {/*<PollFromAPI url="users/polls/1" />*/}
+              <PollFromAPI poll={this.props.state.user.polls}/>
             </div>
           </div>
         </div>
@@ -37,4 +45,28 @@ class PublicPollOverview extends React.Component {
   }
 }
 
-export default PublicPollOverview;
+
+const mapStateToProps = (state) => {
+  return {
+    state: state
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setError: (error) => dispatch({
+        type: "SET_ERROR",
+        error: error,
+        isLoaded: true,
+      }),
+
+    setData: (result) => dispatch({
+        type: "SET_DATA",
+        isLoaded: true,
+        pollData: result
+      })
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(PublicPollOverview);

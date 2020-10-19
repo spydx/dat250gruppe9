@@ -4,13 +4,8 @@ import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
-import { connect } from "react-redux";
-
-
-
 
 class PollFromAPI extends React.Component {
-  
 
   getdate(startDate, endDate) {
     var currentDate = new Date(Date.now());
@@ -38,22 +33,8 @@ class PollFromAPI extends React.Component {
     return "What???";
   }
 
-  componentDidMount() {
-    fetch("http://localhost:8080/api/" + this.props.url)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          this.props.setData(result);
-        },
-        (error) => {
-          this.props.setError(error);
-        }
-    );
-  }
-
   render() {
-    console.log("poll state: ", this.props.state.poll)
-    const { error, isLoaded, pollData } = this.props.state.poll;
+    const { error, isLoaded, pollData } = this.props.poll;
 
     if (error) {
       return <div>Something went wrong: {error.message}</div>;
@@ -125,28 +106,5 @@ class PollFromAPI extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  console.log("state:", state)
-  return {
-    state: state
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setError: (error) => dispatch({
-        type: "SET_ERROR",
-        error: error,
-        isLoaded: true,
-      }),
-
-    setData: (result) => dispatch({
-        type: "SET_DATA",
-        isLoaded: true,
-        pollData: result
-      })
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps) (PollFromAPI);
+export default PollFromAPI;
 

@@ -25,6 +25,7 @@ const userReducer = (state = userinitialState, action) => {
                 error: action.error,
                 isLoggedin: false
             }
+            break;
         case "SET_LOGGIN":
             state = {
                 ...state,
@@ -36,9 +37,11 @@ const userReducer = (state = userinitialState, action) => {
                 role: action.role,
                 polls: action.polls
             }
+            break;
         default:
             break;
     }
+    return state;
 }
 
 const pollReducer = (state = pollinitialState, action) => {
