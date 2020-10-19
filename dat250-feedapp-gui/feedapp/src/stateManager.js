@@ -8,13 +8,13 @@ const pollinitialState = {
 
 const userinitialState = {
     error: null,
-    isLoggedin: false,
+    isLoaded: false,
     id: null,
     firstname: null,
     lastname: null,
     email: null,
     role: null,
-    polls: []
+    pollData: []
 }
 
 const userReducer = (state = userinitialState, action) => {
