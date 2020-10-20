@@ -1,43 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import LoginPage from "./pages/LoginPage";
-import ResultPage from "./pages/ResultPage";
+
 import "bootstrap/dist/css/bootstrap.css";
-import { Provider } from "react-redux";
-import { store } from "./stateManager";
-
-class Feedapp extends React.Component {
-
-
-  render() {
-    return (
-      <div>
-        <Router>
-          <Switch>
-            <Route path="/result">
-              <ResultPage />
-            </Route>
-            <Route path="/login">
-              <LoginPage />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
-        </Router>
-      </div>
-    );
-  }
-}
+import { Provider, ReactReduxContext } from "react-redux";
+import configureStore from "./stateManager";
+import Feedapp from './FeedApp'
+import { ConnectedRouter } from "connected-react-router";
+import history from './history'
 
 
 
-
+const store = configureStore();
+window.store = store
 
 ReactDOM.render(
-  <Provider store={store} >
-    <Feedapp />
-  </Provider>,
+  <Provider store={store}>
+    <ConnectedRouter history={history} context={ReactReduxContext}>
+      <Feedapp />
+    </ConnectedRouter> 
+  </Provider>
+  ,
   document.getElementById("root"));

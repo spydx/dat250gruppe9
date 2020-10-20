@@ -44,7 +44,8 @@ class Login extends React.Component {
         <Button
           variant="success"
           style={{ width: "5rem", margin: "0.5rem", marginLeft: "5rem" }}
-          onClick = {() => {this.fetchUserData(email, password)}}
+          onClick={() => { this.fetchUserData(email, password) }}
+          href="\"
         >
           Login
         </Button>
