@@ -13,9 +13,7 @@ const store = createStore(rootReducers, persistedState)
 window.store = store;
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedRouter history={history} context={ReactReduxContext}>
-      <Feedapp />
-    </ConnectedRouter> 
+      <Feedapp />  
   </Provider>
   ,
   document.getElementById("root"));
