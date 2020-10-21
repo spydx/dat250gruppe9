@@ -23,7 +23,6 @@ class PublicPollOverview extends React.Component {
     if (!this.props.state.poll.isLoaded) {
       this.fetchPollData();
     }
-    console.log("ppo:",this.props.state)
     return (
       <div>
         <div className="container">
