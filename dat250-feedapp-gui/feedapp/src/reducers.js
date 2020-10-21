@@ -33,7 +33,7 @@ const userReducer = (state = userinitialState, action) => {
                 isLoggedin: action.isLoggedin,
                 isLoaded: action.isLoaded,
                 id: action.id,
-                firstname: action,
+                firstname: action.firstname,
                 lastname: action.lastname,
                 email: action.email,
                 role: action.role,
