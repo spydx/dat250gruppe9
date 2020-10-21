@@ -1,6 +1,4 @@
-import { applyMiddleware, createStore, combineReducers, compose } from "redux";
-import { connectRouter, routerMiddleware } from 'connected-react-router'
-import history from './history'
+import { combineReducers } from "redux";
 
 const pollinitialState = {
     error: null,
@@ -35,7 +33,7 @@ const userReducer = (state = userinitialState, action) => {
                 isLoggedin: action.isLoggedin,
                 isLoaded: action.isLoaded,
                 id: action.id,
-                firstname: action,
+                firstname: action.firstname,
                 lastname: action.lastname,
                 email: action.email,
                 role: action.role,
@@ -70,24 +68,4 @@ const pollReducer = (state = pollinitialState, action) => {
     return state;
 }    
 
-
-const createRootReducer = (history) => combineReducers({
-    router: connectRouter(history),
-    poll: pollReducer,
-    user: userReducer
-})
-
-
-export default function configureStore(preloadedState) {
-    const store = createStore(
-        createRootReducer(history),
-        preloadedState,
-        compose(
-            applyMiddleware(
-              routerMiddleware(history), // for dispatching history actions
-              // ... other middlewares ...
-            ),
-        ),
-    )
-    return store
-}
+export const rootReducers = combineReducers({poll: pollReducer, user: userReducer}); 

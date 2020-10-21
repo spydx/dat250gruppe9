@@ -1,6 +1,8 @@
 import React from "react";
 import PollFromAPI from "./PollComponents/PollFromAPI";
 import { connect } from "react-redux";
+import {loadState} from '../localStorage'
+
 
 class PublicPollOverview extends React.Component {
 
@@ -36,7 +38,7 @@ class PublicPollOverview extends React.Component {
               <h1 className="display-4" style={{ textAlign: "center" }}>
                 Created polls
               </h1>
-              <PollFromAPI poll={this.props.state.user}/>
+    {/*<PollFromAPI poll={this.props.state.user}/>*/}
             </div>
           </div>
         </div>
