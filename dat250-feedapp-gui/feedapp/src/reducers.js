@@ -1,4 +1,4 @@
-import { createStore, combineReducers } from "redux";
+import { combineReducers } from "redux";
 
 const pollinitialState = {
     error: null,
@@ -68,4 +68,4 @@ const pollReducer = (state = pollinitialState, action) => {
     return state;
 }    
 
-export const store = createStore(combineReducers({poll: pollReducer, user: userReducer})); 
+export const rootReducers = combineReducers({poll: pollReducer, user: userReducer}); 

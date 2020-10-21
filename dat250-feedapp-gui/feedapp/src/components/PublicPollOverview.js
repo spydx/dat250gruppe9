@@ -1,6 +1,7 @@
 import React from "react";
 import PollFromAPI from "./PollComponents/PollFromAPI";
 import { connect } from "react-redux";
+import { saveState } from "../localStorage";
 
 class PublicPollOverview extends React.Component {
 
@@ -20,6 +21,7 @@ class PublicPollOverview extends React.Component {
   render() {
     if (!this.props.state.poll.isLoaded) {
       this.fetchPollData();
+      saveState(this.props.state)
     }
     return (
       <div>

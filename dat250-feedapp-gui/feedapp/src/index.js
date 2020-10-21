@@ -1,41 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import LoginPage from "./pages/LoginPage";
-import ResultPage from "./pages/ResultPage";
+
 import "bootstrap/dist/css/bootstrap.css";
 import { Provider } from "react-redux";
-import { store } from "./stateManager";
+import { rootReducers } from "./reducers";
+import { loadState } from './localStorage';
+import { createStore } from "redux";
+import Feedapp from './FeedApp'
 
-class Feedapp extends React.Component {
-
-
-  render() {
-    return (
-      <div>
-        <Router>
-          <Switch>
-            <Route path="/result">
-              <ResultPage />
-            </Route>
-            <Route path="/login">
-              <LoginPage />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
-        </Router>
-      </div>
-    );
-  }
-}
-
-
-
-
-
+const persistedState = loadState();
+const store = createStore(rootReducers, persistedState)
+window.store = store;
 ReactDOM.render(
   <Provider store={store} >
     <Feedapp />
