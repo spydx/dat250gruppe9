@@ -17,6 +17,12 @@ const userinitialState = {
     pollData: []
 }
 
+const resultinitialState = {
+    error: null, 
+    isLoaded: false, 
+    resultData: [],
+}
+
 const userReducer = (state = userinitialState, action) => {
     switch (action.type) {
         case "SET_ERROR":
@@ -66,6 +72,31 @@ const pollReducer = (state = pollinitialState, action) => {
             break; 
     }
     return state;
-}    
+}
 
-export const rootReducers = combineReducers({poll: pollReducer, user: userReducer}); 
+const resultReducer = (state = resultinitialState, action) => {
+    switch (action.type) {
+        case "SET_ERROR":
+            state = {
+                ...state, 
+                error: action.error,
+                isLoaded: action.isLoaded,
+            }
+            break;
+        
+        case "SET_RESULTDATA":
+            state = {
+                ...state, 
+                isLoaded: action.isLoaded,
+                resultData: action.resultData,
+            }
+            break;
+        default:
+            break;
+    }
+
+    return state
+
+}
+
+export const rootReducers = combineReducers({poll: pollReducer, user: userReducer, result: resultReducer}); 

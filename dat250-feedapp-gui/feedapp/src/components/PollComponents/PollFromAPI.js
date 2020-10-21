@@ -63,25 +63,25 @@ class PollFromAPI extends React.Component {
                   <div className="col-sm">
                     <Button
                       onClick={() => {
-                        alert("todo, Vote");
+                        alert("Todo: Vote");
                       }}
                       variant="info"
-                      style={{ width: "90%", marginLeft: "5%" }}
+                      style={{ width: "40%", marginLeft: "5%" }}
                       block
                     >
-                      result
+                      Result
                     </Button>
                   </div>
                   <div className="col-sm">
                     <Button
                       onClick={() => {
-                        alert("todo, Vote");
+                        alert("Todo: Vote");
                       }}
                       variant="success"
-                      style={{ width: "90%", marginLeft: "5%" }}
+                      style={{ width: "35%", marginLeft: "5%" }}
                       block
                     >
-                      vote
+                      Vote
                     </Button>
                   </div>
                 </div>

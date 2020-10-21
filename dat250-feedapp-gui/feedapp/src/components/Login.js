@@ -21,8 +21,6 @@ class Login extends React.Component {
   
   async fetchAndSave(email, password) {
     this.fetchUserData(email, password);
-    console.log(this.props.state)
-    saveState(this.props.state)
   }
 
   render() {

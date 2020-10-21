@@ -3,38 +3,41 @@ import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
+import NavBar from "../components/NavBar";
+import Button from 'react-bootstrap/Button'
+import { connect } from "react-redux";
 
 class Result extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      resultData: [],
-    };
+
+  getQuestion(resultID) {
+    console.log("hei")
+    for (const element of this.props.state.poll.pollData) {
+      console.log(element);
+    } 
   }
 
-  componentDidMount() {
+  fetchResultData() {
     fetch("http://localhost:8080/api/" + this.props.url)
       .then((res) => res.json())
       .then(
         (result) => {
-          this.setState({
-            isLoaded: true,
-            resultData: result,
-          });
-        },
+          this.props.setData(result);
+          },
+
         (error) => {
-          this.setState({
-            isLoaded: true,
-            error,
-          });
+          this.props.setError(error)
+            
         }
       );
   }
 
   render() {
-    const { error, isLoaded, resultData } = this.state;
+    if (!this.props.state.result.isLoaded) {
+      this.fetchResultData();
+      this.getQuestion(this.props.state.result.resultData.id)
+    }
+
+    const { error, isLoaded, resultData } = this.props.state.result;
     if (error) {
       return <div>Something went wrong: {error.message}</div>;
     } else if (!isLoaded) {
@@ -48,22 +51,63 @@ class Result extends React.Component {
     }
     return (
       <div>
-        <div key={resultData.id} class="mt-2">
-          <Card bg={"light"} text={"dark"} className="mb-2">
-            <h1 class="display-1" style={{ textAlign: "center" }}>
-              {"Total:" + resultData.total}
-            </h1>
-            <h1 class="display-1" style={{ textAlign: "center" }}>
-              {"Yes:" + resultData.yes}
-            </h1>
-            <h1 class="display-1" style={{ textAlign: "center" }}>
-              {"No:" + resultData.nos}
-            </h1>
-          </Card>
+        <div>
+          <NavBar/>
         </div>
+          <h2 style={{textAlign: "center", marginTop: "2%"}}>
+            <p><u>Result: "Spørsmål må inn her" </u></p>
+          </h2>
+        <div>
+          <div key={resultData.id} class="mt-2">
+            <Card  text={"dark"} className="mb-2" style={{width:"40%", marginLeft: "30%"}}>
+              <p class="display-1" style={{ textAlign: "center" }}>
+                <small> {"Total votes: " + resultData.total} </small>
+              </p>
+              <p class="display-1" style={{ textAlign: "center" }}>
+                <small> {"Yes: " + resultData.yes} </small>
+              </p>
+              <p class="display-1" style={{ textAlign: "center" }}>
+              <small> {"No: " + resultData.nos} </small>
+              </p>
+            </Card>
+            </div>
+        </div>
+          <Button 
+            onClick={() => {
+                        alert("Returning to poll-overview");
+                      }}
+            variant="danger" 
+            style = {{ marginLeft: "70%", marginTop: "5%"}}
+            >
+            Return to overview
+          </Button>
       </div>
     );
   }
 }
 
-export default Result;
+const mapStateToProps = (state) => {
+  return {
+    state: state
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setError: (error) => dispatch({
+        type: "SET_ERROR",
+        error: error,
+        isLoaded: true,
+      }),
+
+    setData: (result) => dispatch({
+        type: "SET_RESULTDATA",
+        isLoaded: true,
+        resultData: result,
+      })
+  };
+};
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Result);
