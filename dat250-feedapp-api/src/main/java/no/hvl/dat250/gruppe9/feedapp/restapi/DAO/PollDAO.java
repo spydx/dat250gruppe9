@@ -1,18 +1,16 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.DAO;
 
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.IoT;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Access;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
-import javax.swing.text.html.Option;
-import javax.xml.catalog.Catalog;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Transactional
 public class PollDAO {
 
     private final EntityManager entityManager;
@@ -24,27 +22,17 @@ public class PollDAO {
 
     public Optional<Poll> get(Long id) {
         return Optional.ofNullable(entityManager.find(Poll.class, id));
-
     }
 
     public Optional<Poll> save(Poll item) {
-        entityManager.getTransaction().begin();
-        try{
-            entityManager.persist(item);
-            entityManager.getTransaction().commit();
-            return Optional.ofNullable(item);
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            return Optional.empty();
-        }
+        entityManager.persist(item);
+        return Optional.ofNullable(item);
     }
 
     public Optional<Poll> update(Poll item) {
         var current = Optional.ofNullable(entityManager.find(Poll.class, item.getId()));
         if(current.isPresent()) {
-            entityManager.getTransaction().begin();
             entityManager.merge(item);
-            entityManager.getTransaction().commit();
             return Optional.ofNullable(entityManager.find(Poll.class, item.getId()));
         }
         return current;
@@ -52,14 +40,8 @@ public class PollDAO {
 
     public Optional<Poll> delete(Poll item) {
         var todelete = entityManager.find(Poll.class, item.getId());
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.remove(todelete);
-            entityManager.getTransaction().commit();
-            return Optional.ofNullable(todelete);
-        } catch (Exception e) {
-            return Optional.empty();
-        }
+        entityManager.remove(todelete);
+        return Optional.ofNullable(todelete);
     }
 
     public Optional<List<Poll>> getAll() {
@@ -69,5 +51,14 @@ public class PollDAO {
             return Optional.ofNullable(res);
         }
         return Optional.empty();
+    }
+
+    public Optional<List<Poll>> getAllPublic() {
+        var q = entityManager
+                .createQuery("select p from Poll p where p.access = :domain", Poll.class)
+                .setParameter("domain", Access.PUBLIC);
+        var list = q.getResultList();
+        return Optional.ofNullable(list);
+
     }
 }

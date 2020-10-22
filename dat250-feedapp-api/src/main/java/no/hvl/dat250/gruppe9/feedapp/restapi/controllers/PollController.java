@@ -1,11 +1,11 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.controllers;
 
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.AccountData;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PollDTO;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.PollResult;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Vote;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.PollService;
-import no.hvl.dat250.gruppe9.feedapp.restapi.services.ResultService;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.UserService;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,24 +31,18 @@ public class PollController {
     }
 
 
-    //TODO: Show ALl for PUBLIC, show all for Logged in user, take away HIDDEN.
+    //TODO: Show ALl for PUBLIC, show all for Logged in user, take away PRIVATE.
     @GetMapping("/")
     public ResponseEntity<List<Poll>> getAllPolls() {
-        var res = pollService.getAll();
+        var res = pollService.getAllPublic();
         if(res.isPresent())
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping(value = "/")
-    public ResponseEntity<Poll> createPoll(@RequestBody Poll newPoll, Long ownerId) {
-        var foundU = userService.getUser(ownerId);
-        if(foundU.isEmpty()) {
-            // Logging here?
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-
-        newPoll.setOwner(foundU.get());
+    public ResponseEntity<Poll> createPoll(
+            @RequestBody PollDTO newPoll) {
         var res = pollService.addPoll(newPoll);
         if(res.isPresent()) {
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
@@ -66,12 +60,12 @@ public class PollController {
     }
 
     @GetMapping(value = "/{pollid}/owner")
-    public ResponseEntity<AccountData> getOwner(@PathVariable("pollid") final Long id) {
+    public ResponseEntity<Profile> getOwner(@PathVariable("pollid") final Long id) {
         var poll = pollService.getPoll(id);
         if(poll.isPresent()) {
             var oid = poll.get().getOwner();
-            var owner = userService.getUser(oid);
-            return new ResponseEntity<>(owner.get(), HttpStatus.OK);
+            //var owner = userService.getProfile(oid);
+            return new ResponseEntity<>(oid, HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
@@ -98,9 +92,9 @@ public class PollController {
     @PostMapping(value = "/{pollid}/{userid}/vote")
     public ResponseEntity<Vote> createVote(@RequestBody Vote vote,
                                            @PathVariable final Long pollid,
-                                           @PathVariable final Long userid){
+                                           @PathVariable final String userid){
         var poll = pollService.getPoll(pollid);
-        var voter = userService.getUser(userid);
+        var voter = userService.getProfile(userid);
         if(voter.isPresent() && poll.isPresent()) {
             var res = voteService.vote(voter.get(), poll.get());
             if(res.isPresent())

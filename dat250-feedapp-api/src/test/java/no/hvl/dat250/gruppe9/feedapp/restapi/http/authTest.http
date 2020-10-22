@@ -1,0 +1,60 @@
+# Create a new user to authenticate
+###
+POST http://localhost:8080/api/users/
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "email": "kenneth@mail.com",
+  "password" : "test123",
+  "role": "USER",
+  "profile":
+  {
+    "firstname": "Kenneth",
+    "lastname": "Fossen"
+  }
+}
+
+###
+# Get its profile
+###
+GET http://localhost:8080/api/users/
+
+###
+# Authentitcate the user you created
+###
+POST http://localhost:8080/api/authenticate/
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "email": "kenneth@mail.com",
+  "password" : "test123"
+}
+
+###
+GET http://localhost:8080/api/users/
+
+###
+# Update user with profile id
+###
+PUT http://localhost:8080/api/account/2
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "email": "kenneth@mail.com",
+  "password" : "newpassword"
+}
+
+####
+# Check if password changed
+###
+POST http://localhost:8080/api/authenticate/
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "email": "kenneth@mail.com",
+  "password" : "newpassword"
+}

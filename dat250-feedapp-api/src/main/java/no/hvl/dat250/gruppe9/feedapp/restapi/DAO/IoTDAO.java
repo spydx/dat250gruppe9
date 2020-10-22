@@ -2,6 +2,7 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.DAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.IoT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Optional;
 
 
 @Repository
+@Transactional
 public class IoTDAO {
 
     private final EntityManager entityManager;
@@ -24,24 +26,14 @@ public class IoTDAO {
     }
 
     public Optional<IoT> save(IoT device) {
-        entityManager.getTransaction().begin();
-        try {
-            entityManager.persist(device);
-            entityManager.getTransaction().commit();
-            return Optional.ofNullable(device);
-        } catch (Exception e) {
-            //TODO: Error LOgger
-            entityManager.getTransaction().rollback();
-            return Optional.ofNullable(device);
-        }
+        entityManager.persist(device);
+        return Optional.ofNullable(device);
     }
 
     public Optional<IoT> update(IoT device) {
         var current = Optional.ofNullable(entityManager.find(IoT.class, device.getId()));
         if(current.isPresent()) {
-            entityManager.getTransaction().begin();
             entityManager.merge(device);
-            entityManager.getTransaction().commit();
             return Optional.ofNullable(entityManager.find(IoT.class, device.getId()));
         }
         return current;
@@ -50,9 +42,7 @@ public class IoTDAO {
     public Optional<IoT> delete(IoT device) {
         var todelete = entityManager.find(IoT.class, device.getId());
         try {
-            entityManager.getTransaction().begin();
             entityManager.remove(todelete);
-            entityManager.getTransaction().commit();
             return Optional.ofNullable(todelete);
         } catch (Exception e) {
             return Optional.empty();

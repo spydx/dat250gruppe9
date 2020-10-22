@@ -16,14 +16,14 @@ public class IoT {
     private long id;
     private String name;
 
+    public long getId() {
+        return id;
+    }
+
     @OneToOne
     private Poll connectedPoll;
 
     public IoT() {
-    }
-
-    public long getId() {
-        return id;
     }
 
     public void setId(long id) {
@@ -46,12 +46,4 @@ public class IoT {
         this.connectedPoll = connectedPoll;
     }
 
-    @Override
-    public String toString() {
-        return "IoTEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", connectedPoll=" + connectedPoll +
-                '}';
-    }
 }

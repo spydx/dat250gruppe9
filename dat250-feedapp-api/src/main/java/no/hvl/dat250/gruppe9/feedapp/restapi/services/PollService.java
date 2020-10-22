@@ -1,7 +1,9 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.services;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.PollDAO;
+import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.ProfileDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Access;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PollDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,12 @@ import java.util.Optional;
 public class PollService {
 
     private final PollDAO pollStorage;
+    private final ProfileDAO profileStorage;
 
     @Autowired
-    public PollService(PollDAO polldata) {
+    public PollService(PollDAO polldata, ProfileDAO profileDAO) {
         this.pollStorage = polldata;
+        this.profileStorage = profileDAO;
     }
 
     //Authenticated
@@ -28,13 +32,7 @@ public class PollService {
 
     //Get all non Authenticated
     public Optional<List<Poll>> getAllPublic() {
-        var list = pollStorage.getAll();
-        var result = new ArrayList<Poll>();
-        for(var p : list.get()) {
-            if(p.getAccess() == Access.PUBLIC)
-                result.add(p);
-        }
-        return Optional.ofNullable(result);
+       return  pollStorage.getAllPublic();
     }
 
 
@@ -43,8 +41,25 @@ public class PollService {
     }
 
 
-    public Optional<Poll> addPoll(Poll newpoll) {
-        return pollStorage.save(newpoll);
+    public Optional<Poll> addPoll(PollDTO newpoll) {
+
+        var owner = profileStorage.get(newpoll.getOwner());
+        if(owner.isPresent()) {
+            var p = new Poll();
+            var o = owner.get();
+
+            p.setAccess(newpoll.getAccess());
+            p.setQuestion(newpoll.getQuestion());
+            p.setAnsweryes(newpoll.getAnsweryes());
+            p.setAnswerno(newpoll.getAnswerno());
+            p.setName(newpoll.getName());
+
+            p.setTimeend(newpoll.getTimeend());
+            p.setTimestart(newpoll.getTimestart());
+            p.setOwner(o);
+            return pollStorage.save(p);
+        }
+        return Optional.empty();
     }
 
     public Optional<Poll> deletePoll(Long id) {

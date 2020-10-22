@@ -2,7 +2,7 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.services;
 
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.VoteDOA;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.AccountData;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Vote;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class VoteService {
         this.voteStorage = voteStorage;
     }
 
-    public Optional<Vote> vote(AccountData voter, Poll poll) {
+    public Optional<Vote> vote(Profile voter, Poll poll) {
 
         return Optional.empty();
     }

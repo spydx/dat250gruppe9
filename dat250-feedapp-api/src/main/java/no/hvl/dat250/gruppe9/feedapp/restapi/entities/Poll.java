@@ -12,7 +12,7 @@ public class Poll {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     private String name;
     private String question;
@@ -29,19 +29,19 @@ public class Poll {
     private String answeryes;
     private String answerno;
 
-    @ManyToOne
-    @JsonIgnore
-    private AccountData owner;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Profile owner;
 
     @OneToMany
     @JsonIgnore
     private Set<Vote> votes;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private PollResult pollResult;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<IoT> connectedDevices;
 
@@ -113,11 +113,11 @@ public class Poll {
     }
 
     //TODO: Check what JSON returns
-    public long getOwner() {
-        return owner.getId();
+    public Profile getOwner() {
+        return owner;
     }
 
-    public void setOwner(AccountData owner) {
+    public void setOwner(Profile owner) {
         this.owner = owner;
     }
 

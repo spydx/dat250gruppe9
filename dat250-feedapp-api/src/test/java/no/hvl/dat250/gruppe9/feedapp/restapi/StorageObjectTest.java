@@ -26,33 +26,34 @@ class StorageObjectTest {
     @Autowired
     private TestEntityManager entityManager;
 
-    private List<AccountData> ul = new ArrayList<>();
+    private List<Profile> ul = new ArrayList<>();
     private List<Poll> pl = new ArrayList<>();
 
     private static Random random = new Random();
 
     @BeforeEach
     public void setUp() {
+        entityManager.clear();
         createUserList();
         createPollList();
     }
 
     private void createUserList() {
-        for (int i = 1; i <= LIMIT; i++) {
-            var u = new AccountData();
+        for (int i = 0; i <= LIMIT; i++) {
+            var u = new Profile();
             u.setFirstname("User " + i);
             u.setLastname("lastName" + i);
             var a = new Account();
             a.setEmail("user" + i + "@mail.no");
-            u.setAccount(a);
-            u.setRole(Roles.USER);
+            a.setRole(Roles.USER);
+            a.setProfile(u);
             ul.add(u);
             System.out.println("Created :" + u);
         }
     }
 
     private void createPollList() {
-        for (int i = 1; i <= LIMIT ; i++) {
+        for (int i = 0; i <= LIMIT ; i++) {
             var p = new Poll();
             p.setName("PollID " + i);
             p.setAnswerno("No" +i);
@@ -69,7 +70,7 @@ class StorageObjectTest {
 
     @Test
     public void saveUserList() {
-        for (AccountData u : ul) {
+        for (Profile u : ul) {
             System.out.println("Saving : " + u );
             entityManager.persist(u);
         }
@@ -80,10 +81,11 @@ class StorageObjectTest {
     public void saveUser() {
         var u = ul.get(1);
         var id = entityManager.persistAndGetId(u);
-        var res = entityManager.find(AccountData.class, id);
+        var res = entityManager.find(Profile.class, id);
         System.out.println(res);
         assert(u.getFirstname().equals(res.getFirstname()));
     }
+
     @Test
     public void savePoll() {
         var p = pl.get(1);
@@ -107,7 +109,7 @@ class StorageObjectTest {
         saveUserList();
         Integer id = 4;
         var longid = Long.parseLong(id.toString());
-        var u = entityManager.find(AccountData.class,longid);
+        var u = entityManager.find(Profile.class,longid);
         System.out.println("Found " + u);
 
         var existing = ul.get(id-1);
@@ -134,14 +136,19 @@ class StorageObjectTest {
     public void voteOnPoll() {
         saveUserList();
         savePollList();
+
         Integer id = random.nextInt(LIMIT-1);
         Long pollid = Long.parseLong(id.toString());
         var poll = entityManager.find(Poll.class,pollid);
+
         for (int i = 1; i <= LIMIT; i++) {
             var v = new Vote();
+            if(i % 2 == 0)
+                v.setAnswer(Boolean.TRUE);
+            else
+                v.setAnswer(Boolean.FALSE);
 
-
-
+            entityManager.persist(v);
         }
     }
 

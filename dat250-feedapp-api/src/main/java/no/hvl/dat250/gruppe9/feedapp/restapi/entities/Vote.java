@@ -14,13 +14,9 @@ public class Vote {
     @GeneratedValue
     private long id;
 
-    private long voterid;
-
-    @JsonIgnore
     @ManyToOne
-    private AccountData voter;
+    private Profile voter;
 
-    @JsonIgnore
     @ManyToOne
     private Poll poll;
 
@@ -40,19 +36,11 @@ public class Vote {
         this.id = id;
     }
 
-    public long getVoterid() {
-        return voterid;
-    }
-
-    public void setVoterid(long voterid) {
-        this.voterid = voterid;
-    }
-
-    public AccountData getVoter() {
+    public Profile getVoter() {
         return voter;
     }
 
-    public void setVoter(AccountData voter) {
+    public void setVoter(Profile voter) {
         this.voter = voter;
     }
 
@@ -84,7 +72,6 @@ public class Vote {
     public String toString() {
         return "Vote{" +
                 "id=" + id +
-                ", voterid=" + voterid +
                 ", voter=" + voter +
                 ", poll=" + poll +
                 ", answer=" + answer +

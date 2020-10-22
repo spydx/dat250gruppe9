@@ -2,6 +2,7 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,37 +11,34 @@ import java.util.Set;
 
 @Data
 @Entity
-public class AccountData implements Serializable {
+public class Profile implements Serializable {
 
-    @Id
-    @GeneratedValue
-    private long id;
+    @Id @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid",
+            strategy = "uuid2")
+    private String id;
 
     private String firstname;
     private String lastname;
 
-    @OneToOne
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER)
     private Account account;
 
-    @Enumerated(EnumType.STRING)
-    private Roles role;
-
-    @OneToMany
-    @JsonIgnore
+    @OneToMany()
     private Set<Poll> pollList = new HashSet<>();
 
     @OneToMany
-    @JsonIgnore
     private Set<Vote> votedOn = new HashSet<>();
 
-    public AccountData() {
+    public Profile() {
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -60,20 +58,12 @@ public class AccountData implements Serializable {
         this.lastname = lastname;
     }
 
-    public String getAccount() {
-        return account.getEmail();
+    public Account getAccount() {
+        return account;
     }
 
     public void setAccount(Account account) {
         this.account = account;
-    }
-
-    public Roles getRole() {
-        return role;
-    }
-
-    public void setRole(Roles role) {
-        this.role = role;
     }
 
     public Set<Poll> getPollList() {
@@ -94,12 +84,11 @@ public class AccountData implements Serializable {
 
     @Override
     public String toString() {
-        return "AccountData{" +
+        return "Profile{" +
                 "id=" + id +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", account=" + account.getEmail() +
-                ", role=" + role +
+                ", account=" + account +
                 ", pollList=" + pollList +
                 ", votedOn=" + votedOn +
                 '}';
