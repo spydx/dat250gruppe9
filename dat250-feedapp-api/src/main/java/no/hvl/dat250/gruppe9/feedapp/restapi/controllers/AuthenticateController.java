@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/authenticate")
-public class Authenticate {
+public class AuthenticateController {
     private final AuthService authService;
 
     @Autowired
-    public Authenticate(AuthService authService) {
+    public AuthenticateController(AuthService authService) {
         this.authService = authService;
     }
 
