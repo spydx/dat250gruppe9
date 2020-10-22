@@ -4,6 +4,22 @@ Accept: */*
 Cache-Control: no-cache
 
 ###
+POST http://localhost:8080/api/users/
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "email": "fossen.kenneth@gmail.com",
+  "password" : "test123",
+  "role": "USER",
+  "profile":
+  {
+    "firstname": "Kenneth",
+    "lastname": "Fossen"
+  }
+}
+
+###
 POST http://localhost:8080/api/polls/
 Content-Type: application/json
 Cache-Control: no-cache
@@ -14,7 +30,7 @@ Cache-Control: no-cache
   "answeryes": "stringa",
   "id": 0,
   "name": "StringyStringString",
-  "owner": 2,
+  "owner": "c97ad64c-5451-4b29-9f2e-82c9f3d148ff",
   "question": "stringy?",
   "timeend": "2020-10-22T21:54:07.062Z",
   "timestart": "2020-10-30T21:54:07.062Z"
@@ -22,7 +38,7 @@ Cache-Control: no-cache
 
 
 ###
-DELETE http://localhost:8080/api/polls/10
+DELETE http://localhost:8080/api/polls/9c23ea42-4408-4a8a-b562-87227e3a93f0
 
 
 ### Create a private one?
@@ -45,3 +61,16 @@ Cache-Control: no-cache
 ### Get All (Public)
 GET http://localhost:8080/api/polls/
 Accept: */*
+
+
+### Get A poll
+GET http://localhost:8080/api/polls/5facb988-def9-4e69-bbd0-676b517ddd9e
+Accept: application/json
+
+### Get A poll Owner
+GET http://localhost:8080/api/polls/bae6e5c5-839f-4f8a-98f1-5d2aabf6fd9c/owner
+Accept: application/json
+
+### Get A poll a result?
+GET http://localhost:8080/api/polls/bae6e5c5-839f-4f8a-98f1-5d2aabf6fd9c/result
+Accept: application/json

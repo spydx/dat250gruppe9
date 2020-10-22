@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/polls")
@@ -51,7 +52,7 @@ public class PollController {
     }
 
     @GetMapping(value = "/{pollid}")
-    public ResponseEntity<Poll> pollById(@PathVariable("pollid") final Long id)
+    public ResponseEntity<Poll> pollById(@PathVariable("pollid") final String id)
     {
         var res = pollService.getPoll(id);
         if(res.isPresent())
@@ -60,7 +61,7 @@ public class PollController {
     }
 
     @GetMapping(value = "/{pollid}/owner")
-    public ResponseEntity<Profile> getOwner(@PathVariable("pollid") final Long id) {
+    public ResponseEntity<Profile> getOwner(@PathVariable("pollid") final String id) {
         var poll = pollService.getPoll(id);
         if(poll.isPresent()) {
             var oid = poll.get().getOwner();
@@ -71,7 +72,7 @@ public class PollController {
     }
 
     @DeleteMapping(value = "/{pollId}")
-    public ResponseEntity<Poll> deletePoll(@PathVariable("pollId") final Long id) {
+    public ResponseEntity<Poll> deletePoll(@PathVariable("pollId") final String id) {
         var deleted = pollService.deletePoll(id);
         if(deleted.isPresent())
             return new ResponseEntity<>(deleted.get(),HttpStatus.OK);
@@ -80,18 +81,21 @@ public class PollController {
     }
 
     @GetMapping(value = "/{pollId}/result")
-    public ResponseEntity<PollResult> getResult(@PathVariable("pollId") final Long pollId) {
+    public ResponseEntity<PollResult> getResult(@PathVariable("pollId") final String pollId) {
         var poll = pollService.getPoll(pollId);
-        if(poll.isPresent()) {
-            var res = poll.get().getPollResult();
-            return new ResponseEntity<PollResult>(res, HttpStatus.OK);
+        if(poll.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        var res = Optional.ofNullable(poll.get().getPollResult());
+        if(res.isPresent())
+            return new ResponseEntity<PollResult>(res.get(), HttpStatus.OK);
+        return new ResponseEntity<>(new PollResult(), HttpStatus.NOT_FOUND);
+
     }
 
     @PostMapping(value = "/{pollid}/{userid}/vote")
     public ResponseEntity<Vote> createVote(@RequestBody Vote vote,
-                                           @PathVariable final Long pollid,
+                                           @PathVariable final String pollid,
                                            @PathVariable final String userid){
         var poll = pollService.getPoll(pollid);
         var voter = userService.getProfile(userid);

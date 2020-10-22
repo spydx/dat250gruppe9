@@ -2,6 +2,7 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.controllers;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Account;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Vote;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -36,7 +36,7 @@ public class PollService {
     }
 
 
-    public Optional<Poll> getPoll(Long id) {
+    public Optional<Poll> getPoll(String id) {
         return pollStorage.get(id);
     }
 
@@ -57,12 +57,13 @@ public class PollService {
             p.setTimeend(newpoll.getTimeend());
             p.setTimestart(newpoll.getTimestart());
             p.setOwner(o);
+            o.getPollList().add(p);
             return pollStorage.save(p);
         }
         return Optional.empty();
     }
 
-    public Optional<Poll> deletePoll(Long id) {
+    public Optional<Poll> deletePoll(String id) {
         var found = pollStorage.get(id);
         if(found.isPresent())
             return pollStorage.delete(found.get());

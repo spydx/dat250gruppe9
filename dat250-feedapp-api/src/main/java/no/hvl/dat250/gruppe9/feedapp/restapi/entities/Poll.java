@@ -1,6 +1,7 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,9 +11,10 @@ import java.util.Set;
 @Entity
 public class Poll {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+    @Id @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid",
+            strategy = "uuid2")
+    private String id;
 
     private String name;
     private String question;
@@ -48,11 +50,11 @@ public class Poll {
     public Poll() {
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

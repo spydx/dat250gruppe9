@@ -20,7 +20,7 @@ public class PollDAO {
         this.entityManager = entityManager;
     }
 
-    public Optional<Poll> get(Long id) {
+    public Optional<Poll> get(String id) {
         return Optional.ofNullable(entityManager.find(Poll.class, id));
     }
 

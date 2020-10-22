@@ -25,9 +25,11 @@ public class Profile implements Serializable {
     @OneToOne(fetch = FetchType.EAGER)
     private Account account;
 
+    @JsonIgnore
     @OneToMany()
     private Set<Poll> pollList = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany
     private Set<Vote> votedOn = new HashSet<>();
 
