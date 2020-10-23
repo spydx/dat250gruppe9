@@ -29,7 +29,7 @@ public class ResultController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
     @GetMapping(value = "/{pollId}")
-    public ResponseEntity<PollResult> getResult(@PathVariable(value = "pollId") final Long id) {
+    public ResponseEntity<PollResult> getResult(@PathVariable(value = "pollId") final String id) {
         var res =  resultService.getResult(id);
         if(res.isPresent())
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
@@ -37,8 +37,17 @@ public class ResultController {
     }
 
     @DeleteMapping(value = "/{pollId}") //TODO: is this necessary. Could be done if a poll gets deleted
-    public ResponseEntity<PollResult> deleteResult(@PathVariable(value = "pollId") final Long id) {
+    public ResponseEntity<PollResult> deleteResult(@PathVariable(value = "pollId") final String id) {
         var res = resultService.deleteResult(id);
+        if (res.isPresent()) {
+            return new ResponseEntity<>(res.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping(value = "/{pollId}") //TODO: is this necessary. Could be done if a poll gets deleted
+    public ResponseEntity<PollResult> generateResult(@PathVariable(value = "pollId") final String id) {
+        var res = resultService.generateResult(id);
         if (res.isPresent()) {
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
         }

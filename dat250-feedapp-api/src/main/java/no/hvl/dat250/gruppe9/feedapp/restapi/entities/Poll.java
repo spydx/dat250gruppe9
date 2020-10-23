@@ -5,6 +5,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -37,7 +39,7 @@ public class Poll {
 
     @OneToMany
     @JsonIgnore
-    private Set<Vote> votes;
+    private Set<Vote> votes = new HashSet<>();
 
     @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -45,7 +47,7 @@ public class Poll {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<IoT> connectedDevices;
+    private Set<IoT> connectedDevices = new HashSet<>();
 
     public Poll() {
     }
@@ -147,11 +149,23 @@ public class Poll {
         this.connectedDevices = connectedDevices;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Poll poll = (Poll) o;
+        return id.equals(poll.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     @Override
     public String toString() {
         return "Poll{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", question='" + question + '\'' +
                 ", timestart=" + timestart +
@@ -159,10 +173,10 @@ public class Poll {
                 ", access=" + access +
                 ", answeryes='" + answeryes + '\'' +
                 ", answerno='" + answerno + '\'' +
-                ", owner=" + owner +
-                ", votes=" + votes +
-                //", pollResult=" + pollResult +
-                ", connectedDevices=" + connectedDevices +
+                ", owner=" + owner.toString() +
+                ", votes=" + votes.size() +
+                ", pollResult=" + pollResult +
+                ", connectedDevices=" + connectedDevices.size() +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,9 +11,11 @@ import java.util.Objects;
 @Data
 @Entity
 public class PollResult {
-    @Id
-    @GeneratedValue
-    private Long id;
+
+    @Id @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid",
+            strategy = "uuid2")
+    private String id;
 
     private int yes;
     private int nos;
@@ -27,20 +30,36 @@ public class PollResult {
         this.total = total;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getYes() {
         return yes;
     }
 
+    public void setYes(int yes) {
+        this.yes = yes;
+    }
+
     public int getNos() {
         return nos;
     }
 
+    public void setNos(int nos) {
+        this.nos = nos;
+    }
+
     public int getTotal() {
         return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     @Override

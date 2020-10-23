@@ -4,10 +4,7 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PollDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.PollResult;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Vote;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.PollService;
-import no.hvl.dat250.gruppe9.feedapp.restapi.services.UserService;
-import no.hvl.dat250.gruppe9.feedapp.restapi.services.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +18,10 @@ import java.util.Optional;
 public class PollController {
 
     private final PollService pollService;
-    private final UserService userService;
-    private final VoteService voteService;
-
     @Autowired
-    public PollController(PollService pollService, UserService userService, VoteService voteService) {
+    public PollController(PollService pollService) {
         this.pollService = pollService;
-        this.userService = userService;
-        this.voteService = voteService;
+
     }
 
 
@@ -88,24 +81,7 @@ public class PollController {
         }
         var res = Optional.ofNullable(poll.get().getPollResult());
         if(res.isPresent())
-            return new ResponseEntity<PollResult>(res.get(), HttpStatus.OK);
+            return new ResponseEntity<>(res.get(), HttpStatus.OK);
         return new ResponseEntity<>(new PollResult(), HttpStatus.NOT_FOUND);
-
-    }
-
-    @PostMapping(value = "/{pollid}/{userid}/vote")
-    public ResponseEntity<Vote> createVote(@RequestBody Vote vote,
-                                           @PathVariable final String pollid,
-                                           @PathVariable final String userid){
-        var poll = pollService.getPoll(pollid);
-        var voter = userService.getProfile(userid);
-        if(voter.isPresent() && poll.isPresent()) {
-            var res = voteService.vote(voter.get(), poll.get());
-            if(res.isPresent())
-                return new ResponseEntity<>(res.get(), HttpStatus.OK);
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        }
-
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 }

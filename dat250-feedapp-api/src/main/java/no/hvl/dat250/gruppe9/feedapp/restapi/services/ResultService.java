@@ -1,5 +1,6 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.services;
 
+import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.PollDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.PollResultDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.PollResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,12 @@ import java.util.Optional;
 public class ResultService {
 
     private final PollResultDAO pollResultDAO;
-
+    private final PollDAO pollDAO;
     @Autowired
-    public ResultService(PollResultDAO pollResultDAO) {
+    public ResultService(PollResultDAO pollResultDAO,
+                         PollDAO pollDAO) {
         this.pollResultDAO = pollResultDAO;
+        this.pollDAO = pollDAO;
     }
 
     public Optional<List<PollResult>> getAll() {
@@ -26,11 +29,34 @@ public class ResultService {
         return Optional.empty();
     }
 
-    public Optional<PollResult> getResult(Long id) {
+    public Optional<PollResult> getResult(String id) {
         return pollResultDAO.get(id);
     }
 
-    public Optional<PollResult> deleteResult(Long id) {
+    public Optional<PollResult> generateResult(String pollid) {
+        var poll = pollDAO.get(pollid);
+        var pollres = new PollResult();
+        if(poll.isPresent()) {
+            var updatedpoll = poll.get();
+            var reslist = updatedpoll.getVotes();
+            int yes = 0;
+            for(var v : reslist) {
+                Boolean b = v.getAnswer();
+                if(Boolean.TRUE.equals(b))
+                    yes++;
+            }
+            var no = reslist.size()-yes;
+            pollres.setYes(yes);
+            pollres.setNos(no);
+            pollres.setTotal(reslist.size());
+            updatedpoll.setPollResult(pollres);
+            pollDAO.update(updatedpoll);
+            return Optional.of(pollres);
+        }
+        return Optional.empty();
+    }
+
+    public Optional<PollResult> deleteResult(String id) {
         var p = pollResultDAO.get(id);
         if(p.isPresent())
             return pollResultDAO.delete(p.get());

@@ -1,14 +1,19 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.controllers;
 
+import jdk.javadoc.doclet.Reporter;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Account;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.VoteDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Vote;
+import no.hvl.dat250.gruppe9.feedapp.restapi.services.PollService;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.UserService;
+import no.hvl.dat250.gruppe9.feedapp.restapi.services.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -16,10 +21,16 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final VoteService voteService;
+    private final PollService pollService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService,
+                          VoteService voteService,
+                          PollService pollService) {
         this.userService = userService;
+        this.voteService = voteService;
+        this.pollService = pollService;
     }
 
     @GetMapping("/")
@@ -74,7 +85,26 @@ public class UserController {
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
+
+    @PostMapping(value ="/{userId}/vote/{pollId}")
+    public ResponseEntity<Vote> voteOnPoll(
+            @PathVariable("userId") String userId,
+            @PathVariable("pollId") String pollId,
+            @RequestBody VoteDTO response) {
+        var profile = userService.getProfile(userId);
+        var poll = pollService.getPoll(pollId);
+
+        if (profile.isPresent() && poll.isPresent()) {
+            var res = voteService.vote(profile.get(), poll.get(), response);
+            if(res.isPresent())
+                return new ResponseEntity<>(res.get(), HttpStatus.OK);
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+    }
 }
+
 
 
 

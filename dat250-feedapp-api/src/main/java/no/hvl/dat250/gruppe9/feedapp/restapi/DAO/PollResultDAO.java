@@ -57,7 +57,7 @@ public class PollResultDAO {
         }
     }
 
-    public Optional<PollResult> get(Long id) {
+    public Optional<PollResult> get(String id) {
         return Optional.ofNullable(entityManager.find(PollResult.class, id));
     }
 

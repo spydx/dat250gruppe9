@@ -87,12 +87,12 @@ public class Profile implements Serializable {
     @Override
     public String toString() {
         return "Profile{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", account=" + account +
-                ", pollList=" + pollList +
-                ", votedOn=" + votedOn +
+                ", pollList=" + pollList.size() +
+                ", votedOn=" + votedOn.size() +
                 '}';
     }
 }

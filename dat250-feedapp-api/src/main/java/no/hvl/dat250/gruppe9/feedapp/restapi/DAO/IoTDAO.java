@@ -20,7 +20,7 @@ public class IoTDAO {
         this.entityManager = entityManager;
     }
 
-    public Optional<IoT> get(Long id) {
+    public Optional<IoT> get(String id) {
 
         return Optional.ofNullable(entityManager.find(IoT.class, id));
     }
