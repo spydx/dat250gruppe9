@@ -1,0 +1,39 @@
+version : '3.7'
+
+services:
+   feedapp-api:
+      build: 
+         context: .
+         dockerfile: Dockerfile
+      ports:
+         - "8080:8080"
+      #restart: always
+      depends_on:
+         - feedapp-db
+      environment:
+         SPRING_DATASOURCE_URL: jdbc:mysql://feedapp-db:3306/feedappdb?createDatabaseIfNotExist=true
+      networks:
+         - backend
+         - frontend
+
+   feedapp-db:
+      image: mysql:latest
+      ports:
+         - "3306:3306"
+      #restart: always
+      environment:
+         MYSQL_DATABASE: feedappdb
+         MYSQL_USER: feedapp
+         MYSQL_PASSWORD: feedapppassword
+         MYSQL_ROOT_PASSWORD: mhnrBKex
+      volumes:
+         - db-data:/var/lib/mysql
+      networks:
+         - backend
+
+volumes:
+   db-data:
+   
+networks:
+   backend:
+   frontend: 
