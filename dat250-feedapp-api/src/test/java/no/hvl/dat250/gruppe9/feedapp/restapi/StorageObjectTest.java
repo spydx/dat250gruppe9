@@ -11,10 +11,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import javax.management.relation.Role;
+import java.util.*;
 
 @ActiveProfiles("test")
 @DataJpaTest
@@ -45,7 +43,9 @@ class StorageObjectTest {
             u.setLastname("lastName" + i);
             var a = new Account();
             a.setEmail("user" + i + "@mail.no");
-            a.setRole(Roles.USER);
+            Set<Roles> r = new HashSet<>();
+            r.add(new Roles(RoleEnum.ROLE_USER));
+            a.setRoles(r);
             a.setProfile(u);
             ul.add(u);
             System.out.println("Created :" + u);

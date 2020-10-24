@@ -1,15 +1,15 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonValue;
-import org.hibernate.annotations.Cascade;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-
+@JsonIgnoreProperties(value = {"password"}, allowSetters = true)
 public class Account implements Serializable {
 
     @Id @GeneratedValue(generator="system-uuid")
@@ -20,15 +20,21 @@ public class Account implements Serializable {
     @Column(unique = true)
     private String email;
 
+
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Profile profile;
 
-    @Enumerated(EnumType.STRING)
-    private Roles role;
+    @ManyToMany
+    private Set<Roles> roles = new HashSet<>();
 
     public Account() {
+    }
+
+    public Account(String email) {
+        this.email = email;
+        this.password = password;
     }
 
     public String getId() {
@@ -63,11 +69,11 @@ public class Account implements Serializable {
         this.profile = profile;
     }
 
-    public Roles getRole() {
-        return role;
+    public Set<Roles> getRoles() {
+        return roles;
     }
 
-    public void setRole(Roles role) {
-        this.role = role;
+    public void setRoles(Set<Roles> roles) {
+        this.roles = roles;
     }
 }

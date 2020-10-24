@@ -11,7 +11,7 @@ Cache-Control: no-cache
 {
   "email": "fossen.kenneth@gmail.com",
   "password" : "test123",
-  "role": "USER",
+  "roleEnum": "USER",
   "profile":
   {
     "firstname": "Kenneth",

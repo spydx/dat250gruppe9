@@ -11,7 +11,7 @@ Cache-Control: no-cache
 {
   "email": "fossen.kenneth@gmail.com",
   "password" : "test123",
-  "role": "USER",
+  "roleEnum": "USER",
   "profile":
   {
     "firstname": "Kenneth",
@@ -48,3 +48,11 @@ Cache-Control: no-cache
 }
 
 ### You cannot vote twice
+
+POST http://localhost:8080/api/users/2f8ed7eb-089e-4582-a2be-b78f3f4f85e6/vote/d737a0b1-7781-4fdf-ad9d-271c20783e28
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "answer": true
+}

@@ -36,6 +36,11 @@ public class Profile implements Serializable {
     public Profile() {
     }
 
+    public Profile(String firstname, String lastname) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+
     public String getId() {
         return id;
     }

@@ -8,6 +8,7 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.services.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class PollController {
 
     //TODO: Show ALl for PUBLIC, show all for Logged in user, take away PRIVATE.
     @GetMapping("/")
+    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
     public ResponseEntity<List<Poll>> getAllPolls() {
         var res = pollService.getAllPublic();
         if(res.isPresent())
@@ -45,6 +47,7 @@ public class PollController {
     }
 
     @GetMapping(value = "/{pollid}")
+    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
     public ResponseEntity<Poll> pollById(@PathVariable("pollid") final String id)
     {
         var res = pollService.getPoll(id);
@@ -54,6 +57,7 @@ public class PollController {
     }
 
     @GetMapping(value = "/{pollid}/owner")
+    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
     public ResponseEntity<Profile> getOwner(@PathVariable("pollid") final String id) {
         var poll = pollService.getPoll(id);
         if(poll.isPresent()) {
@@ -74,6 +78,7 @@ public class PollController {
     }
 
     @GetMapping(value = "/{pollId}/result")
+    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
     public ResponseEntity<PollResult> getResult(@PathVariable("pollId") final String pollId) {
         var poll = pollService.getPoll(pollId);
         if(poll.isEmpty()) {

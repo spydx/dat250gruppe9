@@ -2,6 +2,8 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.DAO;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Account;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,14 +16,11 @@ import java.util.Optional;
 @Transactional
 public class AccountDAO {
 
-    private final EntityManager entityManager;
-
     @Autowired
-    public AccountDAO(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    private EntityManager entityManager;
+    private static final Logger logger = LoggerFactory.getLogger(AccountDAO.class);
 
-    public Optional<Account> get(Long id) {
+    public Optional<Account> get(String id) {
         var res = entityManager.find(Account.class, id);
         return Optional.ofNullable(res);
     }
@@ -37,6 +36,7 @@ public class AccountDAO {
                 return res;
             return Optional.empty();
         } catch (Exception e) {
+            logger.error("Failed to fetch user {}", e.toString() );
             return Optional.empty();
         }
     }
@@ -52,7 +52,7 @@ public class AccountDAO {
             var res = entityManager.find(Account.class, account.getId());
             return Optional.ofNullable(res);
         } catch (Exception e) {
-            //TODO: Logger
+            logger.error("Unable to update user");
             return Optional.empty();
         }
     }
@@ -63,7 +63,7 @@ public class AccountDAO {
             entityManager.remove(found.get());
             return Optional.empty();
         }
-        //TODO: Logger
+        logger.error("Unable to delete user");
         return Optional.ofNullable(account);
 
     }

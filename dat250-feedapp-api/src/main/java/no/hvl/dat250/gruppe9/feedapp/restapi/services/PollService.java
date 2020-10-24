@@ -2,14 +2,11 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.services;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.PollDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.ProfileDAO;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Access;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PollDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,7 +1,9 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.controllers;
 
 import jdk.javadoc.doclet.Reporter;
+import no.hvl.dat250.gruppe9.feedapp.restapi.config.security.FeedAPIResponse;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Account;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.AccountDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.VoteDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Vote;
@@ -11,8 +13,13 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.services.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.net.URI;
 import java.util.Date;
 import java.util.List;
 
@@ -20,18 +27,12 @@ import java.util.List;
 @RequestMapping("api/users")
 public class UserController {
 
-    private final UserService userService;
-    private final VoteService voteService;
-    private final PollService pollService;
-
     @Autowired
-    public UserController(UserService userService,
-                          VoteService voteService,
-                          PollService pollService) {
-        this.userService = userService;
-        this.voteService = voteService;
-        this.pollService = pollService;
-    }
+    private UserService userService;
+    @Autowired
+    private VoteService voteService;
+    @Autowired
+    private PollService pollService;
 
     @GetMapping("/")
     public ResponseEntity<List<Profile>> getAll() {
@@ -50,13 +51,8 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping(value = "/")
-    public ResponseEntity<Account> createUser(@RequestBody Account newUser) {
-        var res = userService.add(newUser);
-        if(res.isPresent())
-            return new ResponseEntity<>(res.get(), HttpStatus.OK);
-        return new ResponseEntity<>(newUser, HttpStatus.NO_CONTENT);
-    }
+
+
 
     //200 (OK). 404 (Not Found), if ID not found or invalid.
     @DeleteMapping(value = "/{userId}")

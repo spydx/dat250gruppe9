@@ -1,33 +1,25 @@
 ###
-POST http://localhost:8080/api/users/
+POST http://localhost:8080/api/auth/register
 Content-Type: application/json
 Cache-Control: no-cache
 
 {
   "email": "fossen.kenneth@gmail.com",
   "password" : "test123",
-  "role": "USER",
-  "profile":
-  {
-    "firstname": "Kenneth",
-    "lastname": "Fossen"
-  }
+  "firstname": "Kenneth",
+  "lastname": "Fossen"
 }
 
 ###
-POST http://localhost:8080/api/users/
+POST http://localhost:8080/api/auth/register/
 Content-Type: application/json
 Cache-Control: no-cache
 
 {
   "email": "kenneth@gmail.com",
-  "password" : "test123",
-  "role": "USER",
-  "profile":
-  {
-    "firstname": "Kenneth",
-    "lastname": "Fossen"
-  }
+  "firstname": "Kenneth",
+  "lastname": "Fossen",
+  "password" : "test123"
 }
 
 ###

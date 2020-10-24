@@ -2,22 +2,24 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.DAO;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.PollResult;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Vote;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Transactional
 public class PollResultDAO {
 
-    private final EntityManager entityManager;
-
     @Autowired
-    public PollResultDAO(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    private EntityManager entityManager;
+
+    private final Logger logger = LoggerFactory.getLogger(PollResultDAO.class);
 
     public Optional<PollResult> save(PollResult item) {
         entityManager.getTransaction().begin();
@@ -26,6 +28,7 @@ public class PollResultDAO {
             entityManager.getTransaction().commit();
             return Optional.ofNullable(item);
         } catch (Exception e) {
+            logger.error("Save error");
             entityManager.getTransaction().rollback();
             return Optional.ofNullable(item);
         }
@@ -33,26 +36,22 @@ public class PollResultDAO {
 
     public Optional<PollResult> update(PollResult item) {
         var current = Optional.ofNullable(entityManager.find(PollResult.class, item.getId()));
-        entityManager.getTransaction().begin();
         if(current.isPresent()) {
             entityManager.merge(item);
             entityManager.getTransaction().commit();
             return Optional.ofNullable(entityManager.find(PollResult.class, item.getId()));
         }
-        entityManager.getTransaction().rollback();
+        logger.error("Update error for {}", item);
         return current;
     }
 
     public Optional<PollResult> delete(PollResult item) {
-        entityManager.getTransaction().begin();
         try {
             var delete = entityManager.find(PollResult.class, item.getId());
             entityManager.remove(delete);
-            entityManager.getTransaction().commit();
             return Optional.ofNullable(delete);
         } catch (Exception e ) {
-            System.out.println("Unable to delete: " + item + " " + e.toString());
-            entityManager.getTransaction().rollback();
+            logger.error("Unable to delete {} : {}", item, e);
             return Optional.ofNullable(item);
         }
     }

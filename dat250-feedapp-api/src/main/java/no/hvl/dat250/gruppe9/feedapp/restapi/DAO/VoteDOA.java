@@ -1,6 +1,8 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.DAO;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Vote;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,18 +15,17 @@ import java.util.Optional;
 @Transactional
 public class VoteDOA {
 
-    private final EntityManager entityManager;
-
     @Autowired
-    public VoteDOA(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    private EntityManager entityManager;
+
+    private final Logger logger = LoggerFactory.getLogger(VoteDOA.class);
 
     public Optional<Vote> save(Vote item) {
         try {
             entityManager.persist(item);
             return Optional.ofNullable(item);
         } catch (Exception e) {
+            logger.error("Unable to save");
             return Optional.empty();
         }
     }
@@ -35,6 +36,7 @@ public class VoteDOA {
             entityManager.merge(item);
             return Optional.ofNullable(entityManager.find(Vote.class, item.getId()));
         }
+        logger.error("Unable to update");
         return current;
     }
 
@@ -44,7 +46,7 @@ public class VoteDOA {
             entityManager.remove(delete);
             return Optional.ofNullable(delete);
         } catch (Exception e ) {
-            System.out.println("Unable to delete: " + item + " " + e.toString());
+            logger.error("Unable to delete : {}", item);
             return Optional.ofNullable(item);
         }
     }
@@ -63,7 +65,6 @@ public class VoteDOA {
         var q = entityManager
                 .createQuery("SELECT v from Vote v where v.poll.id = :polluuid", Vote.class)
                 .setParameter("polluuid", pollid);
-        //var q = entityManager.createQuery("SELECT v from Vote v");
         var res = q.getResultList();
         return Optional.ofNullable(res);
     }
