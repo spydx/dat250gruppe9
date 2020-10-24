@@ -30,11 +30,6 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private String hashPassword(String password) {
-        return HashingService.createPasswordHash(password);
-    }
-
-
     public Optional<List<Profile>> getAll() {
         var list =  profileStorage.getAll();
         if(list.isPresent())
@@ -91,7 +86,7 @@ public class UserService {
         if(profile.isPresent()) {
             var account = profile.get().getAccount();
             if(account.getEmail().equals(updated.getEmail())) {
-                account.setPassword(hashPassword(updated.getPassword()));
+                account.setPassword(passwordEncoder.encode(updated.getPassword()));
                 return accountStorage.update(account);
             }
             //TODO: logger

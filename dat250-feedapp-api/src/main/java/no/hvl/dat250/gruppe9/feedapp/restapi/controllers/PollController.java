@@ -56,18 +56,6 @@ public class PollController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/{pollid}/owner")
-    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
-    public ResponseEntity<Profile> getOwner(@PathVariable("pollid") final String id) {
-        var poll = pollService.getPoll(id);
-        if(poll.isPresent()) {
-            var oid = poll.get().getOwner();
-            //var owner = userService.getProfile(oid);
-            return new ResponseEntity<>(oid, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-    }
-
     @DeleteMapping(value = "/{pollId}")
     public ResponseEntity<Poll> deletePoll(@PathVariable("pollId") final String id) {
         var deleted = pollService.deletePoll(id);
@@ -75,6 +63,17 @@ public class PollController {
             return new ResponseEntity<>(deleted.get(),HttpStatus.OK);
 
         return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(value = "/{pollid}/owner")
+    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
+    public ResponseEntity<Profile> getOwner(@PathVariable("pollid") final String id) {
+        var poll = pollService.getPoll(id);
+        if(poll.isPresent()) {
+            var oid = poll.get().getOwner();
+            return new ResponseEntity<>(oid, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
     @GetMapping(value = "/{pollId}/result")
@@ -89,4 +88,10 @@ public class PollController {
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
         return new ResponseEntity<>(new PollResult(), HttpStatus.NOT_FOUND);
     }
+
+    @PostMapping(value ="/{pollid}/vote/")
+    public ResponseEntity<?> voteOnPoll(@PathVariable("pollid") final String pollid) {
+        return ResponseEntity.ok("not implemented");
+    }
+
 }

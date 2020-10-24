@@ -21,14 +21,6 @@ public class AuthService implements UserDetailsService {
         this.accountStorage = accountStorage;
     }
 
-    public boolean authenticate(LoginDTO account) {
-        var found = accountStorage.getByEmail(account.getEmail());
-        if(found.isPresent()) {
-            return HashingService.checkPassword(account.getPassword(), found.get().getPassword());
-        }
-        return false;
-    }
-
     @Override
     public UserDetails loadUserByUsername(String email) {
         var account = accountStorage.getByEmail(email)

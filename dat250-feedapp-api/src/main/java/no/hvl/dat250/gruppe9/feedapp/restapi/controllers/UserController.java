@@ -51,10 +51,6 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-
-
-
-    //200 (OK). 404 (Not Found), if ID not found or invalid.
     @DeleteMapping(value = "/{userId}")
     public ResponseEntity<Account> deleteUser(@PathVariable("userId") final String id) {
         var found = userService.getProfile(id);
@@ -82,6 +78,7 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
+    //TODO: Remove this? Use Poll voting instead.
     @PostMapping(value ="/{userId}/vote/{pollId}")
     public ResponseEntity<Vote> voteOnPoll(
             @PathVariable("userId") String userId,

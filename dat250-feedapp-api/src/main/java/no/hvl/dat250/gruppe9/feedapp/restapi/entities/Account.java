@@ -26,7 +26,7 @@ public class Account implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     private Profile profile;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Roles> roles = new HashSet<>();
 
     public Account() {
