@@ -8,12 +8,17 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Account;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.AccountDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.RoleEnum;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Roles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.event.LoggerListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +34,8 @@ public class UserService {
     private RoleDAO roleStorage;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public Optional<List<Profile>> getAll() {
         var list =  profileStorage.getAll();
@@ -58,6 +65,17 @@ public class UserService {
         return Optional.empty();
     }
 
+    public Optional<Account> promoteToAdmin(Account toadmin) {
+        var admrole = roleStorage.findByName(RoleEnum.ROLE_ADMIN)
+                .orElseThrow(
+                        () -> new InternalServerError("Cannot promote to user {} to admin")
+                        );
+        var rolelist = toadmin.getRoles();
+        rolelist.add(admrole);
+        toadmin.setRoles(rolelist);
+        var res = accountStorage.update(toadmin);
+        return res;
+    }
     public Optional<Account> add(AccountDTO newaccount) {
         var account = new Account(newaccount.getEmail());
         var role = roleStorage.findByName(RoleEnum.ROLE_USER).orElseThrow(
@@ -89,7 +107,7 @@ public class UserService {
                 account.setPassword(passwordEncoder.encode(updated.getPassword()));
                 return accountStorage.update(account);
             }
-            //TODO: logger
+            logger.error("Cant find profile for {}", updated );
         }
         return Optional.empty();
     }
