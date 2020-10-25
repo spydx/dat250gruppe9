@@ -76,4 +76,15 @@ public class Account implements Serializable {
     public void setRoles(Set<Roles> roles) {
         this.roles = roles;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id='" + id + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", profile=" + profile.getId() +
+                ", roles=" + roles +
+                '}';
+    }
 }
