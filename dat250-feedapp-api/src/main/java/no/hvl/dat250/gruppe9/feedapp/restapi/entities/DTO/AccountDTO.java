@@ -23,6 +23,16 @@ public class AccountDTO {
     @Size(min = 6, max = 20)
     private String password;
 
+    public AccountDTO(@NotBlank @Size(min = 4, max = 40) String firstname,
+                      @NotBlank @Size(min = 4, max = 40) String lastname,
+                      @NotBlank @Size(max = 40) @Email String email,
+                      @NotBlank @Size(min = 6, max = 20) String password) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+    }
+
     public String getFirstname() {
         return firstname;
     }
