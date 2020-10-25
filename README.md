@@ -28,7 +28,7 @@ Second assignment where we designed and implemented the RESTAPI w/swagger and th
 
 ## FeedApp
 
-To spin up this setup you have to have installed Docker.
+To spin up this setup you have to have installed [Docker](https://www.docker.com/products/docker-desktop)
 Make sure you are in the folder that holds the [docker-compose.yml](docker-compose.yml) file.
 
 ```sh
@@ -37,10 +37,30 @@ Make sure you are in the folder that holds the [docker-compose.yml](docker-compo
 > mysql localhost:3306 -u feedapp -p # to visit the database
 ```
 
+##### Example spinup 
+
+```sh
+kenneth@kefo ~/GIT/dat250gruppe9 > docker-compose up -d
+
+Starting dat250gruppe9_feedapp-db_1 ... done
+Starting dat250gruppe9_feedapp-api_1 ... done
+
+kenneth@kefo ~/GIT/dat250gruppe9 > docker ps
+
+CONTAINER ID        IMAGE                       COMMAND                  CREATED             STATUS              PORTS                               NAMES
+1b3dd08db35b        dat250gruppe9_feedapp-api   "java -cp app:app/li…"   44 minutes ago      Up 4 seconds        0.0.0.0:8080->8080/tcp              dat250gruppe9_feedapp-api_1
+22ccd62bd3d2        mysql:latest                "docker-entrypoint.s…"   44 minutes ago      Up 4 seconds        0.0.0.0:3306->3306/tcp, 33060/tcp   dat250gruppe9_feedapp-db_1
+
+kenneth@kefo ~/GIT/dat250gruppe9 >
+```
+
+`mysql` means in this case on of the followin commandline tools, DataGrip or MySQL Workbench.
+
 To rebuild and spin it up
 
 ```sh
 > docker-compose up --build -d
+
 ```
 
 This will create a default setup that has a the following user installed.
@@ -49,6 +69,12 @@ This will create a default setup that has a the following user installed.
 
 To configure the admin password for the service.
 Do this in the [application.properties](dat250-feedapp-api/src/main/resources/application.properties)
+
+### HTTP GET/POST/PUT/DELTE
+
+All `GET` are allowed from all users.
+`POST` is allowed to `/api/auth/*`
+`POST, PUT, DELETE` is only for authenticated users.
 
 ### Login
 
@@ -101,7 +127,8 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2IxOTQxZi0xYjBhLTQ0OTQtY
 
 ### Create a Poll
 
-**Req:** 
+**Req:**
+
 * Authenticated
 * Have a ownerid (profileID)
 
@@ -131,12 +158,40 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4MzFmODNmZi05NjFjLTQ2OWEtY
 `PRIVATE` only for registred users
 `HIDDEN` only for members that know the pollID
 
+### Get All (Public)
+
+GET http://localhost:8080/api/polls/
+Accept: application/json
+
+### Get a poll by ID
+
+GET http://localhost:8080/api/polls/5facb988-def9-4e69-bbd0-676b517ddd9e
+Accept: application/json
+
+### Get a poll Owner
+
+GET http://localhost:8080/api/polls/bae6e5c5-839f-4f8a-98f1-5d2aabf6fd9c/owner
+Accept: application/json
+
+### Get a result for a Poll
+
+GET http://localhost:8080/api/polls/bae6e5c5-839f-4f8a-98f1-5d2aabf6fd9c/result
+Accept: application/json
+
+### Retrive all Users Profiles
+
+```http
+GET http://localhost:8080/api/poll/
+Accept: application/json
+
+```
+
 ### Vote on a Poll
 
 `PollID` for the poll to Vote on.
 Will deduce the User from JWT Token in the HTTP HEADER Option: `Authorization: Bearer <token>`
 
-````http
+```http
 POST http://localhost:8080/api/poll/353e1708-6ccb-43b2-843e-3328a2451e55/vote/
 Content-Type: application/json
 Cache-Control: no-cache
