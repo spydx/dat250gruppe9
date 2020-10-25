@@ -89,6 +89,27 @@ Cache-Control: no-cache
 }
 ```
 
+Response:
+
+```http
+ cache-control: no-cache, no-store, max-age=0, must-revalidate  
+ connection: keep-alive  
+ content-type: application/json  
+ date: Sun, 25 Oct 2020 22:09:46 GMT  
+ expires: 0  
+ keep-alive: timeout=60  
+ pragma: no-cache  
+ transfer-encoding: chunked  
+ vary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers  
+ x-content-type-options: nosniff  
+ x-frame-options: DENY  
+ x-xss-protection: 1; mode=block
+{
+  "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjZjQyZjY5Yi1iZTA0LTQwZDktOTIzOC0yMjllMzA4M2M4Y2IiLCJpYXQiOjE2MDM2NjM3ODYsImV4cCI6MTYwNDI2ODU4Nn0.DG_1TEvqy5QAHyrZo828wEJAq_HS-IfPZM5s1vtUX_lTaMT-6ZJK8NLgRrtuPQdz9tTZbEuMtu3gR-gE4wntEQ",
+  "tokenType": "Bearer"
+}
+```
+
 ### Register user
 
 ```http
