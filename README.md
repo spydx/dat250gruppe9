@@ -78,6 +78,8 @@ All `GET` are allowed from all users.
 
 ### Login
 
+Request:
+
 ```http
 POST http://localhost:8080/api/auth/login
 Content-Type: application/json
