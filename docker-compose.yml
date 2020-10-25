@@ -3,7 +3,7 @@ version : '3.7'
 services:
    feedapp-api:
       build: 
-         context: .
+         context: dat250-feedapp-api
          dockerfile: Dockerfile
       ports:
          - "8080:8080"
@@ -20,7 +20,7 @@ services:
       image: mysql:latest
       ports:
          - "3306:3306"
-      #restart: always
+      restart: always
       environment:
          MYSQL_DATABASE: feedappdb
          MYSQL_USER: feedapp

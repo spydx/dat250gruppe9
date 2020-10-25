@@ -16,7 +16,7 @@ Gruppeoppgave for DAT250 H2020
 
 First assignment to design the application.
 
-## Prototyping 
+## Prototyping
 
 [Prototyping: High-level application persistence](dat250-jps-designproto)
 
@@ -28,3 +28,121 @@ Second assignment where we designed and implemented the RESTAPI w/swagger and th
 
 ## FeedApp
 
+To spin up this setup you have to have installed Docker.
+Make sure you are in the folder that holds the [docker-compose.yml](docker-compose.yml) file.
+
+```sh
+> docker-compose up -d
+> open http://localhost:8080 #to visit the api
+> mysql localhost:3306 -u feedapp -p # to visit the database
+```
+
+To rebuild and spin it up
+
+```sh
+> docker-compose up --build -d
+```
+
+This will create a default setup that has a the following user installed.
+
+* admin@pollhub.no / admin
+
+To configure the admin password for the service.
+Do this in the [application.properties](dat250-feedapp-api/src/main/resources/application.properties)
+
+### Login
+
+```http
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "email": "kenneth@mail.com",
+  "password" : "test123"
+}
+```
+
+### Register user
+
+```http
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "email": "kenneth@mail.com",
+  "password" : "test123",
+  "firstname": "Kenneth",
+  "lastname": "Fossen"
+}
+```
+
+### Change password
+
+Do be able to do this you need to know the ProfileID for the user you want to update.
+This situation it is : `ProfileID: e4b8ed12-8cca-4f64-8e3f-efbe195589c7`
+
+Also the user have to be autheticated with a JWT Bearer token, 
+to be able to send the update. This is the HTTP HEADER Option:
+`Authorization: Bearer <token>`
+
+```http
+PUT http://localhost:8080/api/account/e4b8ed12-8cca-4f64-8e3f-efbe195589c7
+Content-Type: application/json
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2IxOTQxZi0xYjBhLTQ0OTQtYjAxYy0xMjBjYzBjMjQ2YzAiLCJpYXQiOjE2MDM1NzkwNTAsImV4cCI6MTYwNDE4Mzg1MH0.FB0UAS3MEuIGh4ff4o7vFQy--JDP0oQYHlPQ3arjLdj2COgDLbTkluXnaD-oH1cG120XuioclTGjRmSIpzXckA
+
+{
+  "email": "kenneth@mail.com",
+  "password" : "newpassword"
+}
+```
+
+### Create a Poll
+
+**Req:** 
+* Authenticated
+* Have a ownerid (profileID)
+
+This is the HTTP HEADER Option: `Authorization: Bearer <token>`
+
+```http
+POST http://localhost:8080/api/polls/
+Content-Type: application/json
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4MzFmODNmZi05NjFjLTQ2OWEtYjgzZC0wN2JjNDIwNmQ0MjMiLCJpYXQiOjE2MDM2MDgyNDcsImV4cCI6MTYwNDIxMzA0N30.98tnkeGCiwvZwbBuFt5URpObmgCznUtWjQXVnTQK2u_IvSCeuSjS4ILkL8PZVK4Tb3FCrjDwdNbFHy3q5ZrWJA
+
+
+{
+  "access": "PUBLIC", //can also be PRIVATE or HIDDEN
+  "answerno": "stringed",
+  "answeryes": "stringa",
+  "id": 0,
+  "name": "StringyStringString",
+  "owner": "6b0feae3-855a-491b-a0f7-9799ff219586",
+  "question": "stringy?",
+  "timeend": "2020-10-22T21:54:07.062Z",
+  "timestart": "2020-10-30T21:54:07.062Z"
+}
+```
+
+`PUBLIC` anyone can vote on it
+`PRIVATE` only for registred users
+`HIDDEN` only for members that know the pollID
+
+### Vote on a Poll
+
+`PollID` for the poll to Vote on.
+Will deduce the User from JWT Token in the HTTP HEADER Option: `Authorization: Bearer <token>`
+
+````http
+POST http://localhost:8080/api/poll/353e1708-6ccb-43b2-843e-3328a2451e55/vote/
+Content-Type: application/json
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4MzFmODNmZi05NjFjLTQ2OWEtYjgzZC0wN2JjNDIwNmQ0MjMiLCJpYXQiOjE2MDM2MDgyNDcsImV4cCI6MTYwNDIxMzA0N30.98tnkeGCiwvZwbBuFt5URpObmgCznUtWjQXVnTQK2u_IvSCeuSjS4ILkL8PZVK4Tb3FCrjDwdNbFHy3q5ZrWJA
+
+{
+  "answer": false
+}
+```
