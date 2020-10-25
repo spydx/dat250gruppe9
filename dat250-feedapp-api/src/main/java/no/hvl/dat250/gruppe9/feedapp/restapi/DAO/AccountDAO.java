@@ -2,6 +2,7 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.DAO;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Account;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.RoleEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.lang.model.util.AbstractAnnotationValueVisitor6;
 import javax.persistence.EntityManager;
+import java.math.BigInteger;
 import java.util.Optional;
 
 @Repository
@@ -25,7 +27,6 @@ public class AccountDAO {
         return Optional.ofNullable(res);
     }
 
-    //TODO: This does not work :P
     public Optional<Account> getByEmail(String email) {
         try {
             var query = entityManager
@@ -65,7 +66,21 @@ public class AccountDAO {
         }
         logger.error("Unable to delete user");
         return Optional.ofNullable(account);
-
     }
 
+    public Boolean initRoles() {
+        var res = entityManager.createNativeQuery("SELECT COUNT(*) FROM Roles");
+        BigInteger count = (BigInteger)res.getSingleResult();
+        if (count==BigInteger.ZERO) {
+            entityManager
+                    .createNativeQuery("INSERT INTO Roles(name) VALUES('ROLE_USER')")
+                    .executeUpdate();
+            entityManager
+                    .createNativeQuery("INSERT INTO Roles(name) VALUES('ROLE_ADMIN')")
+                    .executeUpdate();
+            return true;
+        }
+        logger.info("Roles already CREATED Count is {}", count);
+        return false;
+    }
 }
