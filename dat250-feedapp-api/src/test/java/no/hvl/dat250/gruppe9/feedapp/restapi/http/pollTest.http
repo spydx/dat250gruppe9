@@ -2,6 +2,7 @@
 GET http://localhost:8080/api/users/
 Accept: */*
 Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4MzFmODNmZi05NjFjLTQ2OWEtYjgzZC0wN2JjNDIwNmQ0MjMiLCJpYXQiOjE2MDM2MDgyNDcsImV4cCI6MTYwNDIxMzA0N30.98tnkeGCiwvZwbBuFt5URpObmgCznUtWjQXVnTQK2u_IvSCeuSjS4ILkL8PZVK4Tb3FCrjDwdNbFHy3q5ZrWJA
 
 ###
 POST http://localhost:8080/api/users/
@@ -23,6 +24,8 @@ Cache-Control: no-cache
 POST http://localhost:8080/api/polls/
 Content-Type: application/json
 Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4MzFmODNmZi05NjFjLTQ2OWEtYjgzZC0wN2JjNDIwNmQ0MjMiLCJpYXQiOjE2MDM2MDgyNDcsImV4cCI6MTYwNDIxMzA0N30.98tnkeGCiwvZwbBuFt5URpObmgCznUtWjQXVnTQK2u_IvSCeuSjS4ILkL8PZVK4Tb3FCrjDwdNbFHy3q5ZrWJA
+
 
 {
   "access": "PUBLIC",
@@ -30,7 +33,7 @@ Cache-Control: no-cache
   "answeryes": "stringa",
   "id": 0,
   "name": "StringyStringString",
-  "owner": "3aaa8957-a28d-49b7-a9fc-235d80fb785d",
+  "owner": "6b0feae3-855a-491b-a0f7-9799ff219586",
   "question": "stringy?",
   "timeend": "2020-10-22T21:54:07.062Z",
   "timestart": "2020-10-30T21:54:07.062Z"
@@ -61,7 +64,6 @@ Cache-Control: no-cache
 ### Get All (Public)
 GET http://localhost:8080/api/polls/
 Accept: */*
-
 
 ### Get A poll
 GET http://localhost:8080/api/polls/5facb988-def9-4e69-bbd0-676b517ddd9e
