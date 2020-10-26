@@ -66,7 +66,7 @@ public class AuthenticateController {
 
             URI location = ServletUriComponentsBuilder
                     .fromCurrentContextPath().path("/api/users/{username}")
-                    .buildAndExpand(res.get().getId()).toUri();
+                    .buildAndExpand(res.get().getProfile().getId()).toUri();
             return ResponseEntity.created(location).body(new FeedAPIResponse(true, "Registred"));
         }
         return new ResponseEntity<>(newUser, HttpStatus.NO_CONTENT);
