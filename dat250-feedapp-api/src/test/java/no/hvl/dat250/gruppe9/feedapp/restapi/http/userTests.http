@@ -1,0 +1,66 @@
+###
+POST http://localhost:8080/api/users/
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "email": "fossen.kenneth@gmail.com",
+  "password" : "test123",
+  "role": "USER",
+  "profile":
+  {
+    "firstname": "Kenneth",
+    "lastname": "Fossen"
+  }
+}
+
+###
+POST http://localhost:8080/api/users/
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "email": "kenneth@gmail.com",
+  "password" : "test123",
+  "role": "USER",
+  "profile":
+  {
+    "firstname": "Kenneth",
+    "lastname": "Fossen"
+  }
+}
+
+###
+DELETE http://localhost:8080/api/users/cc375a62-9136-4649-96c0-baa142801d05
+Cache-Control: no-cache
+
+###
+DELETE http://localhost:8080/api/users/6
+Cache-Control: no-cache
+###
+
+GET http://localhost:8080/api/users/
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+GET http://localhost:8080/api/users/2
+Accept: */*
+Cache-Control: no-cache
+
+
+
+
+### Dangerous This unlinks the profile from the account (Do not use)
+### To be fixed
+PUT http://localhost:8080/api/users/7b77c666-9d36-47e8-8933-6a9367f267a0
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "firstname": "string",
+  "lastname": "string",
+  "pollList": [],
+  "votedOn": []
+}
