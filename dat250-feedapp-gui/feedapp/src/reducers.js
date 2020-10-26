@@ -13,7 +13,6 @@ const userinitialState = {
     firstname: null,
     lastname: null,
     email: null,
-    role: null,
     pollData: []
 }
 
@@ -42,7 +41,6 @@ const userReducer = (state = userinitialState, action) => {
                 firstname: action.firstname,
                 lastname: action.lastname,
                 email: action.email,
-                role: action.role,
                 pollData: action.pollData
             }
             break;

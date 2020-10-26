@@ -2,7 +2,6 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
-import { saveState, loadState } from '../localStorage';
 
 class Login extends React.Component {
    
@@ -19,9 +18,7 @@ class Login extends React.Component {
       );
   }
   
-  async fetchAndSave(email, password) {
-    this.fetchUserData(email, password);
-  }
+ 
 
   render() {
     var email = "";
@@ -49,7 +46,7 @@ class Login extends React.Component {
         <Button
           variant="success"
           style={{ width: "5rem", margin: "0.5rem", marginLeft: "5rem" }}
-          onClick={() => { this.fetchAndSave(email, password) }}
+          onClick={() => { this.fetchUserData(email, password) }}
         >
           Login
         </Button>
