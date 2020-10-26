@@ -1,5 +1,6 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.controllers;
 
+import no.hvl.dat250.gruppe9.feedapp.restapi.config.security.JwtTokenProvider;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PollDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
@@ -9,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,13 +21,11 @@ import java.util.Optional;
 @RequestMapping("api/polls")
 public class PollController {
 
-    private final PollService pollService;
     @Autowired
-    public PollController(PollService pollService) {
-        this.pollService = pollService;
+    private PollService pollService;
 
-    }
-
+    @Autowired
+    private JwtTokenProvider jwtControll;
 
     //TODO: Show ALl for PUBLIC, show all for Logged in user, take away PRIVATE.
     @GetMapping("/")
@@ -38,10 +39,16 @@ public class PollController {
 
     @PostMapping(value = "/")
     public ResponseEntity<Poll> createPoll(
+            @RequestHeader("Authorization") final String token,
             @RequestBody PollDTO newPoll) {
-        var res = pollService.addPoll(newPoll);
-        if(res.isPresent()) {
-            return new ResponseEntity<>(res.get(), HttpStatus.OK);
+
+        var accountid = jwtControll.parseHeader(token);
+        if(accountid.isPresent()) {
+
+            var res = pollService.addPoll(newPoll, accountid.get());
+            if (res.isPresent()) {
+                return new ResponseEntity<>(res.get(), HttpStatus.OK);
+            }
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }

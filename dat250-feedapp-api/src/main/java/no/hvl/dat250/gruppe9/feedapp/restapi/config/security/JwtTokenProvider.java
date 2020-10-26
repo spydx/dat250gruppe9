@@ -9,8 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.Authentication;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.Optional;
 
 
 @Component
@@ -44,6 +46,18 @@ public class JwtTokenProvider {
 
         return claims.getSubject();
     }
+
+    public Optional<String> parseHeader(String token) {
+        String result = "";
+        if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+            result = token.substring(7, token.length());
+        }
+        if (!result.isEmpty())
+            return Optional.ofNullable(getUserIdFromJwt(result));
+
+        return Optional.empty();
+    }
+
 
     public boolean validateToken(String authToken) {
         try {

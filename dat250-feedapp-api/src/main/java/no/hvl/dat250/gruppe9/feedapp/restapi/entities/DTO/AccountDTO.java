@@ -7,26 +7,26 @@ import javax.validation.constraints.Size;
 public class AccountDTO {
 
     @NotBlank
-    @Size(min = 4, max = 40)
+    @Size(min = 2, max = 40)
     private String firstname;
 
     @NotBlank
-    @Size(min = 4, max = 40)
+    @Size(min = 2, max = 40)
     private String lastname;
 
     @NotBlank
-    @Size(max = 40)
+    @Size(max = 60)
     @Email
     private String email;
 
     @NotBlank
-    @Size(min = 6, max = 20)
+    @Size(min = 6, max = 60)
     private String password;
 
     public AccountDTO(@NotBlank @Size(min = 4, max = 40) String firstname,
                       @NotBlank @Size(min = 4, max = 40) String lastname,
-                      @NotBlank @Size(max = 40) @Email String email,
-                      @NotBlank @Size(min = 6, max = 20) String password) {
+                      @NotBlank @Size(max = 60) @Email String email,
+                      @NotBlank @Size(min = 6, max = 60) String password) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;

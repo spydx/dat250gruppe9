@@ -13,8 +13,6 @@ import java.util.Set;
 
 public class PollDTO {
 
-    private long id;
-
     private String name;
     private String question;
 
@@ -27,17 +25,8 @@ public class PollDTO {
     private String answeryes;
     private String answerno;
 
-    private String owner;
 
     public PollDTO() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -96,11 +85,4 @@ public class PollDTO {
         this.answerno = answerno;
     }
 
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
 }
