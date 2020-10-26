@@ -1,5 +1,6 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.controllers;
 
+import no.hvl.dat250.gruppe9.feedapp.restapi.config.reponse.ResourceNotFoundException;
 import no.hvl.dat250.gruppe9.feedapp.restapi.config.security.JwtTokenProvider;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PollDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
@@ -9,11 +10,13 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.services.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,17 +32,25 @@ public class PollController {
 
     //TODO: Show ALl for PUBLIC, show all for Logged in user, take away PRIVATE.
     @GetMapping("/")
-    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
-    public ResponseEntity<List<Poll>> getAllPolls() {
+    public ResponseEntity<List<Poll>> getAllPolls(@Nullable @RequestHeader("Authorization") final String token) {
+        if(token != null) {
+            var accountid = jwtControll.parseHeader(token);
+            if(accountid.isPresent()) {
+                var res = pollService.getAllLoggedIn();
+                if(res.isPresent())
+                    return new ResponseEntity<>(res.get(), HttpStatus.OK);
+            }
+        }
         var res = pollService.getAllPublic();
-        if(res.isPresent())
+        if (res.isPresent())
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
     }
 
     @PostMapping(value = "/")
     public ResponseEntity<Poll> createPoll(
-            @RequestHeader("Authorization") final String token,
+            @NotNull @RequestHeader("Authorization") final String token,
             @RequestBody PollDTO newPoll) {
 
         var accountid = jwtControll.parseHeader(token);
@@ -52,6 +63,18 @@ public class PollController {
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/mine")
+    public ResponseEntity<?> getUserPolls(@NotNull @RequestHeader("Authorization") final String token) {
+        var accountid = jwtControll.parseHeader(token);
+        if(accountid.isPresent()) {
+            var res = pollService.getUserPolls(accountid.get());
+            if(res.isPresent())
+                return new ResponseEntity<>(res.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
 
     @GetMapping(value = "/{pollid}")
     @Secured("IS_AUTHENTICATED_ANONYMOUSLY")

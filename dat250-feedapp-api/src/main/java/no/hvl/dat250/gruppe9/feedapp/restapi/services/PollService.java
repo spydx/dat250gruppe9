@@ -26,8 +26,8 @@ public class PollService {
     private AccountDAO accountStorage;
 
     //Authenticated
-    public Optional<List<Poll>> getAll() {
-        return pollStorage.getAll();
+    public Optional<List<Poll>> getAllLoggedIn() {
+        return pollStorage.getAllLoggedIn();
     }
 
     //Get all non Authenticated
@@ -69,5 +69,13 @@ public class PollService {
         if(found.isPresent())
             return pollStorage.delete(found.get());
         return found;
+    }
+
+    public Optional<List<Poll>> getUserPolls(String accountid) {
+        var acc = accountStorage.get(accountid);
+        if(acc.isPresent()) {
+            return pollStorage.getAllUser(acc.get().getProfile().getId());
+        }
+        return Optional.empty();
     }
 }

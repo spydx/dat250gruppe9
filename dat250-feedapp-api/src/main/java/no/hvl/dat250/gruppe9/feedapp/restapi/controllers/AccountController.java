@@ -16,6 +16,7 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
+    //TODO: Change to deduce the user from token
     @PutMapping(value = "/{userId}")
     public ResponseEntity<Account> updateAccount(@PathVariable("userId") final String userid,
                                                  @RequestBody Account updatedAccount) {
