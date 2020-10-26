@@ -1,6 +1,5 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.controllers;
 
-import jdk.javadoc.doclet.Reporter;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Account;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.VoteDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
@@ -12,26 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/users")
 public class UserController {
 
-    private final UserService userService;
-    private final VoteService voteService;
-    private final PollService pollService;
-
     @Autowired
-    public UserController(UserService userService,
-                          VoteService voteService,
-                          PollService pollService) {
-        this.userService = userService;
-        this.voteService = voteService;
-        this.pollService = pollService;
-    }
+    private UserService userService;
+    @Autowired
+    private VoteService voteService;
+    @Autowired
+    private PollService pollService;
 
     @GetMapping("/")
     public ResponseEntity<List<Profile>> getAll() {
@@ -50,15 +41,6 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping(value = "/")
-    public ResponseEntity<Account> createUser(@RequestBody Account newUser) {
-        var res = userService.add(newUser);
-        if(res.isPresent())
-            return new ResponseEntity<>(res.get(), HttpStatus.OK);
-        return new ResponseEntity<>(newUser, HttpStatus.NO_CONTENT);
-    }
-
-    //200 (OK). 404 (Not Found), if ID not found or invalid.
     @DeleteMapping(value = "/{userId}")
     public ResponseEntity<Account> deleteUser(@PathVariable("userId") final String id) {
         var found = userService.getProfile(id);
@@ -86,6 +68,7 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
+    //TODO: Remove this? Use Poll voting instead.
     @PostMapping(value ="/{userId}/vote/{pollId}")
     public ResponseEntity<Vote> voteOnPoll(
             @PathVariable("userId") String userId,

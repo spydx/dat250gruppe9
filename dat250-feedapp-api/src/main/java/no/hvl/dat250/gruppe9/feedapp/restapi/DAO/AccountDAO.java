@@ -2,31 +2,31 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.DAO;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Account;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.RoleEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.lang.model.util.AbstractAnnotationValueVisitor6;
 import javax.persistence.EntityManager;
+import java.math.BigInteger;
 import java.util.Optional;
 
 @Repository
 @Transactional
 public class AccountDAO {
 
-    private final EntityManager entityManager;
-
     @Autowired
-    public AccountDAO(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    private EntityManager entityManager;
+    private static final Logger logger = LoggerFactory.getLogger(AccountDAO.class);
 
-    public Optional<Account> get(Long id) {
+    public Optional<Account> get(String id) {
         var res = entityManager.find(Account.class, id);
         return Optional.ofNullable(res);
     }
 
-    //TODO: This does not work :P
     public Optional<Account> getByEmail(String email) {
         try {
             var query = entityManager
@@ -37,6 +37,7 @@ public class AccountDAO {
                 return res;
             return Optional.empty();
         } catch (Exception e) {
+            logger.error("Failed to fetch user {}", e.toString() );
             return Optional.empty();
         }
     }
@@ -52,7 +53,7 @@ public class AccountDAO {
             var res = entityManager.find(Account.class, account.getId());
             return Optional.ofNullable(res);
         } catch (Exception e) {
-            //TODO: Logger
+            logger.error("Unable to update user");
             return Optional.empty();
         }
     }
@@ -63,9 +64,23 @@ public class AccountDAO {
             entityManager.remove(found.get());
             return Optional.empty();
         }
-        //TODO: Logger
+        logger.error("Unable to delete user");
         return Optional.ofNullable(account);
-
     }
 
+    public Boolean initRoles() {
+        var res = entityManager.createNativeQuery("SELECT COUNT(*) FROM Roles");
+        BigInteger count = (BigInteger)res.getSingleResult();
+        if (count==BigInteger.ZERO) {
+            entityManager
+                    .createNativeQuery("INSERT INTO Roles(name) VALUES('ROLE_USER')")
+                    .executeUpdate();
+            entityManager
+                    .createNativeQuery("INSERT INTO Roles(name) VALUES('ROLE_ADMIN')")
+                    .executeUpdate();
+            return true;
+        }
+        logger.info("Roles already CREATED Count is {}", count);
+        return false;
+    }
 }

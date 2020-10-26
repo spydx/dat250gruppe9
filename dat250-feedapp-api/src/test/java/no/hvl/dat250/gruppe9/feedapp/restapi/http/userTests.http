@@ -1,33 +1,25 @@
 ###
-POST http://localhost:8080/api/users/
+POST http://localhost:8080/api/auth/register
 Content-Type: application/json
 Cache-Control: no-cache
 
 {
   "email": "fossen.kenneth@gmail.com",
   "password" : "test123",
-  "role": "USER",
-  "profile":
-  {
-    "firstname": "Kenneth",
-    "lastname": "Fossen"
-  }
+  "firstname": "Kenneth",
+  "lastname": "Fossen"
 }
 
 ###
-POST http://localhost:8080/api/users/
+POST http://localhost:8080/api/auth/register/
 Content-Type: application/json
 Cache-Control: no-cache
 
 {
   "email": "kenneth@gmail.com",
-  "password" : "test123",
-  "role": "USER",
-  "profile":
-  {
-    "firstname": "Kenneth",
-    "lastname": "Fossen"
-  }
+  "firstname": "Kenneth",
+  "lastname": "Fossen",
+  "password" : "test123"
 }
 
 ###
@@ -35,7 +27,8 @@ DELETE http://localhost:8080/api/users/cc375a62-9136-4649-96c0-baa142801d05
 Cache-Control: no-cache
 
 ###
-DELETE http://localhost:8080/api/users/6
+#DELETE http://localhost:8080/api/users/{UUID}
+DELETE http://localhost:8080/api/users/
 Cache-Control: no-cache
 ###
 
@@ -48,8 +41,6 @@ Cache-Control: no-cache
 GET http://localhost:8080/api/users/2
 Accept: */*
 Cache-Control: no-cache
-
-
 
 
 ### Dangerous This unlinks the profile from the account (Do not use)

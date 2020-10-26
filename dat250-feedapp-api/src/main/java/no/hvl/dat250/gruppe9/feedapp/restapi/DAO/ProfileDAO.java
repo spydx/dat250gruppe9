@@ -1,6 +1,8 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.DAO;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,12 +16,9 @@ import java.util.Optional;
 public class ProfileDAO {
 
     @Autowired
-    private final EntityManager entityManager;
+    private EntityManager entityManager;
 
-    @Autowired
-    public ProfileDAO(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    private final Logger logger = LoggerFactory.getLogger(ProfileDAO.class);
 
     public Optional<Profile> get(String id) {
         return Optional.ofNullable(entityManager.find(Profile.class, id));
@@ -36,6 +35,7 @@ public class ProfileDAO {
             entityManager.merge(item);
             return Optional.ofNullable(entityManager.find(Profile.class, item.getId()));
         }
+        logger.error("Update error");
         return current;
     }
 
@@ -45,10 +45,9 @@ public class ProfileDAO {
             entityManager.remove(delete);
             return Optional.ofNullable(delete);
         } catch (Exception e ) {
-            System.out.println("Unable to delete: " + profile + " " + e.toString());
+            logger.error("Unable to delete: {}",profile);
             return Optional.ofNullable(profile);
         }
-
     }
 
     public Optional<List<Profile>> getAll() {

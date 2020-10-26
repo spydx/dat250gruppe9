@@ -9,6 +9,7 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.services.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,18 +18,12 @@ import java.util.List;
 @RequestMapping("api/devices")
 public class DeviceController {
 
-    private final DeviceService deviceService;
-    private final PollService pollService;
-    private final VoteService voteService;
-
     @Autowired
-    public DeviceController(DeviceService deviceService,
-                            PollService pollService,
-                            VoteService voteService) {
-        this.deviceService = deviceService;
-        this.pollService = pollService;
-        this.voteService = voteService;
-    }
+    private DeviceService deviceService;
+    @Autowired
+    private PollService pollService;
+    @Autowired
+    private VoteService voteService;
 
     @GetMapping(value = "/")
     public ResponseEntity<List<IoT>> getAllDevices() {

@@ -6,18 +6,15 @@ import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/account")
 public class AccountController {
 
-    private UserService userService;
-
     @Autowired
-    public AccountController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @PutMapping(value = "/{userId}")
     public ResponseEntity<Account> updateAccount(@PathVariable("userId") final String userid,

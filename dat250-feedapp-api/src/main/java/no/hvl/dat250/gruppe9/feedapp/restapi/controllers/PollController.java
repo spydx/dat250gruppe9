@@ -8,6 +8,7 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.services.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class PollController {
 
     //TODO: Show ALl for PUBLIC, show all for Logged in user, take away PRIVATE.
     @GetMapping("/")
+    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
     public ResponseEntity<List<Poll>> getAllPolls() {
         var res = pollService.getAllPublic();
         if(res.isPresent())
@@ -45,22 +47,12 @@ public class PollController {
     }
 
     @GetMapping(value = "/{pollid}")
+    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
     public ResponseEntity<Poll> pollById(@PathVariable("pollid") final String id)
     {
         var res = pollService.getPoll(id);
         if(res.isPresent())
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping(value = "/{pollid}/owner")
-    public ResponseEntity<Profile> getOwner(@PathVariable("pollid") final String id) {
-        var poll = pollService.getPoll(id);
-        if(poll.isPresent()) {
-            var oid = poll.get().getOwner();
-            //var owner = userService.getProfile(oid);
-            return new ResponseEntity<>(oid, HttpStatus.OK);
-        }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
@@ -73,7 +65,19 @@ public class PollController {
         return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping(value = "/{pollid}/owner")
+    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
+    public ResponseEntity<Profile> getOwner(@PathVariable("pollid") final String id) {
+        var poll = pollService.getPoll(id);
+        if(poll.isPresent()) {
+            var oid = poll.get().getOwner();
+            return new ResponseEntity<>(oid, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
     @GetMapping(value = "/{pollId}/result")
+    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
     public ResponseEntity<PollResult> getResult(@PathVariable("pollId") final String pollId) {
         var poll = pollService.getPoll(pollId);
         if(poll.isEmpty()) {
@@ -84,4 +88,10 @@ public class PollController {
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
         return new ResponseEntity<>(new PollResult(), HttpStatus.NOT_FOUND);
     }
+
+    @PostMapping(value ="/{pollid}/vote/")
+    public ResponseEntity<?> voteOnPoll(@PathVariable("pollid") final String pollid) {
+        return ResponseEntity.ok("not implemented");
+    }
+
 }

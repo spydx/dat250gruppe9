@@ -13,12 +13,8 @@ import java.util.Optional;
 @Transactional
 public class PollDAO {
 
-    private final EntityManager entityManager;
-
     @Autowired
-    public PollDAO(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    private EntityManager entityManager;
 
     public Optional<Poll> get(String id) {
         return Optional.ofNullable(entityManager.find(Poll.class, id));
