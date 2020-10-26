@@ -118,6 +118,7 @@ public class Poll {
 
     //TODO: Check what JSON returns
     public Profile getOwner() {
+        //return owner.getFirstname() + " " + owner.getLastname();
         return owner;
     }
 

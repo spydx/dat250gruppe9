@@ -157,29 +157,50 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2IxOTQxZi0xYjBhLTQ0OTQtY
 
 This is the HTTP HEADER Option: `Authorization: Bearer <token>`
 
+Request: 
+
 ```http
 POST http://localhost:8080/api/polls/
 Content-Type: application/json
 Cache-Control: no-cache
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4MzFmODNmZi05NjFjLTQ2OWEtYjgzZC0wN2JjNDIwNmQ0MjMiLCJpYXQiOjE2MDM2MDgyNDcsImV4cCI6MTYwNDIxMzA0N30.98tnkeGCiwvZwbBuFt5URpObmgCznUtWjQXVnTQK2u_IvSCeuSjS4ILkL8PZVK4Tb3FCrjDwdNbFHy3q5ZrWJA
 
-
 {
   "access": "PUBLIC", //can also be PRIVATE or HIDDEN
   "answerno": "stringed",
   "answeryes": "stringa",
-  "id": 0,
   "name": "StringyStringString",
-  "owner": "6b0feae3-855a-491b-a0f7-9799ff219586",
   "question": "stringy?",
   "timeend": "2020-10-22T21:54:07.062Z",
-  "timestart": "2020-10-30T21:54:07.062Z"
+  "timestart": "2020-10-30T21:54:07.062Z" //has been removed
 }
 ```
 
 `PUBLIC` anyone can vote on it
 `PRIVATE` only for registred users
 `HIDDEN` only for members that know the pollID
+
+Reponse:
+
+```http
+[
+  {
+    "id": "2a80286a-65fd-4c41-8f0a-e0dc79a48427",
+    "name": "StringyStringString",
+    "question": "stringy?",
+    "timestart": null,
+    "timeend": "2020-10-22T21:54:07.000+00:00",
+    "access": "PUBLIC",
+    "answeryes": "stringa",
+    "answerno": "stringed",
+    "owner": {
+      "id": "e4b8ed12-8cca-4f64-8e3f-efbe195589c7",
+      "firstname": "Kenneth",
+      "lastname": "Fossen"
+    }
+  }
+]
+```
 
 ### Get All (Public)
 

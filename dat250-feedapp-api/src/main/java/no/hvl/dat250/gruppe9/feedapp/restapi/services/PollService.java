@@ -1,26 +1,29 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.services;
 
+import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.AccountDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.PollDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.ProfileDAO;
+import no.hvl.dat250.gruppe9.feedapp.restapi.config.security.JwtTokenProvider;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PollDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PollService {
 
-    private final PollDAO pollStorage;
-    private final ProfileDAO profileStorage;
+    @Autowired
+    private PollDAO pollStorage;
 
     @Autowired
-    public PollService(PollDAO polldata, ProfileDAO profileDAO) {
-        this.pollStorage = polldata;
-        this.profileStorage = profileDAO;
-    }
+    private ProfileDAO profileStorage;
+
+    @Autowired
+    private AccountDAO accountStorage;
 
     //Authenticated
     public Optional<List<Poll>> getAll() {
@@ -38,9 +41,10 @@ public class PollService {
     }
 
 
-    public Optional<Poll> addPoll(PollDTO newpoll) {
+    public Optional<Poll> addPoll(PollDTO newpoll, String accountid) {
+        var account = accountStorage.get(accountid);
+        var owner = profileStorage.get(account.get().getProfile().getId());
 
-        var owner = profileStorage.get(newpoll.getOwner());
         if(owner.isPresent()) {
             var p = new Poll();
             var o = owner.get();
@@ -52,7 +56,7 @@ public class PollService {
             p.setName(newpoll.getName());
 
             p.setTimeend(newpoll.getTimeend());
-            p.setTimestart(newpoll.getTimestart());
+            p.setTimestart(new Date());
             p.setOwner(o);
             o.getPollList().add(p);
             return pollStorage.save(p);
