@@ -1,6 +1,7 @@
 #### Stage 1: Build the application
 FROM openjdk:14-ea-8-jdk-alpine as build
 
+RUN apk --no-cache add dos2unix
 # Set the current working directory inside the image
 WORKDIR /app
 
@@ -14,8 +15,8 @@ COPY pom.xml .
 # Build all the dependencies in preparation to go offline.
 # This is a separate step so the dependencies will be cached unless
 # the pom.xml file has changed.
+RUN dos2unix /app/mvnw 
 RUN ./mvnw dependency:go-offline -B
-
 # Copy the project source
 COPY src src
 
