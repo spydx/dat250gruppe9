@@ -39,6 +39,7 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
+    //TODO: Secure this.
     @GetMapping(value = "/{profileid}")
     public ResponseEntity<Profile> getUserById(@PathVariable("profileid") final String id) {
         var res = userService.getProfile(id);

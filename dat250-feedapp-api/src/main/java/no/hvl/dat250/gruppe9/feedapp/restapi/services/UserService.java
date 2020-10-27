@@ -56,8 +56,6 @@ public class UserService {
         return accountStorage.getByEmail(email);
     }
 
-
-
     public Optional<Account> delete(Profile user) {
         var profile = profileStorage.get(user.getId());
         var account = Optional.ofNullable(profile.get().getAccount());
@@ -79,6 +77,17 @@ public class UserService {
         var res = accountStorage.update(toadmin);
         return res;
     }
+
+    public boolean validateAdmin(String accountid) {
+        var account = accountStorage.get(accountid);
+        if(account.isEmpty()) {
+            var roles = account.get().getRoles();
+            return roles.contains(RoleEnum.ROLE_ADMIN);
+        }
+        return false;
+    }
+
+
     public Optional<Account> add(AccountDTO newaccount) {
         var account = new Account(newaccount.getEmail());
         var role = roleStorage.findByName(RoleEnum.ROLE_USER).orElseThrow(
