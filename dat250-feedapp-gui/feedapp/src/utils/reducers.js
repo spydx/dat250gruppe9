@@ -62,6 +62,12 @@ const userReducer = (state = userinitialState, action) => {
                 userinitialState
             }
             break;
+        case "SET_EMAIL":
+            state = {
+                ...state,
+                email: action.email
+            }
+            break;
         default:
             break;
     }

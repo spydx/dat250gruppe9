@@ -9,15 +9,16 @@ import { connect } from "react-redux";
 
 class Result extends React.Component {
 
-  getQuestion(resultID) {
-    console.log("hei")
+  getQuestion(pollid) {
     for (const element of this.props.state.poll.pollData) {
-      console.log(element);
+      if (element.id === pollid) {
+        return element.question
+      }
     } 
   }
 
   fetchResultData() {
-    fetch("http://localhost:8080/api/" + this.props.url)
+    fetch("http://localhost:8080/api/result/" + this.props.id)
       .then((res) => res.json())
       .then(
         (result) => {
@@ -34,7 +35,7 @@ class Result extends React.Component {
   render() {
     if (!this.props.state.result.isLoaded) {
       this.fetchResultData();
-      this.getQuestion(this.props.state.result.resultData.id)
+      //this.getQuestion(this.props.params.splat)
     }
 
     const { error, isLoaded, resultData } = this.props.state.result;

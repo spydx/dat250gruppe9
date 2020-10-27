@@ -14,7 +14,7 @@ class Feedapp extends React.Component {
           
             <Router>
               <Switch>
-                  <Route exact path="/result" render={() => (<ResultPage />)}/>
+              <Route exact path="/result/:id" render={(props) => (<ResultPage props={props}/>)}/>
                   <Route exact path="/login" render={() => (<LoginPage />)}/>
                   <Route exact path="/" render={() => (<Home/>)}/>            
               </Switch>   

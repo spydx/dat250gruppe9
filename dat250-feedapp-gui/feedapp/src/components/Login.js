@@ -28,7 +28,6 @@ class Login extends React.Component {
       .then((res) => res.json())
       .then(
         (result) => {
-          console.log(result)
           this.props.setAccessToken(result);
         },
         (error) => {
@@ -101,6 +100,11 @@ const mapDispatchToProps = (dispatch) => {
     setAccessToken: (result) => dispatch({
       type: "AUTHORIZE",
       token: result.token
+    }),
+
+    setEmail: (result) => dispatch({
+      type: "SET_EMAIL",
+      email: result.email
     })
   };
 };
