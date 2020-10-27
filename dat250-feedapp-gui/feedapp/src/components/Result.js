@@ -33,9 +33,9 @@ class Result extends React.Component {
   }
 
   render() {
+    
     if (!this.props.state.result.isLoaded) {
       this.fetchResultData();
-      //this.getQuestion(this.props.params.splat)
     }
 
     const { error, isLoaded, resultData } = this.props.state.result;
@@ -54,13 +54,14 @@ class Result extends React.Component {
       <div>
         <div>
           <NavBar/>
-        </div>
-          <h2 style={{textAlign: "center", marginTop: "2%"}}>
-            <p><u>Result: "Spørsmål må inn her" </u></p>
-          </h2>
-        <div>
+        
           <div key={resultData.id} class="mt-2">
             <Card  text={"dark"} className="mb-2" style={{width:"40%", marginLeft: "30%"}}>
+            
+              <p style={{textAlign: "center", marginTop: "2%"}} class="display-1">
+              <p><u> {this.getQuestion(this.props.id)} </u></p>
+              </p>
+            
               <p class="display-1" style={{ textAlign: "center" }}>
                 <small> {"Total votes: " + resultData.total} </small>
               </p>
@@ -74,11 +75,9 @@ class Result extends React.Component {
             </div>
         </div>
           <Button 
-            onClick={() => {
-                        alert("Returning to poll-overview");
-                      }}
             variant="danger" 
-            style = {{ marginLeft: "70%", marginTop: "5%"}}
+          style={{ marginLeft: "70%", marginTop: "5%" }}
+          href = "/"
             >
             Return to overview
           </Button>
