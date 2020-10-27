@@ -2,37 +2,56 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
+import { login } from "../utils/userHandler"
 
 class Login extends React.Component {
    
-  fetchUserData(email, password) {
-    fetch("http://localhost:8080/api/users/1")
+  // fetchUserData(email, password) {
+  //   fetch("http://localhost:8080/api/users/1")
+  //     .then((res) => res.json())
+  //     .then(
+  //       (result) => {
+  //         this.props.setLogin(result);
+  //       },
+  //       (error) => {
+  //         this.props.setError(error);
+  //       }
+  //     );
+  // }
+  handleSubmit(email, password) {
+    const loginRequest = {
+      email: email,
+      password: password
+    }
+
+    login(loginRequest)
       .then((res) => res.json())
       .then(
         (result) => {
-          this.props.setLogin(result);
+          console.log(result)
+          this.props.setAccessToken(result);
         },
         (error) => {
           this.props.setError(error);
         }
       );
+      
+    
   }
   
  
 
   render() {
-    var email = "";
-    var password = ""
     return (
       <Form>
         <Form.Group controlId="email">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" /> 
+          <Form.Control type="email" placeholder="Enter email" onChange={e => this.setState({email: e.target.value})}/> 
         </Form.Group>
 
         <Form.Group controlId="password">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" />
+          <Form.Control type="password" placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
         </Form.Group>
         <Form.Group controlId="checkbox">
           <Form.Check type="checkbox" label="Remember me" />
@@ -46,7 +65,7 @@ class Login extends React.Component {
         <Button
           variant="success"
           style={{ width: "5rem", margin: "0.5rem", marginLeft: "5rem" }}
-          onClick={() => { this.fetchUserData(email, password) }}
+          onClick={() => { this.handleSubmit(this.state.email, this.state.password) }}
         >
           Login
         </Button>
@@ -77,9 +96,12 @@ const mapDispatchToProps = (dispatch) => {
         firstname: result.firstname,
         lastname: result.lastname,
         email: result.email,
-        role: result.role,
-        pollData: result.pollData
-      })
+    }),
+    
+    setAccessToken: (result) => dispatch({
+      type: "AUTHORIZE",
+      token: result.token
+    })
   };
 };
 

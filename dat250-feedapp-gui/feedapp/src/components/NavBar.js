@@ -6,7 +6,7 @@ import Container from "react-bootstrap/Container";
 class NavBar extends React.Component {
   render() {
     return (
-      <Navbar bg="dark" variant="dark">
+      <Navbar bg="white" variant="white">
         <Container>
           <Navbar.Brand href="\">
             <img
@@ -19,8 +19,8 @@ class NavBar extends React.Component {
           </Navbar.Brand>
 
           <Navbar.Collapse className="justify-content-center">
-            <Navbar.Text>
-              <h1 className="display-4"> FeedApp voting service </h1>
+            <Navbar.Text >
+              <h1 className="display-4">FeedApp</h1>
             </Navbar.Text>
           </Navbar.Collapse>
 

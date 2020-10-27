@@ -13,7 +13,8 @@ const userinitialState = {
     firstname: null,
     lastname: null,
     email: null,
-    pollData: []
+    pollData: [],
+    token: null
 }
 
 const resultinitialState = {
@@ -42,6 +43,23 @@ const userReducer = (state = userinitialState, action) => {
                 lastname: action.lastname,
                 email: action.email,
                 pollData: action.pollData
+            }
+            break;
+        case "LOAD_POLLS":
+            state = {
+                ...state,
+                pollData: action.pollData
+            }
+            break;
+        case "AUTHORIZE":
+            state = {
+                ...state,
+                token: action.token
+            }
+            break;
+        case "RESET":
+            state = {
+                userinitialState
             }
             break;
         default:

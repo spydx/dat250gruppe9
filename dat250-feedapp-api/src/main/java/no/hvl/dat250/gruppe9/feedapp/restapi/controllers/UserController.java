@@ -86,7 +86,7 @@ public class UserController {
         var poll = pollService.getPoll(pollId);
 
         if (profile.isPresent() && poll.isPresent()) {
-            var res = voteService.vote(profile.get(), poll.get(), response);
+            var res = voteService.vote(profile.get().getId(), poll.get(), response);
             if(res.isPresent())
                 return new ResponseEntity<>(res.get(), HttpStatus.OK);
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
