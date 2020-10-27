@@ -43,8 +43,7 @@ Accept: */*
 Cache-Control: no-cache
 
 
-### Dangerous This unlinks the profile from the account (Do not use)
-### To be fixed
+### Updates the username
 PUT http://localhost:8080/api/users/e4b8ed12-8cca-4f64-8e3f-efbe195589c7
 Content-Type: application/json
 Cache-Control: no-cache

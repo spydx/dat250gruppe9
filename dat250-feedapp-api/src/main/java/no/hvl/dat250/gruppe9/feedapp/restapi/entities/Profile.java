@@ -29,7 +29,7 @@ public class Profile implements Serializable {
     @OneToMany()
     private Set<Poll> pollList = new HashSet<>();
 
-    @JsonIgnore
+
     @OneToMany
     private Set<Vote> votedOn = new HashSet<>();
 

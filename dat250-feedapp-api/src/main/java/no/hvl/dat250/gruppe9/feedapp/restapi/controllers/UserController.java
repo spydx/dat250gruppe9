@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -38,16 +40,16 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/{userId}")
-    public ResponseEntity<Profile> getUserById(@PathVariable("userId") final String id) {
+    @GetMapping(value = "/{profileid}")
+    public ResponseEntity<Profile> getUserById(@PathVariable("profileid") final String id) {
         var res = userService.getProfile(id);
         if(res.isPresent())
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping(value = "/{userId}")
-    public ResponseEntity<Account> deleteUser(@PathVariable("userId") final String id) {
+    @DeleteMapping(value = "/{profileid}")
+    public ResponseEntity<Account> deleteUser(@PathVariable("profileid") final String id) {
         var found = userService.getProfile(id);
         if(found.isPresent()) {
             var res = userService.delete(found.get());
@@ -57,10 +59,10 @@ public class UserController {
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
-    
-    @PutMapping(value = "/{userId}")
+
+    @PutMapping(value = "/{profileid}")
     public ResponseEntity<Profile> updateProfile(@RequestHeader("Authorization")  final String token,
-                                            @PathVariable("userId") final String profileid,
+                                            @PathVariable("profileid") final String profileid,
                                             @RequestBody ProfileDTO updatedUser) {
         var authuser = tokenProvider.parseHeader(token);
         var profile = userService.getProfile(profileid);
@@ -76,23 +78,16 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
     }
 
-    //TODO: Remove this? Use Poll voting instead.
-    @PostMapping(value ="/{userId}/vote/{pollId}")
-    public ResponseEntity<Vote> voteOnPoll(
-            @PathVariable("userId") String userId,
-            @PathVariable("pollId") String pollId,
+
+    @GetMapping(value ="/{profileId}/votes/")
+    public ResponseEntity<?> listUserVotes (
+            @RequestHeader("Authorization")  final String token,
+            @PathVariable("profileid") String profileid,
             @RequestBody VoteDTO response) {
-        var profile = userService.getProfile(userId);
-        var poll = pollService.getPoll(pollId);
 
-        if (profile.isPresent() && poll.isPresent()) {
-            var res = voteService.vote(profile.get().getId(), poll.get(), response);
-            if(res.isPresent())
-                return new ResponseEntity<>(res.get(), HttpStatus.OK);
-            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-        }
-
-        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        var authuser = tokenProvider.parseHeader(token);
+        var profile = userService.getProfile(profileid);
+        return ResponseEntity.ok("sorryryyyyyy");
     }
 }
 

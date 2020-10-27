@@ -4,9 +4,11 @@ public class JwtAutheticationResponse {
 
     private String token;
     private String tokenType = "Bearer";
+    private String profile;
 
-    public JwtAutheticationResponse(String token) {
+    public JwtAutheticationResponse(String token, String profile) {
         this.token = token;
+        this.profile = profile;
     }
 
     public String getToken() {
@@ -23,5 +25,13 @@ public class JwtAutheticationResponse {
 
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 }

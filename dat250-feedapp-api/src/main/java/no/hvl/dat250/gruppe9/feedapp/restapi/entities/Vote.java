@@ -2,6 +2,7 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -20,7 +21,7 @@ public class Vote {
     private String voter;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Poll poll;
 
     private Boolean answer;
