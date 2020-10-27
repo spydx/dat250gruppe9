@@ -4,18 +4,34 @@ Content-Type: application/json
 
 {
   "email": "kenneth@mail.com",
-  "password": "newpassword"
+  "password": "test123"
 }
+
+###
+POST http://localhost:8080/api/polls/
+Content-Type: application/json
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzZGNmODdlYS02MjNmLTQ4ZTYtOGE2OS03YTdjN2E0MDhiMzUiLCJpYXQiOjE2MDM4MjQzODYsImV4cCI6MTYwNDQyOTE4Nn0.PnAkPMTDLBPUuBxQ1S84l6Y8xSsJZBR2kxbQHJ7qYnFqEGUpZ568J7o1hJ12bk21iwd2DJ8-sKPtUizIVrgJIQ
+
+{
+"access": "PUBLIC",
+"answerno": "stringed",
+"answeryes": "stringa",
+"name": "StringyStringString",
+"question": "stringy?",
+"timeend": "2020-10-22T21:54:07.062Z"
+}
+
 
 ###
 GET http://localhost:8080/api/polls/
 
 ###
 
-POST http://localhost:8080/api/polls/2a80286a-65fd-4c41-8f0a-e0dc79a48427/vote/
+POST http://localhost:8080/api/polls/26ad59e2-4ea4-4aab-b0a6-e6d4e32af38e/vote/
 Content-Type: application/json
 Cache-Control: no-cache
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2IxOTQxZi0xYjBhLTQ0OTQtYjAxYy0xMjBjYzBjMjQ2YzAiLCJpYXQiOjE2MDM3NjEzOTIsImV4cCI6MTYwNDM2NjE5Mn0.rUWQVFXgHOu4J8H27zKz4jWbyk823K-yHyL3hIZ_86d1dIY8xwSonwJQ1NRH6ug0Diavu0286-ngbgnD0IFkag
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzZGNmODdlYS02MjNmLTQ4ZTYtOGE2OS03YTdjN2E0MDhiMzUiLCJpYXQiOjE2MDM4MjQzODYsImV4cCI6MTYwNDQyOTE4Nn0.PnAkPMTDLBPUuBxQ1S84l6Y8xSsJZBR2kxbQHJ7qYnFqEGUpZ568J7o1hJ12bk21iwd2DJ8-sKPtUizIVrgJIQ
 
 {
   "answer": false

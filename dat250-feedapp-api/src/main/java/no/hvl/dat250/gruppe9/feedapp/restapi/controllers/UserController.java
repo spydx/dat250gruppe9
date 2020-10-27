@@ -5,7 +5,6 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Account;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.ProfileDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.VoteDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Vote;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.PollService;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.UserService;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.VoteService;
@@ -14,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -31,6 +29,7 @@ public class UserController {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
+    //TODO: to be removed, just for prototyping
     @GetMapping("/")
     public ResponseEntity<List<Profile>> getAll() {
 
@@ -48,6 +47,8 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
+    //TODO: Secure with access controll only for logged in an admins.
+    //TODO: admins can delete any, user can only delete them selfs.
     @DeleteMapping(value = "/{profileid}")
     public ResponseEntity<Account> deleteUser(@PathVariable("profileid") final String id) {
         var found = userService.getProfile(id);
