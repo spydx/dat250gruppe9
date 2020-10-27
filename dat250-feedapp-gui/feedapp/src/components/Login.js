@@ -2,7 +2,7 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
-import { login } from "../utils/actionHandler"
+import { Post } from "../utils/actionHandler"
 
 class Login extends React.Component {
    
@@ -24,7 +24,7 @@ class Login extends React.Component {
       password: password
     }
 
-    login(loginRequest)
+    Post("http://localhost:8080/api/auth/login", loginRequest)
       .then((res) => res.json())
       .then(
         (result) => {

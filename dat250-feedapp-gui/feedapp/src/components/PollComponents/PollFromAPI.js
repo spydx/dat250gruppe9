@@ -63,8 +63,8 @@ class PollFromAPI extends React.Component {
                   <div className="col-sm">
                     <Button
                       variant="info"
-                      style={{ width: "40%", marginLeft: "5%" }}
-                      
+                      style={{ width: "90%", marginLeft: "5%" }}
+                      block
                       href={"/result/" + poll.id}
                     >
                       Result
@@ -76,7 +76,7 @@ class PollFromAPI extends React.Component {
                         alert("Todo: Vote");
                       }}
                       variant="success"
-                      style={{ width: "35%", marginLeft: "5%" }}
+                      style={{ width: "90%", marginRight: "5%" }}
                       block
                     >
                       Vote

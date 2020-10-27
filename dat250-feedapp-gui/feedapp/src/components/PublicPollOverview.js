@@ -1,23 +1,24 @@
 import React from "react";
 import PollFromAPI from "./PollComponents/PollFromAPI";
 import { connect } from "react-redux";
-
+import { Get } from "../utils/actionHandler"
 
 class PublicPollOverview extends React.Component {
 
   fetchPollData() {
-    
-      fetch("http://localhost:8080/api/polls/")
-      .then((res) => res.json())
-      .then(
-        (result) => {
+    Get("http://localhost:8080/api/polls/")
+    .then((res) => res.json())
+    .then(
+       (result) => {
           this.props.setData(result);
         },
         (error) => {
           this.props.setError(error);
         }
       );
-  };
+    
+  }
+
 
   render() {
     if (!this.props.state.poll.isLoaded) {
