@@ -1,47 +1,21 @@
 #### Fetch a user to get an profile id
-GET http://localhost:8080/api/users/
-Accept: */*
-Cache-Control: no-cache
-
-###
-POST http://localhost:8080/api/users/
+POST http://localhost:8080/api/auth/login
 Content-Type: application/json
-Cache-Control: no-cache
 
 {
-  "email": "fossen.kenneth@gmail.com",
-  "password" : "test123",
-  "roleEnum": "USER",
-  "profile":
-  {
-    "firstname": "Kenneth",
-    "lastname": "Fossen"
-  }
+  "email": "kenneth@mail.com",
+  "password": "newpassword"
 }
 
 ###
-POST http://localhost:8080/api/polls/
-Content-Type: application/json
-Cache-Control: no-cache
-
-{
-  "access": "PUBLIC",
-  "answerno": "stringed",
-  "answeryes": "stringa",
-  "id": 0,
-  "name": "StringyStringString",
-  "owner": "353e1708-6ccb-43b2-843e-3328a2451e55",
-  "question": "stringy?",
-  "timeend": "2020-10-22T21:54:07.062Z",
-  "timestart": "2020-10-30T21:54:07.062Z"
-}
+GET http://localhost:8080/api/polls/
 
 ###
 
-
-POST http://localhost:8080/api/users/353e1708-6ccb-43b2-843e-3328a2451e55/vote/d737a0b1-7781-4fdf-ad9d-271c20783e28
+POST http://localhost:8080/api/polls/2a80286a-65fd-4c41-8f0a-e0dc79a48427/vote/
 Content-Type: application/json
 Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2IxOTQxZi0xYjBhLTQ0OTQtYjAxYy0xMjBjYzBjMjQ2YzAiLCJpYXQiOjE2MDM3NjEzOTIsImV4cCI6MTYwNDM2NjE5Mn0.rUWQVFXgHOu4J8H27zKz4jWbyk823K-yHyL3hIZ_86d1dIY8xwSonwJQ1NRH6ug0Diavu0286-ngbgnD0IFkag
 
 {
   "answer": false
@@ -52,6 +26,7 @@ Cache-Control: no-cache
 POST http://localhost:8080/api/users/2f8ed7eb-089e-4582-a2be-b78f3f4f85e6/vote/d737a0b1-7781-4fdf-ad9d-271c20783e28
 Content-Type: application/json
 Cache-Control: no-cache
+Authorization: Bearer <token>
 
 {
   "answer": true
