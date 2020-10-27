@@ -1,8 +1,30 @@
 # iotdevice
 
-A new Flutter project.
+A voting "device" for FeedApp
 
-## Getting Started
+Desined for iOS/Andriod and Web
+
+To run for web
+```
+> flutter channel master
+> flutter upgrade
+> flutter config --enable-web
+> flutter run -d chrome
+```
+
+To run for Android device
+```
+> flutter run -d android 
+```
+
+To run for iOS
+```
+> flutter run -d ios
+```
+
+
+
+## Resources
 
 This project is a starting point for a Flutter application.
 

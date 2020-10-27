@@ -1,0 +1,56 @@
+###
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "email": "fossen.kenneth@gmail.com",
+  "password" : "test123",
+  "firstname": "Kenneth",
+  "lastname": "Fossen"
+}
+
+###
+POST http://localhost:8080/api/auth/register/
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "email": "kenneth@gmail.com",
+  "firstname": "Kenneth",
+  "lastname": "Fossen",
+  "password" : "test123"
+}
+
+###
+DELETE http://localhost:8080/api/users/cc375a62-9136-4649-96c0-baa142801d05
+Cache-Control: no-cache
+
+###
+#DELETE http://localhost:8080/api/users/{UUID}
+DELETE http://localhost:8080/api/users/
+Cache-Control: no-cache
+###
+
+GET http://localhost:8080/api/users/
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+GET http://localhost:8080/api/users/
+Accept: */*
+Cache-Control: no-cache
+
+
+### Dangerous This unlinks the profile from the account (Do not use)
+### To be fixed
+PUT http://localhost:8080/api/users/e4b8ed12-8cca-4f64-8e3f-efbe195589c7
+Content-Type: application/json
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2IxOTQxZi0xYjBhLTQ0OTQtYjAxYy0xMjBjYzBjMjQ2YzAiLCJpYXQiOjE2MDM3NTYzNzksImV4cCI6MTYwNDM2MTE3OX0.lCx24SWJu-0LVpnHZNWA007qyMtnCSfeXkusKjh5cc1JeWCXt4xZ_S_YlD98HyH2cdCtHj1pSZpdCSDMGKe0MA
+
+{
+  "firstname": "Kenneth",
+  "lastname": "stringY"
+}

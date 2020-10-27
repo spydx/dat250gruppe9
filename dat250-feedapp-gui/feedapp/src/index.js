@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 
 import "bootstrap/dist/css/bootstrap.css";
 import { Provider } from "react-redux";
-import { rootReducers } from "./reducers";
-import { loadState, saveState } from './localStorage';
+import { rootReducers } from "./utils/reducers";
+import { loadState, saveState } from "./utils/localStorage";
 import { createStore } from "redux";
 import Feedapp from './FeedApp'
 

@@ -1,0 +1,94 @@
+#### Fetch a user to get an profile id
+GET http://localhost:8080/api/users/
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4MzFmODNmZi05NjFjLTQ2OWEtYjgzZC0wN2JjNDIwNmQ0MjMiLCJpYXQiOjE2MDM2MDgyNDcsImV4cCI6MTYwNDIxMzA0N30.98tnkeGCiwvZwbBuFt5URpObmgCznUtWjQXVnTQK2u_IvSCeuSjS4ILkL8PZVK4Tb3FCrjDwdNbFHy3q5ZrWJA
+
+###
+POST http://localhost:8080/api/users/
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "email": "fossen.kenneth@gmail.com",
+  "password" : "test123",
+  "firstname": "Kenneth",
+  "lastname": "Fossen"
+}
+
+###
+POST http://localhost:8080/api/polls/
+Content-Type: application/json
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2IxOTQxZi0xYjBhLTQ0OTQtYjAxYy0xMjBjYzBjMjQ2YzAiLCJpYXQiOjE2MDM3NTA5ODgsImV4cCI6MTYwNDM1NTc4OH0.FEg7uKFTMGD9UWr92koMPCYpkp5jRaMtB8gMtJzdO9XI-Lo2vBJQMhyC1qKSWT_CfOh_AuzdOW_xJXeXiTmcWg
+
+{
+  "access": "PUBLIC",
+  "answerno": "stringed",
+  "answeryes": "stringa",
+  "name": "StringyStringString",
+  "question": "stringy?",
+  "timeend": "2020-10-22T21:54:07.062Z"
+}
+
+
+###
+DELETE http://localhost:8080/api/polls/9c23ea42-4408-4a8a-b562-87227e3a93f0
+
+
+### Create a private one?
+POST http://localhost:8080/api/polls/
+Content-Type: application/json
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2IxOTQxZi0xYjBhLTQ0OTQtYjAxYy0xMjBjYzBjMjQ2YzAiLCJpYXQiOjE2MDM3NTM1NjUsImV4cCI6MTYwNDM1ODM2NX0.2mDeOzb4PGneSNrV5e8KCLzEvcdjjD7Rgg0I0PM6eY3aYPjj9pEr_dCNF3D7b_Y2Ponj_QvW0IETAx9ud_ffpQ
+
+{
+  "access": "PRIVATE",
+  "answerno": "stringed",
+  "answeryes": "stringa",
+  "name": "StringyStringString",
+  "question": "stringy?",
+  "timeend": "2020-10-22T21:54:07.062Z"
+}
+
+### Create a HIDDEN one?
+POST http://localhost:8080/api/polls/
+Content-Type: application/json
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2IxOTQxZi0xYjBhLTQ0OTQtYjAxYy0xMjBjYzBjMjQ2YzAiLCJpYXQiOjE2MDM3NTM1NjUsImV4cCI6MTYwNDM1ODM2NX0.2mDeOzb4PGneSNrV5e8KCLzEvcdjjD7Rgg0I0PM6eY3aYPjj9pEr_dCNF3D7b_Y2Ponj_QvW0IETAx9ud_ffpQ
+
+{
+  "access": "HIDDEN",
+  "answerno": "stringed",
+  "answeryes": "stringa",
+  "name": "StringyStringString",
+  "question": "stringy?",
+  "timeend": "2020-10-22T21:54:07.062Z"
+}
+### Get All (Public)
+GET http://localhost:8080/api/polls/
+Accept: application/json
+
+### Get All (Registered)
+GET http://localhost:8080/api/polls/
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2IxOTQxZi0xYjBhLTQ0OTQtYjAxYy0xMjBjYzBjMjQ2YzAiLCJpYXQiOjE2MDM3NTM1NjUsImV4cCI6MTYwNDM1ODM2NX0.2mDeOzb4PGneSNrV5e8KCLzEvcdjjD7Rgg0I0PM6eY3aYPjj9pEr_dCNF3D7b_Y2Ponj_QvW0IETAx9ud_ffpQ
+
+### Get Your own polls
+GET http://localhost:8080/api/polls/mine
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2IxOTQxZi0xYjBhLTQ0OTQtYjAxYy0xMjBjYzBjMjQ2YzAiLCJpYXQiOjE2MDM3NTM1NjUsImV4cCI6MTYwNDM1ODM2NX0.2mDeOzb4PGneSNrV5e8KCLzEvcdjjD7Rgg0I0PM6eY3aYPjj9pEr_dCNF3D7b_Y2Ponj_QvW0IETAx9ud_ffpQ
+
+
+
+### Get A poll
+GET http://localhost:8080/api/polls/5facb988-def9-4e69-bbd0-676b517ddd9e
+Accept: application/json
+
+### Get A poll Owner
+GET http://localhost:8080/api/polls/bae6e5c5-839f-4f8a-98f1-5d2aabf6fd9c/owner
+Accept: application/json
+
+### Get A poll a result?
+GET http://localhost:8080/api/polls/bae6e5c5-839f-4f8a-98f1-5d2aabf6fd9c/result
+Accept: application/json

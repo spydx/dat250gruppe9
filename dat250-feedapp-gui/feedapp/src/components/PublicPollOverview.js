@@ -1,12 +1,12 @@
 import React from "react";
 import PollFromAPI from "./PollComponents/PollFromAPI";
 import { connect } from "react-redux";
-import {loadState} from '../localStorage'
 
 
 class PublicPollOverview extends React.Component {
 
   fetchPollData() {
+    
       fetch("http://localhost:8080/api/polls/")
       .then((res) => res.json())
       .then(
@@ -21,6 +21,7 @@ class PublicPollOverview extends React.Component {
 
   render() {
     if (!this.props.state.poll.isLoaded) {
+      
       this.fetchPollData();
     }
     
