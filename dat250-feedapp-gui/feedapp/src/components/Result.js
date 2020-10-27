@@ -95,7 +95,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setError: (error) => dispatch({
-        type: "SET_ERROR",
+        type: "SET_RESULT_ERROR",
         error: error,
         isLoaded: true,
       }),

@@ -3,6 +3,7 @@ export async function Get(url, access_token = '') {
     if (access_token.length === 0) {
         const response = await fetch(url, {
             method: 'GET',
+            
             headers: {
                 'Accept': 'application/json',
             }
@@ -11,6 +12,7 @@ export async function Get(url, access_token = '') {
     } else {
         const response = await fetch(url, {
             method: 'GET',
+            
             headers: {
                 'Accept': 'application/json',
                 'Authorization': 'Bearer ' + access_token
@@ -26,6 +28,7 @@ export async function Post(url, request, access_token = '', profileid = '') {
     if (access_token.length === 0) {
         const response = await fetch(url, {
             method: 'POST',
+            mode: 'cors',
             body: JSON.stringify(request),
             headers: {
                 'Content-Type': 'application/json',
@@ -37,6 +40,7 @@ export async function Post(url, request, access_token = '', profileid = '') {
     } else {
         const response = await fetch(url, {
             method: 'POST',
+            mode: 'cors',
             body: JSON.stringify(request),
             headers: {
                 'Content-Type': 'application/json',

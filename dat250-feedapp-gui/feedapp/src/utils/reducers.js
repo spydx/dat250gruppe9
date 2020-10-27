@@ -25,7 +25,7 @@ const resultinitialState = {
 
 const userReducer = (state = userinitialState, action) => {
     switch (action.type) {
-        case "SET_ERROR":
+        case "SET_USER_ERROR":
             state = {
                 ...state,
                 error: action.error,
@@ -41,7 +41,6 @@ const userReducer = (state = userinitialState, action) => {
                 id: action.id,
                 firstname: action.firstname,
                 lastname: action.lastname,
-                email: action.email,
                 pollData: action.pollData
             }
             break;
@@ -54,7 +53,8 @@ const userReducer = (state = userinitialState, action) => {
         case "AUTHORIZE":
             state = {
                 ...state,
-                token: action.token
+                token: action.token,
+                id: action.id
             }
             break;
         case "RESET":
@@ -76,7 +76,7 @@ const userReducer = (state = userinitialState, action) => {
 
 const pollReducer = (state = pollinitialState, action) => {
     switch (action.type) {
-        case "SET_ERROR":
+        case "SET_POLL_ERROR":
             state = {
                 ...state,
                 error: action.error,
@@ -98,7 +98,7 @@ const pollReducer = (state = pollinitialState, action) => {
 
 const resultReducer = (state = resultinitialState, action) => {
     switch (action.type) {
-        case "SET_ERROR":
+        case "SET_RESULT_ERROR":
             state = {
                 ...state, 
                 error: action.error,

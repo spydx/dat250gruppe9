@@ -40,7 +40,7 @@ class PublicPollOverview extends React.Component {
               <h1 className="display-4" style={{ textAlign: "center" }}>
                 Created polls
               </h1>
-    {/*<PollFromAPI poll={this.props.state.user}/>*/}
+              {/*<PollFromAPI poll={this.props.state.user}/>*/}
             </div>
           </div>
         </div>
@@ -59,7 +59,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setError: (error) => dispatch({
-        type: "SET_ERROR",
+        type: "SET_POLL_ERROR",
         error: error,
         isLoaded: true,
       }),

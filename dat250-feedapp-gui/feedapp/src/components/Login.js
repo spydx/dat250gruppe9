@@ -2,7 +2,7 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
-import { Post } from "../utils/actionHandler"
+import { Post, Get } from "../utils/actionHandler"
 
 class Login extends React.Component {
    
@@ -18,23 +18,35 @@ class Login extends React.Component {
   //       }
   //     );
   // }
-  handleSubmit(email, password) {
+  async handleSubmit(email, password) {
     const loginRequest = {
       email: email,
       password: password
     }
 
-    Post("http://localhost:8080/api/auth/login", loginRequest)
+    await Post("http://localhost:8080/api/auth/login", loginRequest)
       .then((res) => res.json())
       .then(
         (result) => {
           this.props.setAccessToken(result);
+          
+          this.props.setEmail(this.state.email)
         },
         (error) => {
           this.props.setError(error);
         }
       );
-      
+    
+    Get("http://localhost:8080/api/users/" + this.props.state.user.id) //TODO should have access token
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          this.props.setLogin(result);
+        },
+        (error) => {
+          this.props.setError(error);
+        }
+      );
     
   }
   
@@ -82,7 +94,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setError: (error) => dispatch({
-        type: "SET_ERROR",
+        type: "SET_USER_ERROR",
         error: error,
         isLoaded: true,
       }),
@@ -94,17 +106,17 @@ const mapDispatchToProps = (dispatch) => {
         id: result.id,
         firstname: result.firstname,
         lastname: result.lastname,
-        email: result.email,
     }),
     
     setAccessToken: (result) => dispatch({
       type: "AUTHORIZE",
-      token: result.token
+      token: result.token,
+      id: result.profile
     }),
 
     setEmail: (result) => dispatch({
       type: "SET_EMAIL",
-      email: result.email
+      email: result
     })
   };
 };
