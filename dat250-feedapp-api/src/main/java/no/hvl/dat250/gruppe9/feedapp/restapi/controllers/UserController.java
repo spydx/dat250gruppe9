@@ -51,13 +51,21 @@ public class UserController {
     //TODO: Secure with access controll only for logged in an admins.
     //TODO: admins can delete any, user can only delete them selfs.
     @DeleteMapping(value = "/{profileid}")
-    public ResponseEntity<Account> deleteUser(@PathVariable("profileid") final String id) {
-        var found = userService.getProfile(id);
-        if(found.isPresent()) {
-            var res = userService.delete(found.get());
-            if(res.isPresent())
-                return new ResponseEntity<>(res.get(), HttpStatus.OK);
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+    public ResponseEntity<Account> deleteUser(@RequestHeader("Authorization") final String token,
+                                              @PathVariable("profileid") final String id) {
+        var accountid = tokenProvider.parseHeader(token);
+        if(accountid.isPresent()) {
+            var profile = userService.getProfileByAccount(accountid.get()).get();
+            if(userService.validateAdmin(accountid.get()) || profile.getId().equals(id)) {
+                var found = userService.getProfile(id);
+                if(found.isPresent()) {
+                    var res = userService.delete(found.get());
+                    if(res.isPresent())
+                        return new ResponseEntity<>(res.get(), HttpStatus.OK);
+                    return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+                }
+            }
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }

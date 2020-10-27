@@ -85,7 +85,7 @@ public class PollController {
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
         return new ResponseEntity<>("Poll not found " + id, HttpStatus.NOT_FOUND);
     }
-    
+
     @DeleteMapping(value = "/{pollId}")
     public ResponseEntity<?> deletePoll(@NotNull @RequestHeader("Authorization") final String token,
             @PathVariable("pollId") final String pollid) {

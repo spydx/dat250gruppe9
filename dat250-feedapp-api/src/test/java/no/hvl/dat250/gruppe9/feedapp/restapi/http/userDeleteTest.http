@@ -1,0 +1,57 @@
+# Create a new user to authenticate
+###
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "email": "kenneth@mail.com",
+  "password" : "test123",
+  "firstname": "Kenneth",
+  "lastname": "Fossen"
+}
+
+###
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+"email": "ke@mail.com",
+"password" : "test123",
+"firstname": "Kenneth",
+"lastname": "Fossen"
+}
+
+
+###
+# Get its profile
+###
+GET http://localhost:8080/api/users/
+
+###
+# Authentitcate the user you created
+###
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "email": "kenneth@mail.com",
+  "password" : "test123"
+}
+
+###
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "email": "admin@pollhub.no",
+  "password" : "admin"
+}
+
+###
+DELETE http://localhost:8080/api/users/646a590e-72eb-4cd5-9ba6-7aad8527c705
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwNzQzNGZjMC1hM2Q1LTQ3NjAtYTBkMi0wMjkxZmNmYjY1NjkiLCJpYXQiOjE2MDM4NDAxNzcsImV4cCI6MTYwNDQ0NDk3N30.7aVU99r75t-sgh-9gxH7KQbmRdHO05PG9MeWmBL_esheC_Lludera5--ElkE_gjgn7rCxJ0vAfxYzSaaT9t8IQ

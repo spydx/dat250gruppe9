@@ -80,9 +80,10 @@ public class UserService {
 
     public boolean validateAdmin(String accountid) {
         var account = accountStorage.get(accountid);
-        if(account.isEmpty()) {
-            var roles = account.get().getRoles();
-            return roles.contains(RoleEnum.ROLE_ADMIN);
+        if(account.isPresent()) {
+            var role = roleStorage.findByName(RoleEnum.ROLE_ADMIN).get();
+            var userroles = account.get().getRoles();
+            return userroles.contains(role);
         }
         return false;
     }
