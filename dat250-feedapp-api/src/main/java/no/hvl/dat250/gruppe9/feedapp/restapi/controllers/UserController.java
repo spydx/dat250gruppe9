@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/{profileid}")
-    public ResponseEntity<Account> deleteUser(@PathVariable("profile") final String id) {
+    public ResponseEntity<Account> deleteUser(@PathVariable("profileid") final String id) {
         var found = userService.getProfile(id);
         if(found.isPresent()) {
             var res = userService.delete(found.get());
