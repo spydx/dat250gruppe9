@@ -94,21 +94,28 @@ Cache-Control: no-cache
 Response:
 
 ```http
- cache-control: no-cache, no-store, max-age=0, must-revalidate  
- connection: keep-alive  
- content-type: application/json  
- date: Sun, 25 Oct 2020 22:09:46 GMT  
- expires: 0  
- keep-alive: timeout=60  
- pragma: no-cache  
- transfer-encoding: chunked  
- vary: Origin, Access-Control-Request-Method, Access-Control-Request-Headers  
- x-content-type-options: nosniff  
- x-frame-options: DENY  
- x-xss-protection: 1; mode=block
+POST http://localhost:8080/api/auth/login
+
+HTTP/1.1 200
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Tue, 27 Oct 2020 18:35:32 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
 {
-  "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjZjQyZjY5Yi1iZTA0LTQwZDktOTIzOC0yMjllMzA4M2M4Y2IiLCJpYXQiOjE2MDM2NjM3ODYsImV4cCI6MTYwNDI2ODU4Nn0.DG_1TEvqy5QAHyrZo828wEJAq_HS-IfPZM5s1vtUX_lTaMT-6ZJK8NLgRrtuPQdz9tTZbEuMtu3gR-gE4wntEQ",
-  "tokenType": "Bearer"
+  "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzZGNmODdlYS02MjNmLTQ4ZTYtOGE2OS03YTdjN2E0MDhiMzUiLCJpYXQiOjE2MDM4MjM3MzIsImV4cCI6MTYwNDQyODUzMn0.AQYL_bD8oXBKgawfZN8vLHwOZUcyMJLFWMRw-Fg9CltFPU2ubPdAEXu0cCxM0KWJtzg3nA1V0K7EyLwH36hosg",
+  "tokenType": "Bearer",
+  "profile": "c58414bf-efa6-42d7-91a9-a735422ccd2d"
 }
 ```
 
@@ -126,6 +133,35 @@ Cache-Control: no-cache
   "lastname": "Fossen"
 }
 ```
+
+Response:
+
+```http
+POST http://localhost:8080/api/auth/register
+
+HTTP/1.1 201 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Location: http://localhost:8080/api/users/c58414bf-efa6-42d7-91a9-a735422ccd2d
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Tue, 27 Oct 2020 18:22:01 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+  "success": true,
+  "msg": "Registred"
+}
+```
+
 
 ### Change password
 
@@ -157,7 +193,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2IxOTQxZi0xYjBhLTQ0OTQtY
 
 This is the HTTP HEADER Option: `Authorization: Bearer <token>`
 
-Request: 
+Request:
 
 ```http
 POST http://localhost:8080/api/polls/
@@ -308,9 +344,9 @@ Authorization: Bearer <token>
 }
 ```
 
-Response: 
-```http
+Response:
 
+```http
 {
   "id": "e4b8ed12-8cca-4f64-8e3f-efbe195589c7",
   "firstname": "Kenneth",
