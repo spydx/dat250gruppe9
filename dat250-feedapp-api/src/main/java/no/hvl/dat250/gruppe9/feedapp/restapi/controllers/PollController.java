@@ -2,18 +2,19 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.controllers;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.config.security.JwtTokenProvider;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PollDTO;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.VoteDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.PollResult;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Vote;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.PollService;
+import no.hvl.dat250.gruppe9.feedapp.restapi.services.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.util.StringUtils;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,21 +26,32 @@ public class PollController {
     private PollService pollService;
 
     @Autowired
+    private VoteService voteService;
+
+    @Autowired
     private JwtTokenProvider jwtControll;
 
-    //TODO: Show ALl for PUBLIC, show all for Logged in user, take away PRIVATE.
     @GetMapping("/")
-    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
-    public ResponseEntity<List<Poll>> getAllPolls() {
+    public ResponseEntity<List<Poll>> getAllPolls(
+            @Nullable @RequestHeader("Authorization") final String token) {
+        if(token != null) {
+            var accountid = jwtControll.parseHeader(token);
+            if(accountid.isPresent()) {
+                var res = pollService.getAllLoggedIn();
+                if(res.isPresent())
+                    return new ResponseEntity<>(res.get(), HttpStatus.OK);
+            }
+        }
         var res = pollService.getAllPublic();
-        if(res.isPresent())
+        if (res.isPresent())
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
     }
 
     @PostMapping(value = "/")
     public ResponseEntity<Poll> createPoll(
-            @RequestHeader("Authorization") final String token,
+            @NotNull @RequestHeader("Authorization") final String token,
             @RequestBody PollDTO newPoll) {
 
         var accountid = jwtControll.parseHeader(token);
@@ -53,8 +65,19 @@ public class PollController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/mine")
+    public ResponseEntity<?> getUserPolls(@NotNull @RequestHeader("Authorization") final String token) {
+        var accountid = jwtControll.parseHeader(token);
+        if(accountid.isPresent()) {
+            var res = pollService.getUserPolls(accountid.get());
+            if(res.isPresent())
+                return new ResponseEntity<>(res.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+
     @GetMapping(value = "/{pollid}")
-    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
     public ResponseEntity<Poll> pollById(@PathVariable("pollid") final String id)
     {
         var res = pollService.getPoll(id);
@@ -63,6 +86,8 @@ public class PollController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
+    //TODO: Use userprincipals to validate if able to delete.
+    //TODO: Who should be allowed to delete? (Admin only, or admin and owner?)
     @DeleteMapping(value = "/{pollId}")
     public ResponseEntity<Poll> deletePoll(@PathVariable("pollId") final String id) {
         var deleted = pollService.deletePoll(id);
@@ -73,7 +98,6 @@ public class PollController {
     }
 
     @GetMapping(value = "/{pollid}/owner")
-    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
     public ResponseEntity<Profile> getOwner(@PathVariable("pollid") final String id) {
         var poll = pollService.getPoll(id);
         if(poll.isPresent()) {
@@ -84,7 +108,6 @@ public class PollController {
     }
 
     @GetMapping(value = "/{pollId}/result")
-    @Secured("IS_AUTHENTICATED_ANONYMOUSLY")
     public ResponseEntity<PollResult> getResult(@PathVariable("pollId") final String pollId) {
         var poll = pollService.getPoll(pollId);
         if(poll.isEmpty()) {
@@ -97,8 +120,21 @@ public class PollController {
     }
 
     @PostMapping(value ="/{pollid}/vote/")
-    public ResponseEntity<?> voteOnPoll(@PathVariable("pollid") final String pollid) {
-        return ResponseEntity.ok("not implemented");
+    public ResponseEntity<?> voteOnPoll(
+            @NotNull @RequestHeader("Authorization") final String token,
+            @PathVariable("pollid") final String pollid,
+            @NotNull @RequestBody final VoteDTO votedto) {
+
+        var accountid = jwtControll.parseHeader(token);
+        var poll = pollService.getPoll(pollid);
+
+        if(accountid.isPresent() && poll.isPresent()) {
+                var res = voteService.vote(accountid.get(), poll.get(), votedto);
+                if(res.isPresent())
+                    return new ResponseEntity<>(res.get(), HttpStatus.OK);
+                return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
 }

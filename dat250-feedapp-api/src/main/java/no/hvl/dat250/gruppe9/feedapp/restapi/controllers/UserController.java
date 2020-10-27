@@ -1,6 +1,8 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.controllers;
 
+import no.hvl.dat250.gruppe9.feedapp.restapi.config.security.JwtTokenProvider;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Account;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.ProfileDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.VoteDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Vote;
@@ -23,6 +25,9 @@ public class UserController {
     private VoteService voteService;
     @Autowired
     private PollService pollService;
+
+    @Autowired
+    private JwtTokenProvider tokenProvider;
 
     @GetMapping("/")
     public ResponseEntity<List<Profile>> getAll() {
@@ -52,20 +57,23 @@ public class UserController {
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
-
-    //200 (OK) or 204 (No Content). 404 (Not Found), if ID not found or invalid.
+    
     @PutMapping(value = "/{userId}")
-    public ResponseEntity<Profile> updateProfile(@PathVariable("userId") final String userid,
-                                              @RequestBody Profile updatedUser) {
-        var foundUser = userService.getProfile(userid);
-        if(foundUser.isPresent()) {
-            updatedUser.setId(foundUser.get().getId());
-            var res = userService.update(updatedUser);
-            if(res.isPresent())
+    public ResponseEntity<Profile> updateProfile(@RequestHeader("Authorization")  final String token,
+                                            @PathVariable("userId") final String profileid,
+                                            @RequestBody ProfileDTO updatedUser) {
+        var authuser = tokenProvider.parseHeader(token);
+        var profile = userService.getProfile(profileid);
+        if(authuser.isPresent() && profile.isPresent()) {
+            if(authuser.get().equals(profile.get().getAccount().getId())) {
+                profile.get().setFirstname(updatedUser.getFirstname());
+                profile.get().setLastname(updatedUser.getLastname());
+                var res = userService.update(profile.get());
                 return new ResponseEntity<>(res.get(), HttpStatus.OK);
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
     }
 
     //TODO: Remove this? Use Poll voting instead.

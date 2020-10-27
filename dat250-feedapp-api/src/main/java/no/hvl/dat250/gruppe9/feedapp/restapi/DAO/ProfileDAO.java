@@ -57,4 +57,11 @@ public class ProfileDAO {
     }
 
 
+    public Optional<Profile> getByAccount(String accountid) {
+        var q = entityManager
+                .createQuery("Select p FROM Profile p where p.account.id = :accid", Profile.class)
+                .setParameter("accid", accountid);
+        var res = q.getSingleResult();
+        return Optional.ofNullable(res);
+    }
 }

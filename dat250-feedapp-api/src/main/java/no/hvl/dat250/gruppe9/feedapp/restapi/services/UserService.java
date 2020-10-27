@@ -45,8 +45,11 @@ public class UserService {
         return Optional.empty();
     }
 
-    public Optional<Profile> getProfile(String id) {
-        return profileStorage.get(id);
+    public Optional<Profile> getProfileByAccount(String accountid) {
+        return profileStorage.getByAccount(accountid);
+    }
+    public Optional<Profile> getProfile(String profileid) {
+        return profileStorage.get(profileid);
     }
 
     public Optional<Account> getAccount(String email) {

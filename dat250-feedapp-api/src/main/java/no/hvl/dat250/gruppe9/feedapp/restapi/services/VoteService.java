@@ -18,20 +18,18 @@ import java.util.Optional;
 @Service
 public class VoteService {
 
-    private final VoteDOA voteStorage;
-    private final UserService userService;
+    @Autowired
+    private VoteDOA voteStorage;
 
     @Autowired
-    public VoteService(VoteDOA voteStorage, UserService userService) {
-        this.voteStorage = voteStorage;
-        this.userService = userService;
-    }
+    private UserService userService;
 
-    public Optional<Vote> vote(Profile voter, Poll poll, VoteDTO response) {
-        if(!haveVoted(poll, voter)) {
+    public Optional<Vote> vote(String voterid, Poll poll, VoteDTO response) {
+        var profile = userService.getProfileByAccount(voterid);
+        if(!haveVoted(poll, profile.get())) {
             var vote = new Vote();
             vote.setAnswer(response.getAnswer());
-            vote.setVoter(voter.getId());
+            vote.setVoter(profile.get().getId());
             vote.setPoll(poll);
             vote.setVotetime(new Date());
             return voteStorage.save(vote);

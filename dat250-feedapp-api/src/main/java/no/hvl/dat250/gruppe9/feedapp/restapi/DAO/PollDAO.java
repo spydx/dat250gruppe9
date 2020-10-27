@@ -57,4 +57,20 @@ public class PollDAO {
         return Optional.ofNullable(list);
 
     }
+
+    public Optional<List<Poll>> getAllLoggedIn() {
+        var q = entityManager
+                .createQuery("SELECT p FROM Poll p WHERE NOT p.access = :hidden", Poll.class)
+                .setParameter("hidden", Access.HIDDEN);
+        var list = q.getResultList();
+        return Optional.ofNullable(list);
+    }
+
+    public Optional<List<Poll>> getAllUser(String userid) {
+        var q = entityManager
+                .createQuery("SELECT p FROM Poll p WHERE p.owner.id = :own", Poll.class)
+                .setParameter("own", userid);
+        var list = q.getResultList();
+        return Optional.ofNullable(list);
+    }
 }
