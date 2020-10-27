@@ -85,9 +85,7 @@ public class PollController {
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
         return new ResponseEntity<>("Poll not found " + id, HttpStatus.NOT_FOUND);
     }
-
-    //TODO: Use userprincipals to validate if able to delete.
-    //TODO: Who should be allowed to delete? (Admin only, or admin and owner?)
+    
     @DeleteMapping(value = "/{pollId}")
     public ResponseEntity<?> deletePoll(@NotNull @RequestHeader("Authorization") final String token,
             @PathVariable("pollId") final String pollid) {
@@ -149,5 +147,4 @@ public class PollController {
         }
         return new ResponseEntity<>("Not allowed to vote", HttpStatus.NO_CONTENT);
     }
-
 }
