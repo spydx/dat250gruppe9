@@ -204,23 +204,85 @@ Reponse:
 
 ### Get All (Public)
 
+```http
 GET http://localhost:8080/api/polls/
 Accept: application/json
+```
+
+Returns only `"access": "PUBLIC"` polls
+
+### Get All Polls logged in
+
+Req `Authorization: Bearer <token>`
+
+```http
+GET http://localhost:8008/api/polls/
+Accept: application/json
+Authorization: Bearer <token>
+
+```
+
+Returns only `PUBLIC` and `PRIVATE` and no `HIDDEN`
+
+Result:
+
+```http
+[
+  {
+    "id": "2a80286a-65fd-4c41-8f0a-e0dc79a48427",
+    "name": "StringyStringString",
+    "question": "stringy?",
+    "timestart": null,
+    "timeend": "2020-10-22T21:54:07.000+00:00",
+    "access": "PUBLIC", <-- PUBLIC
+    "answeryes": "stringa",
+    "answerno": "stringed",
+    "owner": {
+      "id": "e4b8ed12-8cca-4f64-8e3f-efbe195589c7",
+      "firstname": "Kenneth",
+      "lastname": "Fossen"
+    }
+  },
+  {
+    "id": "706a63ec-82e9-4593-b7ad-6550a26b71cd",
+    "name": "StringyStringString",
+    "question": "stringy?",
+    "timestart": "2020-10-26T23:06:26.000+00:00",
+    "timeend": "2020-10-22T21:54:07.000+00:00",
+    "access": "PRIVATE", <-- PRIVATE
+    "answeryes": "stringa",
+    "answerno": "stringed",
+    "owner": {
+      "id": "e4b8ed12-8cca-4f64-8e3f-efbe195589c7",
+      "firstname": "Kenneth",
+      "lastname": "Fossen"
+    }
+  }
+]
+
+Response code: 200; Time: 3492ms; Content length: 657 bytes
+```
 
 ### Get a poll by ID
 
+```http
 GET http://localhost:8080/api/polls/5facb988-def9-4e69-bbd0-676b517ddd9e
 Accept: application/json
+```
 
 ### Get a poll Owner
 
+```http
 GET http://localhost:8080/api/polls/bae6e5c5-839f-4f8a-98f1-5d2aabf6fd9c/owner
 Accept: application/json
+```
 
 ### Get a result for a Poll
 
+```http
 GET http://localhost:8080/api/polls/bae6e5c5-839f-4f8a-98f1-5d2aabf6fd9c/result
 Accept: application/json
+```
 
 ### Retrive all Users Profiles
 
@@ -229,6 +291,33 @@ GET http://localhost:8080/api/poll/
 Accept: application/json
 
 ```
+
+### Update userdetails (not password)
+
+Req: `userid` and `Authorization: Bearer <token>`
+
+```http
+PUT http://localhost:8080/api/users/e4b8ed12-8cca-4f64-8e3f-efbe195589c7
+Content-Type: application/json
+Cache-Control: no-cache
+Authorization: Bearer <token>
+
+{
+  "firstname": "Kenneth",
+  "lastname": "stringY"
+}
+```
+
+Response: 
+```http
+
+{
+  "id": "e4b8ed12-8cca-4f64-8e3f-efbe195589c7",
+  "firstname": "Kenneth",
+  "lastname": "stringY"
+}
+```
+
 
 ### Vote on a Poll
 

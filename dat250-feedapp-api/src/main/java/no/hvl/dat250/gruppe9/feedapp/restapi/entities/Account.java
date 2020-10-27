@@ -20,7 +20,6 @@ public class Account implements Serializable {
     @Column(unique = true)
     private String email;
 
-
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL)

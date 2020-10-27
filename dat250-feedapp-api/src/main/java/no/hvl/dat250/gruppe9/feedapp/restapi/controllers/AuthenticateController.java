@@ -5,8 +5,9 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.config.security.JwtAutheticationRes
 import no.hvl.dat250.gruppe9.feedapp.restapi.config.security.JwtTokenProvider;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.AccountDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.LoginDTO;
-import no.hvl.dat250.gruppe9.feedapp.restapi.services.AuthService;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,7 @@ public class AuthenticateController {
     @Autowired
     private UserService userService;
 
+    private final Logger logger = LoggerFactory.getLogger(AuthenticateController.class);
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> authenticate(@NotNull @Valid @RequestBody LoginDTO login) {
@@ -49,7 +51,13 @@ public class AuthenticateController {
         );
         SecurityContextHolder.getContext().setAuthentication(auth);
         String token = tokenProvider.generateToken(auth);
-        return ResponseEntity.ok(new JwtAutheticationResponse(token));
+        var exists = userService.getAccount(login.getEmail());
+        if(exists.isPresent()) {
+            var profileid = exists.get().getProfile().getId();
+            return ResponseEntity.ok(new JwtAutheticationResponse(token, profileid));
+        }
+        logger.error("Loggin error failed for {}", exists.get().getId());
+        return ResponseEntity.ok("failed to find user profile");
     }
 
     @PostMapping(value = "/register")
