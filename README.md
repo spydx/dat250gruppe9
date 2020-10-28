@@ -189,7 +189,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2IxOTQxZi0xYjBhLTQ0OTQtY
 **Req:**
 
 * Authenticated
-* Have a ownerid (profileID)
+* Owner ID is deduced from JWT Bearer
 
 This is the HTTP HEADER Option: `Authorization: Bearer <token>`
 

@@ -3,11 +3,10 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.controllers;
 import no.hvl.dat250.gruppe9.feedapp.restapi.config.security.JwtTokenProvider;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PollDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.VoteDTO;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.PollResult;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Vote;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.PollService;
+import no.hvl.dat250.gruppe9.feedapp.restapi.services.UserService;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,10 +27,13 @@ public class PollController {
     private VoteService voteService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private JwtTokenProvider jwtControll;
 
     @GetMapping("/")
-    public ResponseEntity<List<Poll>> getAllPolls(
+    public ResponseEntity<?> getAllPolls(
             @Nullable @RequestHeader("Authorization") final String token) {
         if(token != null) {
             var accountid = jwtControll.parseHeader(token);
@@ -45,7 +46,7 @@ public class PollController {
         var res = pollService.getAllPublic();
         if (res.isPresent())
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity("No polls found in the system ", HttpStatus.NOT_FOUND);
 
     }
 
@@ -53,7 +54,6 @@ public class PollController {
     public ResponseEntity<Poll> createPoll(
             @NotNull @RequestHeader("Authorization") final String token,
             @RequestBody PollDTO newPoll) {
-
         var accountid = jwtControll.parseHeader(token);
         if(accountid.isPresent()) {
 
@@ -65,7 +65,7 @@ public class PollController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/mine")
+    @GetMapping(value = "/mine")
     public ResponseEntity<?> getUserPolls(@NotNull @RequestHeader("Authorization") final String token) {
         var accountid = jwtControll.parseHeader(token);
         if(accountid.isPresent()) {
@@ -73,38 +73,49 @@ public class PollController {
             if(res.isPresent())
                 return new ResponseEntity<>(res.get(), HttpStatus.OK);
         }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
     }
 
 
     @GetMapping(value = "/{pollid}")
-    public ResponseEntity<Poll> pollById(@PathVariable("pollid") final String id)
+    public ResponseEntity<?> pollById(@PathVariable("pollid") final String id)
     {
         var res = pollService.getPoll(id);
         if(res.isPresent())
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Poll not found " + id, HttpStatus.NOT_FOUND);
     }
 
-    //TODO: Use userprincipals to validate if able to delete.
-    //TODO: Who should be allowed to delete? (Admin only, or admin and owner?)
     @DeleteMapping(value = "/{pollId}")
-    public ResponseEntity<Poll> deletePoll(@PathVariable("pollId") final String id) {
-        var deleted = pollService.deletePoll(id);
-        if(deleted.isPresent())
-            return new ResponseEntity<>(deleted.get(),HttpStatus.OK);
+    public ResponseEntity<?> deletePoll(@NotNull @RequestHeader("Authorization") final String token,
+            @PathVariable("pollId") final String pollid) {
+        var accountid = jwtControll.parseHeader(token);
+        if(accountid.isPresent()) {
+            var profile = userService.getProfileByAccount(accountid.get());
+            var poll = pollService.getPoll(pollid);
+            if(profile.isPresent() && poll.isPresent()) {
+                if(profile.get().getId().equals(poll.get().getOwner().getId())) {
+                    var deleted = pollService.deletePoll(poll.get().getId());
+                    return new ResponseEntity<>(deleted.get(),HttpStatus.OK);
+                } else if(userService.validateAdmin(accountid.get())) {
+                    var deleted = pollService.deletePoll(poll.get().getId());
+                    return new ResponseEntity<>(deleted.get(),HttpStatus.OK);
+                }
+            }
+            return new ResponseEntity<>("Unauthroized attempt to access",HttpStatus.UNAUTHORIZED);
+        }
 
-        return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("No Content",HttpStatus.NO_CONTENT);
     }
 
     @GetMapping(value = "/{pollid}/owner")
-    public ResponseEntity<Profile> getOwner(@PathVariable("pollid") final String id) {
+    public ResponseEntity<?> getOwner(@PathVariable("pollid") final String id) {
         var poll = pollService.getPoll(id);
         if(poll.isPresent()) {
             var oid = poll.get().getOwner();
             return new ResponseEntity<>(oid, HttpStatus.OK);
         }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Not found owner" , HttpStatus.NOT_FOUND);
     }
 
     @GetMapping(value = "/{pollId}/result")
@@ -132,9 +143,8 @@ public class PollController {
                 var res = voteService.vote(accountid.get(), poll.get(), votedto);
                 if(res.isPresent())
                     return new ResponseEntity<>(res.get(), HttpStatus.OK);
-                return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>("Forbidden to vote twice", HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Not allowed to vote", HttpStatus.NO_CONTENT);
     }
-
 }

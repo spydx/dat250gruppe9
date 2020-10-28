@@ -33,7 +33,6 @@ public class VoteService {
             vote.setPoll(poll);
             vote.setVotetime(new Date());
             profile.get().getVotedOn().add(vote);
-            userService.update(profile.get());
             return voteStorage.save(vote);
         }
         return Optional.empty();
