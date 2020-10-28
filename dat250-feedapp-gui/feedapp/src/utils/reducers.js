@@ -9,6 +9,7 @@ const pollinitialState = {
 const userinitialState = {
     error: null,
     isLoaded: false,
+    isLoggedin: false,
     id: null,
     firstname: null,
     lastname: null,
@@ -41,13 +42,6 @@ const userReducer = (state = userinitialState, action) => {
                 id: action.id,
                 firstname: action.firstname,
                 lastname: action.lastname,
-                pollData: action.pollData
-            }
-            break;
-        case "LOAD_POLLS":
-            state = {
-                ...state,
-                pollData: action.pollData
             }
             break;
         case "AUTHORIZE":
@@ -66,6 +60,12 @@ const userReducer = (state = userinitialState, action) => {
             state = {
                 ...state,
                 email: action.email
+            }
+            break;
+        case "SET_USER_POLLDATA":
+            state = {
+                ...state,
+                pollData: action.pollData
             }
             break;
         default:
@@ -88,6 +88,11 @@ const pollReducer = (state = pollinitialState, action) => {
                 ...state,
                 isLoaded: action.isLoaded,
                 pollData: action.pollData
+            }
+            break;
+        case "RESET_POLL_DATA":
+            state = {
+                pollinitialState
             }
             break;
         default:
@@ -116,7 +121,6 @@ const resultReducer = (state = resultinitialState, action) => {
         default:
             break;
     }
-
     return state
 
 }

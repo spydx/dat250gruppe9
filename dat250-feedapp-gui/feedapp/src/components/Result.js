@@ -9,10 +9,10 @@ import { connect } from "react-redux";
 
 class Result extends React.Component {
 
-  getQuestion(pollid) {
+  getPoll(pollid) {
     for (const element of this.props.state.poll.pollData) {
       if (element.id === pollid) {
-        return element.question
+        return element;
       }
     } 
   }
@@ -33,7 +33,7 @@ class Result extends React.Component {
   }
 
   render() {
-    
+    const poll = this.getPoll(this.props.id)
     if (!this.props.state.result.isLoaded) {
       this.fetchResultData();
     }
@@ -55,20 +55,20 @@ class Result extends React.Component {
         <div>
           <NavBar/>
         
-          <div key={resultData.id} class="mt-2">
+          <div key={resultData.id} className="mt-2">
             <Card  text={"dark"} className="mb-2" style={{width:"40%", marginLeft: "30%"}}>
             
-              <p style={{textAlign: "center", marginTop: "2%"}} class="display-1">
-              <p><u> {this.getQuestion(this.props.id)} </u></p>
+              <p style={{textAlign: "center", marginTop: "2%"}} className="display-1">
+              <u> {poll.question} </u>
               </p>
             
-              <p class="display-1" style={{ textAlign: "center" }}>
+              <p className="display-1" style={{ textAlign: "center" }}>
                 <small> {"Total votes: " + resultData.total} </small>
               </p>
-              <p class="display-1" style={{ textAlign: "center" }}>
+              <p className="display-1" style={{ textAlign: "center" }}>
                 <small> {"Yes: " + resultData.yes} </small>
               </p>
-              <p class="display-1" style={{ textAlign: "center" }}>
+              <p className="display-1" style={{ textAlign: "center" }}>
               <small> {"No: " + resultData.nos} </small>
               </p>
             </Card>

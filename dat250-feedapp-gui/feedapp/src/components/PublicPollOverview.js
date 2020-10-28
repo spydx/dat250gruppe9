@@ -4,6 +4,12 @@ import { connect } from "react-redux";
 import { Get } from "../utils/actionHandler"
 
 class PublicPollOverview extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      didFetch: false
+    }
+  }
 
   fetchPollData() {
     Get("http://localhost:8080/api/polls/")
@@ -11,19 +17,34 @@ class PublicPollOverview extends React.Component {
     .then(
        (result) => {
           this.props.setData(result);
+          this.setState({ didFetch: true });
+          if (this.props.state.user.isLoggedin) { // if user is logged in add all its polls to the state store
+              this.props.setUserPolls(this.getUserPolls(this.props.state.user.id))
+          }
         },
         (error) => {
           this.props.setError(error);
+          this.setState({ didFetch: true });
         }
       );
     
   }
 
+  getUserPolls(uid) {
+    var polls = []
+    for (const element of this.props.state.poll.pollData) {
+      if (element.owner.id === uid) {
+        polls.push(element);
+      }
+    }
+    return polls;
+  }
+
 
   render() {
-    if (!this.props.state.poll.isLoaded) {
-      
+    if (!this.state.didFetch) {
       this.fetchPollData();
+      //console.log("fetched poll data") - for debugging
     }
     
     return (
@@ -40,7 +61,7 @@ class PublicPollOverview extends React.Component {
               <h1 className="display-4" style={{ textAlign: "center" }}>
                 Created polls
               </h1>
-              {/*<PollFromAPI poll={this.props.state.user}/>*/}
+              {<PollFromAPI poll={this.props.state.user}/>}
             </div>
           </div>
         </div>
@@ -68,7 +89,12 @@ const mapDispatchToProps = (dispatch) => {
         type: "SET_DATA",
         isLoaded: true,
         pollData: result
-      })
+    }),
+    
+    setUserPolls: (result) => dispatch({
+      type: "SET_USER_POLLDATA",
+      pollData: result
+    })
   };
 };
 

@@ -6,18 +6,7 @@ import { Post, Get } from "../utils/actionHandler"
 
 class Login extends React.Component {
    
-  // fetchUserData(email, password) {
-  //   fetch("http://localhost:8080/api/users/1")
-  //     .then((res) => res.json())
-  //     .then(
-  //       (result) => {
-  //         this.props.setLogin(result);
-  //       },
-  //       (error) => {
-  //         this.props.setError(error);
-  //       }
-  //     );
-  // }
+  
   async handleSubmit(email, password) {
     const loginRequest = {
       email: email,
@@ -30,7 +19,7 @@ class Login extends React.Component {
         (result) => {
           this.props.setAccessToken(result);
           
-          this.props.setEmail(this.state.email)
+          this.props.setEmail(this.state.email) // this can also be done when user details is being fetched
         },
         (error) => {
           this.props.setError(error);
@@ -49,8 +38,6 @@ class Login extends React.Component {
       );
     
   }
-  
- 
 
   render() {
     return (
