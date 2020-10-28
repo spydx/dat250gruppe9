@@ -12,9 +12,8 @@ class VotePage extends React.Component {
         <div className="row h-100 justify-content-center align-items-center">
         
         <div>
-          <h1 style={{ textAlign: "center", marginTop: "2rem" }}>Login</h1>
           <div style={{ marginTop: "2rem" }}>
-            <Vote></Vote>
+            <Vote/>
           </div>
         </div>
       </div>

@@ -72,7 +72,7 @@ class Result extends React.Component {
               <small> {"No: " + resultData.nos} </small>
               </p>
             </Card>
-            </div>
+          </div>
         </div>
           <Button 
             variant="danger" 

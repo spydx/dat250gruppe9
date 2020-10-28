@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import ResultPage from "./pages/ResultPage";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import VotePage from './pages/VotePage';
 
 
 
@@ -14,9 +15,10 @@ class Feedapp extends React.Component {
           
             <Router>
               <Switch>
-              <Route exact path="/result/:id" render={(props) => (<ResultPage props={props}/>)}/>
-                  <Route exact path="/login" render={() => (<LoginPage />)}/>
-                  <Route exact path="/" render={() => (<Home/>)}/>            
+                <Route exact path="/result/:id" render={(props) => (<ResultPage props={props}/>)}/>
+                <Route exact path="/login" render={() => (<LoginPage />)}/>
+                <Route exact path="/" render={() => (<Home/>)}/>  
+                <Route exact path="/vote" render={() => (<VotePage />)}/>      
               </Switch>   
             </Router>
           
