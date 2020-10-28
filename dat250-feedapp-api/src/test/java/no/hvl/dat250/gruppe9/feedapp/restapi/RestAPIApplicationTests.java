@@ -8,6 +8,6 @@ class RestAPIApplicationTests {
 
 	@Test
 	void contextLoads() {
-	}
+    }
 
 }
