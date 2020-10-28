@@ -26,7 +26,7 @@ class Vote extends React.Component {
                 <div>
                     <h1 style={{ textAlign: "center", marginTop: "2rem" }}><u>Vote</u></h1>
                 </div>
-                <div style={{margin: "5%"}}>
+                <div style={{margin: "5%", width: "500px"}}>
                         <h3 className="font-weight-light" style={{ textAlign: "center", marginTop: "5%" }}>
                             Voting on: {poll.question}
                         </h3>
@@ -56,7 +56,6 @@ class Vote extends React.Component {
                                 </div> 
                             </div>
                         </div>     
-                    
                 </div>
             </div>
         );

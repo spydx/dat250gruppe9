@@ -51,7 +51,7 @@ class PollFromAPI extends React.Component {
       <div>
         {pollData.map((poll) => (
           <div key={poll.id} className="mt-2">
-            <Card bg={"light"} text={"dark"} className="mb-2">
+            <Card text={"dark"} className="mb-2">
               <h1 className="display-4" style={{ textAlign: "center" }}>
                 {poll.name}
               </h1>
