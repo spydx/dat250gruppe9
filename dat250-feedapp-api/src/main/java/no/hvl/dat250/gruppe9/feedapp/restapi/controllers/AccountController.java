@@ -2,7 +2,6 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.controllers;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.config.security.JwtTokenProvider;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Account;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.AccountDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PasswordDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

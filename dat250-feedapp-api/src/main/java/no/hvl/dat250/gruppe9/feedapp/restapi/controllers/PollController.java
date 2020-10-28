@@ -131,7 +131,6 @@ public class PollController {
         return new ResponseEntity<>(new PollResult(), HttpStatus.NOT_FOUND);
     }
 
-    //Missing anonymous voting
 
     @PostMapping(value ="/{pollid}/vote/")
     public ResponseEntity<?> voteOnPoll(
