@@ -11,7 +11,7 @@ Content-Type: application/json
 POST http://localhost:8080/api/polls/
 Content-Type: application/json
 Cache-Control: no-cache
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzZGNmODdlYS02MjNmLTQ4ZTYtOGE2OS03YTdjN2E0MDhiMzUiLCJpYXQiOjE2MDM4MjQzODYsImV4cCI6MTYwNDQyOTE4Nn0.PnAkPMTDLBPUuBxQ1S84l6Y8xSsJZBR2kxbQHJ7qYnFqEGUpZ568J7o1hJ12bk21iwd2DJ8-sKPtUizIVrgJIQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1MmZkY2Y5OC0xYWZiLTQ0YzUtYWM2Ni1iZTA4MWQzMzdmNjYiLCJpYXQiOjE2MDM5MDI0MzMsImV4cCI6MTYwNDUwNzIzM30.4Z5J7-A84o6QCrnRNF84JoYJRF7Y9OL92RL6seVB7SWC7d_fsrk4swWSh-3SSlAkMpeBFDYMnaeiuKjFFkdAgA
 
 {
 "access": "PUBLIC",
@@ -28,14 +28,8 @@ GET http://localhost:8080/api/polls/
 
 ###
 
-POST http://localhost:8080/api/polls/26ad59e2-4ea4-4aab-b0a6-e6d4e32af38e/vote/
-Content-Type: application/json
+GET http://localhost:8080/api/polls/b85c4978-8be6-446f-ba3c-226ea61d6c55/
 Cache-Control: no-cache
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzZGNmODdlYS02MjNmLTQ4ZTYtOGE2OS03YTdjN2E0MDhiMzUiLCJpYXQiOjE2MDM4MjQzODYsImV4cCI6MTYwNDQyOTE4Nn0.PnAkPMTDLBPUuBxQ1S84l6Y8xSsJZBR2kxbQHJ7qYnFqEGUpZ568J7o1hJ12bk21iwd2DJ8-sKPtUizIVrgJIQ
-
-{
-  "answer": false
-}
 
 ### You cannot vote twice
 
@@ -46,4 +40,14 @@ Authorization: Bearer <token>
 
 {
   "answer": true
+}
+
+
+###
+POST http://localhost:8080/api/polls/1aee56d8-7224-4614-8c7b-19867203d1c4/vote/
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+"answer" : false
 }

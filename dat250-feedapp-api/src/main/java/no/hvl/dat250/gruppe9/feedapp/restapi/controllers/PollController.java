@@ -1,6 +1,7 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.controllers;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.config.security.JwtTokenProvider;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Access;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PollDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.VoteDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
@@ -130,9 +131,11 @@ public class PollController {
         return new ResponseEntity<>(new PollResult(), HttpStatus.NOT_FOUND);
     }
 
+    //Missing anonymous voting
+
     @PostMapping(value ="/{pollid}/vote/")
     public ResponseEntity<?> voteOnPoll(
-            @NotNull @RequestHeader("Authorization") final String token,
+            @Nullable @RequestHeader("Authorization") final String token,
             @PathVariable("pollid") final String pollid,
             @NotNull @RequestBody final VoteDTO votedto) {
 
@@ -144,6 +147,12 @@ public class PollController {
                 if(res.isPresent())
                     return new ResponseEntity<>(res.get(), HttpStatus.OK);
                 return new ResponseEntity<>("Forbidden to vote twice", HttpStatus.FORBIDDEN);
+        } else if(poll.isPresent()) {
+            // anonmously voting here and we need check if poll is public
+            if(poll.get().getAccess() == Access.PUBLIC) {
+                var res = voteService.voteAnonynmous(poll.get(), votedto);
+                return new ResponseEntity<>("Voted anon", HttpStatus.OK);
+            }
         }
         return new ResponseEntity<>("Not allowed to vote", HttpStatus.NO_CONTENT);
     }

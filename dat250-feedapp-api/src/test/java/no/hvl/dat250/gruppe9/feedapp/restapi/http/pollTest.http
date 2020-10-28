@@ -40,7 +40,7 @@ DELETE http://localhost:8080/api/polls/9c23ea42-4408-4a8a-b562-87227e3a93f0
 POST http://localhost:8080/api/polls/
 Content-Type: application/json
 Cache-Control: no-cache
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2IxOTQxZi0xYjBhLTQ0OTQtYjAxYy0xMjBjYzBjMjQ2YzAiLCJpYXQiOjE2MDM3NTM1NjUsImV4cCI6MTYwNDM1ODM2NX0.2mDeOzb4PGneSNrV5e8KCLzEvcdjjD7Rgg0I0PM6eY3aYPjj9pEr_dCNF3D7b_Y2Ponj_QvW0IETAx9ud_ffpQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1MmZkY2Y5OC0xYWZiLTQ0YzUtYWM2Ni1iZTA4MWQzMzdmNjYiLCJpYXQiOjE2MDM5MDIyNTksImV4cCI6MTYwNDUwNzA1OX0.oB1fVkUfApMw-bTvvJKzL5PPY6lX4tEFfNZJTPxxC9MC6a1FFg_RzGsIiiFZ_v2TFFqll56ldtqem0gQhiCgcw
 
 {
   "access": "PRIVATE",

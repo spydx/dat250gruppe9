@@ -17,6 +17,12 @@ public class SetupService {
     @Value("${app.password}")
     private String password;
 
+    @Value("${app.anonymous.account}")
+    private String anonymousUser;
+
+    @Value("${app.anonymous.password}")
+    private String anonymousPassword;
+
     @Autowired
     private UserService userService;
 
@@ -48,6 +54,18 @@ public class SetupService {
             }
         } else {
             logger.info("Account with email: {} already exist", exist.get().getEmail());
+        }
+        var anonaccount = userService.getAccount(anonymousUser);
+        if(anonaccount.isEmpty()) {
+            var newAccount = new AccountDTO(
+                    "Anonymous",
+                    "Pollhub",
+                    anonymousUser,
+                    anonymousPassword
+            );
+            var createres = userService.add(newAccount);
+            logger.info("Create anonymous account {}", createres.get());
+
         }
     }
 }
