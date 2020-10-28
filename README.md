@@ -328,7 +328,7 @@ Accept: application/json
 
 ```
 
-### Update userdetails (not password)
+### Update profiledetails (not password)
 
 Req: `userid` and `Authorization: Bearer <token>`
 
@@ -353,12 +353,65 @@ Response:
   "lastname": "stringY"
 }
 ```
+### Update Account Password
 
+Req: `accountid` and `Authorization: Bearer <token>`
+
+```http
+PUT http://localhost:8080/api/account/{{accountId}}
+Content-Type: application/json
+Cache-Control: no-cache
+Authorization: Bearer <token>
+
+{
+  "email": "string",
+  "password": "string"
+}
+```
+
+Result will return complete profile
+```http
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Wed, 28 Oct 2020 18:19:21 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+{
+  "id": "52fdcf98-1afb-44c5-ac66-be081d337f66",
+  "email": "kenneth@mail.com",
+  "profile": {
+    "id": "848d28d5-4185-4cac-a635-6ae868ae5dd6",
+    "firstname": "Kenneth",
+    "lastname": "Fossen",
+    "votedOn": []
+  },
+  "roles": [
+    {
+      "id": 1,
+      "name": "ROLE_USER"
+    }
+  ]
+}
+```
 
 ### Vote on a Poll
 
 `PollID` for the poll to Vote on.
 Will deduce the User from JWT Token in the HTTP HEADER Option: `Authorization: Bearer <token>`
+
+If no token is found, you will be able to vote on polls that are public.
+Only Public polls are open for anonymous voting.
 
 ```http
 POST http://localhost:8080/api/poll/353e1708-6ccb-43b2-843e-3328a2451e55/vote/
