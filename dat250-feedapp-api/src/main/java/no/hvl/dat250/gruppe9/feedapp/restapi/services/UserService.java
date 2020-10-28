@@ -6,6 +6,7 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.RoleDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.config.reponse.InternalServerError;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Account;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.AccountDTO;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PasswordDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.RoleEnum;
 import org.slf4j.Logger;
@@ -105,9 +106,8 @@ public class UserService {
         return profileStorage.update(profile);
     }
 
-    //You can only update your password
-    public Optional<Account> updateAccount(String id, Account updated) {
-        var profile = profileStorage.get(id);
+    public Optional<Account> updateAccount(String profileid, PasswordDTO updated) {
+        var profile = profileStorage.get(profileid);
         if(profile.isPresent()) {
             var account = profile.get().getAccount();
             if(account.getEmail().equals(updated.getEmail())) {
