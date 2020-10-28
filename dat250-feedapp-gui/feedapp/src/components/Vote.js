@@ -8,7 +8,19 @@ import { connect } from "react-redux";
 
 
 class Vote extends React.Component {
+
+    getPoll(pollid) {
+        
+        for (const element of this.props.state.poll.pollData) {
+          if (element.id === pollid) {
+            return element;
+          }
+        } 
+      }
+
     render() {
+        console.log("polls",this.props.state.poll.pollData )
+        const poll = this.getPoll(this.props.id)
         return(
             <div>
                 <div>
@@ -16,7 +28,7 @@ class Vote extends React.Component {
                 </div>
                 <div style={{margin: "5%"}}>
                         <h3 className="font-weight-light" style={{ textAlign: "center", marginTop: "5%" }}>
-                            Voting on: "Some long and stupid question"
+                            Voting on: {poll.question}
                         </h3>
                         <div className="container">
                             <div className="row">
@@ -51,4 +63,18 @@ class Vote extends React.Component {
     }
 }
 
-export default Vote
+const mapStateToProps = (state) => {
+    return {
+      state: state
+    };
+  };
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      
+    };
+  };
+  
+  
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Vote);

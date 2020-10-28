@@ -27,7 +27,6 @@ class PublicPollOverview extends React.Component {
           this.setState({ didFetch: true });
         }
       );
-    
   }
 
   getUserPolls(uid) {

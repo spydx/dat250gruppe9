@@ -13,7 +13,7 @@ class VotePage extends React.Component {
         
         <div>
           <div style={{ marginTop: "2rem" }}>
-            <Vote/>
+            <Vote id={this.props.props.match.params.id}/>
           </div>
         </div>
       </div>
