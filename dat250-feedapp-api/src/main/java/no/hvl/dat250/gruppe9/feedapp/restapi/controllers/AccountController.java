@@ -25,8 +25,9 @@ public class AccountController {
                                     @PathVariable("accountid") final String accountid,
                                     @RequestBody PasswordDTO updatedAccount) {
 
+        var access = tokenProvider.validateToken(token);
         var accid = tokenProvider.parseHeader(token);
-        if(accid.isPresent()) {
+        if(accid.isPresent() && access) {
             var profile = userService.getProfileByAccount(accid.get());
             var admin = userService.validateAdmin(accid.get());
             if(profile.isPresent() || admin) {

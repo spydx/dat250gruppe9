@@ -6,6 +6,10 @@ public class VoteDTO {
     VoteDTO() {
 
     }
+    
+    public VoteDTO(Boolean answer) {
+        this.answer = answer;
+    }
 
     public Boolean getAnswer() {
         return answer;
