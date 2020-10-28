@@ -8,17 +8,12 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Account;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.AccountDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.RoleEnum;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Roles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.event.LoggerListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
-import javax.swing.text.html.Option;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -74,8 +69,7 @@ public class UserService {
         var rolelist = toadmin.getRoles();
         rolelist.add(admrole);
         toadmin.setRoles(rolelist);
-        var res = accountStorage.update(toadmin);
-        return res;
+        return accountStorage.update(toadmin);
     }
 
     public boolean validateAdmin(String accountid) {

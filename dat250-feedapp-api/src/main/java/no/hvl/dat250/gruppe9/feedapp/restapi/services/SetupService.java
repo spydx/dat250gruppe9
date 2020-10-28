@@ -45,7 +45,10 @@ public class SetupService {
                     password
             );
             var create = userService.add(newadmin);
-            logger.info("Create admin account {}", create.get());
+            if(create.isPresent())
+                logger.info("Create admin account {}", create.get());
+            else
+                logger.error("Failed to create admin account");
 
             var admin = userService.getAccount(username);
             if (admin.isPresent()) {
@@ -64,7 +67,10 @@ public class SetupService {
                     anonymousPassword
             );
             var createres = userService.add(newAccount);
-            logger.info("Create anonymous account {}", createres.get());
+            if(createres.isPresent())
+                logger.info("Create anonymous account {}", createres.get());
+            else
+                logger.error("Cannot create anonymouse account");
 
         }
     }

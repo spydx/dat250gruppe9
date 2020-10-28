@@ -142,17 +142,15 @@ public class PollController {
         var accountid = jwtControll.parseHeader(token);
         var poll = pollService.getPoll(pollid);
 
+        // anonmously voting here and we need check if poll is public
         if(accountid.isPresent() && poll.isPresent()) {
                 var res = voteService.vote(accountid.get(), poll.get(), votedto);
                 if(res.isPresent())
                     return new ResponseEntity<>(res.get(), HttpStatus.OK);
                 return new ResponseEntity<>("Forbidden to vote twice", HttpStatus.FORBIDDEN);
-        } else if(poll.isPresent()) {
-            // anonmously voting here and we need check if poll is public
-            if(poll.get().getAccess() == Access.PUBLIC) {
-                var res = voteService.voteAnonynmous(poll.get(), votedto);
-                return new ResponseEntity<>("Voted anon", HttpStatus.OK);
-            }
+        } else if (poll.isPresent() && poll.get().getAccess() == Access.PUBLIC) {
+            var res = voteService.voteAnonynmous(poll.get(), votedto);
+            return new ResponseEntity<>("Voted anon " + res.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>("Not allowed to vote", HttpStatus.NO_CONTENT);
     }

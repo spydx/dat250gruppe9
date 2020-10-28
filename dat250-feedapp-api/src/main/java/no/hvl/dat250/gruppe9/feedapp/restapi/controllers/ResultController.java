@@ -34,6 +34,7 @@ public class ResultController {
     }
 
     //TODO: is this necessary. Could be done if a poll gets deleted
+    //TODO: needs authentication
     @DeleteMapping(value = "/{pollId}")
     public ResponseEntity<PollResult> deleteResult(@PathVariable(value = "pollId") final String id) {
         var res = resultService.deleteResult(id);

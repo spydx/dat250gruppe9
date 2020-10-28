@@ -39,7 +39,7 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    //TODO: Secure this.
+    //TODO: Secure this. Only user it self and Admins
     @GetMapping(value = "/{profileid}")
     public ResponseEntity<Profile> getUserById(@PathVariable("profileid") final String id) {
         var res = userService.getProfile(id);
@@ -48,8 +48,6 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    //TODO: Secure with access controll only for logged in an admins.
-    //TODO: admins can delete any, user can only delete them selfs.
     @DeleteMapping(value = "/{profileid}")
     public ResponseEntity<Account> deleteUser(@RequestHeader("Authorization") final String token,
                                               @PathVariable("profileid") final String id) {

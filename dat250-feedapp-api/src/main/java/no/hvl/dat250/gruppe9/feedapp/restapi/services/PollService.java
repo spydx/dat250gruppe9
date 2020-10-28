@@ -3,7 +3,6 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.services;
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.AccountDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.PollDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.ProfileDAO;
-import no.hvl.dat250.gruppe9.feedapp.restapi.config.security.JwtTokenProvider;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PollDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
 import org.springframework.beans.factory.annotation.Autowired;
