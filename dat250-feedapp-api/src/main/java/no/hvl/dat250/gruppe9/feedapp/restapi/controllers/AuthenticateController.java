@@ -56,7 +56,7 @@ public class AuthenticateController {
             var profileid = exists.get().getProfile().getId();
             return ResponseEntity.ok(new JwtAutheticationResponse(token, profileid));
         }
-        logger.error("Loggin error failed for {}", exists.get().getId());
+        logger.error("Loggin error failed for {}", login.getEmail());
         return ResponseEntity.ok("failed to find user profile");
     }
 

@@ -32,24 +32,33 @@ public class UserController {
     //TODO: to be removed, just for prototyping
     @GetMapping("/")
     public ResponseEntity<List<Profile>> getAll() {
-
         var res = userService.getAll();
         if(res.isPresent())
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    //TODO: Secure this.
     @GetMapping(value = "/{profileid}")
-    public ResponseEntity<Profile> getUserById(@PathVariable("profileid") final String id) {
-        var res = userService.getProfile(id);
-        if(res.isPresent())
-            return new ResponseEntity<>(res.get(), HttpStatus.OK);
+    public ResponseEntity<Profile> getUserById(
+            @RequestHeader("Authorization") final String token,
+            @PathVariable("profileid") final String profileid) {
+
+        var accountid = tokenProvider.parseHeader(token);
+        if(accountid.isPresent()) {
+            var profile = userService.getProfileByAccount(accountid.get());
+            var admin = userService.validateAdmin(accountid.get());
+            if(profile.isPresent()) {
+                if (!profile.get().getId().equals(profileid) && !admin) {
+                    return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                }
+                var res = userService.getProfile(profileid);
+                if(res.isPresent())
+                    return new ResponseEntity<>(res.get(), HttpStatus.OK);
+            }
+        }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    //TODO: Secure with access controll only for logged in an admins.
-    //TODO: admins can delete any, user can only delete them selfs.
     @DeleteMapping(value = "/{profileid}")
     public ResponseEntity<Account> deleteUser(@RequestHeader("Authorization") final String token,
                                               @PathVariable("profileid") final String id) {

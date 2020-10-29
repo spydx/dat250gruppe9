@@ -6,19 +6,15 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.RoleDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.config.reponse.InternalServerError;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Account;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.AccountDTO;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PasswordDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.RoleEnum;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Roles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.event.LoggerListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
-import javax.swing.text.html.Option;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -74,8 +70,7 @@ public class UserService {
         var rolelist = toadmin.getRoles();
         rolelist.add(admrole);
         toadmin.setRoles(rolelist);
-        var res = accountStorage.update(toadmin);
-        return res;
+        return accountStorage.update(toadmin);
     }
 
     public boolean validateAdmin(String accountid) {
@@ -111,9 +106,8 @@ public class UserService {
         return profileStorage.update(profile);
     }
 
-    //You can only update your password
-    public Optional<Account> updateAccount(String id, Account updated) {
-        var profile = profileStorage.get(id);
+    public Optional<Account> updateAccount(String profileid, PasswordDTO updated) {
+        var profile = profileStorage.get(profileid);
         if(profile.isPresent()) {
             var account = profile.get().getAccount();
             if(account.getEmail().equals(updated.getEmail())) {

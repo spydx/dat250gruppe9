@@ -2,7 +2,6 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -29,9 +28,6 @@ public class Vote {
     @JsonIgnore
     @Temporal(TemporalType.TIMESTAMP)
     private Date votetime;
-
-    public Vote() {
-    }
 
     public String getId() {
         return id;

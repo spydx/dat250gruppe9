@@ -1,7 +1,6 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.DAO;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.PollResult;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Vote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

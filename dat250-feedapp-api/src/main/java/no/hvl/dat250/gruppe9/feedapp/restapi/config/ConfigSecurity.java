@@ -101,6 +101,9 @@ public class ConfigSecurity extends WebSecurityConfigurerAdapter {
                         "/api/users/**",
                         "/api/results/**")
                     .permitAll()
+                .antMatchers(HttpMethod.POST,
+                "/api/polls/**/vote")
+                    .permitAll()
                 .anyRequest()
                     .authenticated();
 

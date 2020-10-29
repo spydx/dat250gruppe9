@@ -8,6 +8,7 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Vote;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +25,9 @@ public class VoteService {
     @Autowired
     private UserService userService;
 
+    @Value("${app.anonymous.account}")
+    private String anonAccount;
+
     public Optional<Vote> vote(String voterid, Poll poll, VoteDTO response) {
         var profile = userService.getProfileByAccount(voterid);
         if(!haveVoted(poll, profile.get())) {
@@ -38,6 +42,7 @@ public class VoteService {
         return Optional.empty();
     }
 
+    //TODO : needs to be rewritten
     public Optional<List<Vote>> deviceVote(IoT voter, Poll poll, List<VoteDTO> responses) {
         int count = 1;
         var l = new ArrayList<Vote>();
@@ -64,5 +69,19 @@ public class VoteService {
             return votelist.contains(v);
         }
         return false;
+    }
+
+
+    public Optional<Vote> voteAnonynmous(Poll poll, VoteDTO votedto) {
+        var voteaccount = userService.getAccount(anonAccount);
+        if(voteaccount.isPresent()) {
+            var vote = new Vote();
+            vote.setAnswer(votedto.getAnswer());
+            vote.setVoter(voteaccount.get().getProfile().getId());
+            vote.setPoll(poll);
+            vote.setVotetime(new Date());
+            return voteStorage.save(vote);
+        }
+        return Optional.empty();
     }
 }

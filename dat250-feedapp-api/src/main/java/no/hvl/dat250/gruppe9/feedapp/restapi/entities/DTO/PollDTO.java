@@ -1,15 +1,7 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Access;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.IoT;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.PollResult;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Profile;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Vote;
-
-import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
 public class PollDTO {
 
@@ -24,10 +16,6 @@ public class PollDTO {
 
     private String answeryes;
     private String answerno;
-
-
-    public PollDTO() {
-    }
 
     public String getName() {
         return name;

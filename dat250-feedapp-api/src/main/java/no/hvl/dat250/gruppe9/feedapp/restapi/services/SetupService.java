@@ -17,6 +17,12 @@ public class SetupService {
     @Value("${app.password}")
     private String password;
 
+    @Value("${app.anonymous.account}")
+    private String anonymousUser;
+
+    @Value("${app.anonymous.password}")
+    private String anonymousPassword;
+
     @Autowired
     private UserService userService;
 
@@ -39,7 +45,10 @@ public class SetupService {
                     password
             );
             var create = userService.add(newadmin);
-            logger.info("Create admin account {}", create.get());
+            if(create.isPresent())
+                logger.info("Create admin account {}", create.get());
+            else
+                logger.error("Failed to create admin account");
 
             var admin = userService.getAccount(username);
             if (admin.isPresent()) {
@@ -48,6 +57,21 @@ public class SetupService {
             }
         } else {
             logger.info("Account with email: {} already exist", exist.get().getEmail());
+        }
+        var anonaccount = userService.getAccount(anonymousUser);
+        if(anonaccount.isEmpty()) {
+            var newAccount = new AccountDTO(
+                    "Anonymous",
+                    "Pollhub",
+                    anonymousUser,
+                    anonymousPassword
+            );
+            var createres = userService.add(newAccount);
+            if(createres.isPresent())
+                logger.info("Create anonymous account {}", createres.get());
+            else
+                logger.error("Cannot create anonymouse account");
+
         }
     }
 }

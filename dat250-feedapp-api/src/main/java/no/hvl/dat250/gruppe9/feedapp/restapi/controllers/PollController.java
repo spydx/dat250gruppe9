@@ -1,6 +1,7 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.controllers;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.config.security.JwtTokenProvider;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Access;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PollDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.VoteDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
@@ -35,7 +36,7 @@ public class PollController {
     @GetMapping("/")
     public ResponseEntity<?> getAllPolls(
             @Nullable @RequestHeader("Authorization") final String token) {
-        if(token != null) {
+        if(jwtControll.validateToken(token)) {
             var accountid = jwtControll.parseHeader(token);
             if(accountid.isPresent()) {
                 var res = pollService.getAllLoggedIn();
@@ -54,8 +55,9 @@ public class PollController {
     public ResponseEntity<Poll> createPoll(
             @NotNull @RequestHeader("Authorization") final String token,
             @RequestBody PollDTO newPoll) {
+        var access = jwtControll.validateToken(token);
         var accountid = jwtControll.parseHeader(token);
-        if(accountid.isPresent()) {
+        if(accountid.isPresent() && access) {
 
             var res = pollService.addPoll(newPoll, accountid.get());
             if (res.isPresent()) {
@@ -89,8 +91,9 @@ public class PollController {
     @DeleteMapping(value = "/{pollId}")
     public ResponseEntity<?> deletePoll(@NotNull @RequestHeader("Authorization") final String token,
             @PathVariable("pollId") final String pollid) {
+        var access = jwtControll.validateToken(token);
         var accountid = jwtControll.parseHeader(token);
-        if(accountid.isPresent()) {
+        if(accountid.isPresent() && access) {
             var profile = userService.getProfileByAccount(accountid.get());
             var poll = pollService.getPoll(pollid);
             if(profile.isPresent() && poll.isPresent()) {
@@ -130,20 +133,25 @@ public class PollController {
         return new ResponseEntity<>(new PollResult(), HttpStatus.NOT_FOUND);
     }
 
+
     @PostMapping(value ="/{pollid}/vote/")
     public ResponseEntity<?> voteOnPoll(
-            @NotNull @RequestHeader("Authorization") final String token,
+            @Nullable @RequestHeader("Authorization") final String token,
             @PathVariable("pollid") final String pollid,
             @NotNull @RequestBody final VoteDTO votedto) {
-
+        var access = jwtControll.validateToken(token);
         var accountid = jwtControll.parseHeader(token);
         var poll = pollService.getPoll(pollid);
 
-        if(accountid.isPresent() && poll.isPresent()) {
+        // anonmously voting here and we need check if poll is public
+        if(accountid.isPresent() && poll.isPresent() && access) {
                 var res = voteService.vote(accountid.get(), poll.get(), votedto);
                 if(res.isPresent())
                     return new ResponseEntity<>(res.get(), HttpStatus.OK);
                 return new ResponseEntity<>("Forbidden to vote twice", HttpStatus.FORBIDDEN);
+        } else if (poll.isPresent() && poll.get().getAccess() == Access.PUBLIC) {
+            var res = voteService.voteAnonynmous(poll.get(), votedto);
+            return new ResponseEntity<>("Voted anon " + res.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>("Not allowed to vote", HttpStatus.NO_CONTENT);
     }
