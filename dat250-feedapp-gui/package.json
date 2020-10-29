@@ -1,9 +1,13 @@
 {
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
     "bootstrap": "^4.5.2",
+    "canvasjs-react-charts": "^1.0.5",
     "history": "^5.0.0",
-    "react-bootstrap": "^1.3.0",
-    "react-redux": "^7.2.1",
+    "react": "^17.0.1",
+    "react-bootstrap": "^1.4.0",
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5"
   }
