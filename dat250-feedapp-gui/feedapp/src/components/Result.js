@@ -1,14 +1,16 @@
 import React from "react";
-import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "../components/NavBar";
 import Button from 'react-bootstrap/Button'
 import { connect } from "react-redux";
+import Divider from '@material-ui/core/Divider'
+
 
 class Result extends React.Component {
 
+  
   getPoll(pollid) {
     for (const element of this.props.state.poll.pollData) {
       if (element.id === pollid) {
@@ -56,22 +58,22 @@ class Result extends React.Component {
           <NavBar/>
         
           <div key={resultData.id} className="mt-2">
-            <Card  text={"dark"} className="mb-2" style={{width:"40%", marginLeft: "30%"}}>
-            
               <p style={{textAlign: "center", marginTop: "2%"}} className="display-1">
-              <u> {poll.question} </u>
+              <small><small><small><small>{poll.question}</small></small></small></small>
+              <Divider variant="middle"/>
               </p>
+              
             
               <p className="display-1" style={{ textAlign: "center" }}>
-                <small> {"Total votes: " + resultData.total} </small>
+                <small><small><small><small> {"Total votes: " + resultData.total} </small></small></small></small>
               </p>
               <p className="display-1" style={{ textAlign: "center" }}>
-                <small> {"Yes: " + resultData.yes} </small>
+                <small><small><small><small> {"Yes: " + resultData.yes} </small></small></small></small>
               </p>
               <p className="display-1" style={{ textAlign: "center" }}>
-              <small> {"No: " + resultData.nos} </small>
+              <small><small><small><small> {"No: " + resultData.nos} </small></small></small></small>
               </p>
-            </Card>
+            
           </div>
         </div>
           <Button 
