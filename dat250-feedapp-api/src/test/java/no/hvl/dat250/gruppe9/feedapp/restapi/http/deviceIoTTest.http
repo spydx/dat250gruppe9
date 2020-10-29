@@ -4,10 +4,21 @@ Content-Type: application/json
 Cache-Control: no-cache
 
 {
-  "name" : "iot-device-1"
+  "name" : "iot-test-device",
+  "password": "1234"
 }
 
 ### Get em all (Pokemon)
 GET http://localhost:8080/api/devices/
 Accept: */*
 Cache-Control: no-cache
+
+###
+POST http://localhost:8080/api/devices/authenticate
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "name": "iot-test-device",
+  "password": "1234"
+}

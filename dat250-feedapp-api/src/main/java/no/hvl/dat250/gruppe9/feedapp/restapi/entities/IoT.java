@@ -3,10 +3,9 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.entities;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -17,6 +16,10 @@ public class IoT {
             strategy = "uuid2")
     private String id;
     private String name;
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Roles> roles = new HashSet<>();
 
     public String getId() {
         return id;
@@ -48,4 +51,19 @@ public class IoT {
         this.connectedPoll = connectedPoll;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Roles> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Roles> roles) {
+        this.roles = roles;
+    }
 }
