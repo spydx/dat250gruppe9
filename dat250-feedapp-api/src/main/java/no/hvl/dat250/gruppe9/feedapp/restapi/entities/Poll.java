@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -37,9 +34,8 @@ public class Poll {
     @ManyToOne(cascade = CascadeType.ALL)
     private Profile owner;
 
-    @OneToMany
-    @JsonIgnore
-    private Set<Vote> votes = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Vote> votes = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -116,9 +112,7 @@ public class Poll {
         this.answerno = answerno;
     }
 
-    //TODO: Check what JSON returns
     public Profile getOwner() {
-        //return owner.getFirstname() + " " + owner.getLastname();
         return owner;
     }
 
@@ -126,11 +120,11 @@ public class Poll {
         this.owner = owner;
     }
 
-    public Set<Vote> getVotes() {
+    public List<Vote> getVotes() {
         return votes;
     }
 
-    public void setVotes(Set<Vote> votes) {
+    public void setVotes(List<Vote> votes) {
         this.votes = votes;
     }
 

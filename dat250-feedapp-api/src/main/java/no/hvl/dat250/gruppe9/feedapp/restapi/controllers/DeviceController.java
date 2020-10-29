@@ -5,12 +5,10 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.config.security.JwtTokenProvider;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.DeviceDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.DeviceVoteDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.IoTDTO;
-import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.LoginDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.IoT;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.DeviceService;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.PollService;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.UserService;
-import no.hvl.dat250.gruppe9.feedapp.restapi.services.VoteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +35,8 @@ public class DeviceController {
     @Autowired
     private UserService userService;
     @Autowired
+    private PollService pollService;
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     private final Logger logger = LoggerFactory.getLogger(DeviceController.class);
@@ -62,22 +62,6 @@ public class DeviceController {
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
-
-    /* Not Needed
-    @PutMapping(value ="/{deviceid}")
-    public ResponseEntity<IoT> updateDevice(
-            @PathVariable("deviceid") final String deviceid,
-            @RequestBody IoT device
-    ) {
-        var founddevice = deviceService.getDevice(deviceid);
-        if (founddevice.isPresent()) {
-            var res = deviceService.update(device);
-            if(res.isPresent())
-                return new ResponseEntity<>(res.get(), HttpStatus.OK);
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-    }*/
 
     @PostMapping(value = "/connect")
     public ResponseEntity<IoT> createDevice(@RequestBody DeviceDTO newdevice) {
@@ -129,6 +113,25 @@ public class DeviceController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
+    @PutMapping(value ="/{deviceid}")
+    public ResponseEntity<IoT> updateDevice(
+            @RequestHeader("Authorization") final String token,
+            @PathVariable("deviceid") final String deviceid,
+            @NotNull @RequestBody IoTDTO updatedDevice) {
+        var accountid = tokenProvider.parseHeader(token);
+        var device = deviceService.getDevice(deviceid);
+        if(accountid.isPresent() && device.isPresent()) {
+            var poll = pollService.getPoll(updatedDevice.getPollId());
+            if(poll.isPresent())
+                device.get().setConnectedPoll(poll.get());
+
+            var res = deviceService.update(device.get());
+            if (res.isPresent()) {
+                return new ResponseEntity<>(res.get(), HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
 
     @PostMapping(value ="/{deviceId}/vote/")
     public ResponseEntity<Boolean> voteOnPoll(

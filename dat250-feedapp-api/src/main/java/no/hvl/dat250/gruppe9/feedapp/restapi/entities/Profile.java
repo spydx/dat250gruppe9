@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
 @Entity
 public class Profile implements Serializable {
 
@@ -30,6 +29,7 @@ public class Profile implements Serializable {
     private Set<Poll> pollList = new HashSet<>();
 
 
+    @JsonIgnore
     @OneToMany
     private Set<Vote> votedOn = new HashSet<>();
 

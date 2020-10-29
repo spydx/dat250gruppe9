@@ -22,3 +22,29 @@ Cache-Control: no-cache
   "name": "iot-test-device",
   "password": "1234"
 }
+###
+PUT http://localhost:8080/api/devices/82317bec-6be8-468c-bc6c-de459c32fd1c/
+Content-Type: application/json
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4MjMxN2JlYy02YmU4LTQ2OGMtYmM2Yy1kZTQ1OWMzMmZkMWMiLCJpYXQiOjE2MDQwMDM0NjcsImV4cCI6MTYwNDYwODI2N30.hyAwz4tBR19xLnBUkQ0_ldiWU9w0ZsGiuHO9o5B5r8c3sfuyPKds2lLz_1lRG3LU7Ze893CuRsWhbTh-Z2bpMw
+
+{
+  "name": "string",
+  "pollId": "1aee56d8-7224-4614-8c7b-19867203d1c4"
+}
+
+###
+POST http://localhost:8080/api/devices/82317bec-6be8-468c-bc6c-de459c32fd1c/vote/
+Content-Type: application/json
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4MjMxN2JlYy02YmU4LTQ2OGMtYmM2Yy1kZTQ1OWMzMmZkMWMiLCJpYXQiOjE2MDQwMDE4MjEsImV4cCI6MTYwNDYwNjYyMX0.QsxAi4GGo6AL2azPL23gFIwYv8hz0381szzjykx3ur-2GWKMD58SWS3kI3lPiFpgDiaKcioEju-VKPDk1c_rtQ
+
+{
+  "yes": 10,
+  "no": 100
+}
+
+###
+
+GET http://localhost:8080/api/polls/1aee56d8-7224-4614-8c7b-19867203d1c4
+Accept: application/json

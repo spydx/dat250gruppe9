@@ -2,6 +2,7 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.services;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.PollDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.PollResultDAO;
+import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.VoteDOA;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.PollResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,14 +13,13 @@ import java.util.Optional;
 @Service
 public class ResultService {
 
-    private final PollResultDAO pollResultDAO;
-    private final PollDAO pollDAO;
     @Autowired
-    public ResultService(PollResultDAO pollResultDAO,
-                         PollDAO pollDAO) {
-        this.pollResultDAO = pollResultDAO;
-        this.pollDAO = pollDAO;
-    }
+    private PollResultDAO pollResultDAO;
+    @Autowired
+    private PollDAO pollDAO;
+
+    @Autowired
+    private VoteDOA voteStorage;
 
     public Optional<List<PollResult>> getAll() {
         var list = pollResultDAO.getAll();
@@ -35,24 +35,27 @@ public class ResultService {
 
     public Optional<PollResult> generateResult(String pollid) {
         var poll = pollDAO.get(pollid);
-        var pollres = new PollResult();
-        if(poll.isPresent()) {
-            var updatedpoll = poll.get();
-            var reslist = updatedpoll.getVotes();
+        var votes = voteStorage.getVotesForPoll(pollid);
+
+        if(votes.isPresent() && poll.isPresent()) {
+            var pollres = new PollResult();
+            pollres.setTotal(votes.get().size());
             int yes = 0;
-            for(var v : reslist) {
-                Boolean b = v.getAnswer();
-                if(Boolean.TRUE.equals(b))
+            for(var v : votes.get()) {
+                var b = v.getAnswer();
+                if(Boolean.TRUE.equals(b)) {
                     yes++;
+                }
             }
-            var no = reslist.size()-yes;
+            var no = votes.get().size()-yes;
             pollres.setYes(yes);
             pollres.setNos(no);
-            pollres.setTotal(reslist.size());
-            updatedpoll.setPollResult(pollres);
-            pollDAO.update(updatedpoll);
-            return Optional.of(pollres);
+            poll.get().setPollResult(pollres);
+            pollDAO.update(poll.get());
+            pollResultDAO.save(pollres);
+            return Optional.ofNullable(pollres);
         }
+
         return Optional.empty();
     }
 

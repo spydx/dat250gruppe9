@@ -1,14 +1,10 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.entities;
 
-import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.Objects;
+import javax.persistence.*;
+import java.util.*;
 
-@Data
 @Entity
 public class PollResult {
 
