@@ -6,7 +6,6 @@ class ResultGraph extends React.Component {
 		const options = {
                 height:400,
                 width:500,
-                backgroundColor:"#F5EDEC",
                 theme:"light2",
 				animationEnabled: true,	
 				title:{

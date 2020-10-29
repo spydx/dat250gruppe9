@@ -2,11 +2,12 @@ import React from "react";
 import Spinner from "react-bootstrap/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
-import NavBar from "../components/NavBar";
+import NavBar from "./NavBar";
 import Button from 'react-bootstrap/Button'
 import { connect } from "react-redux";
 import Divider from '@material-ui/core/Divider'
-
+import ResultGraph from "./ResultComponents/ResultGraph"
+import PollStatus from "./PollComponents/PollStatus"
 
 class Result extends React.Component {
 
@@ -56,33 +57,51 @@ class Result extends React.Component {
       <div>
         <div>
           <NavBar/>
-        
+          
           <div key={resultData.id} className="mt-2">
-              <p style={{textAlign: "center", marginTop: "2%"}} className="display-1">
-              <small><small><small><small>{poll.question}</small></small></small></small>
+              <p style={{textAlign: "center", marginTop: "2%"}} className="display-4">
+                <small>{poll.question}</small>
               <Divider variant="middle"/>
               </p>
-              
-            
-              <p className="display-1" style={{ textAlign: "center" }}>
-                <small><small><small><small> {"Total votes: " + resultData.total} </small></small></small></small>
-              </p>
-              <p className="display-1" style={{ textAlign: "center" }}>
-                <small><small><small><small> {"Yes: " + resultData.yes} </small></small></small></small>
-              </p>
-              <p className="display-1" style={{ textAlign: "center" }}>
-              <small><small><small><small> {"No: " + resultData.nos} </small></small></small></small>
-              </p>
-            
+
+              <div class="container">
+                <div class="row">
+                  <div class="col" style={{ textAlign: "left", fontSize:"140%" }}>
+                    <div style={{textAlign:"right"}}>
+                      <PollStatus poll={poll}/>
+                    </div>
+                    <br></br><br></br>
+                    <p>
+                      {"Number of Votes: " + resultData.total} 
+                    </p>
+                    <p>
+                      {"Number of Yes: " + resultData.yes}
+                    </p>
+                    <p>
+                      {"Number of No: " + resultData.nos} 
+                    </p>
+
+                    <br></br>
+
+                    <p>
+                      {"Winner:"}
+                    </p>
+                  </div>
+                  <div class="col">
+                    <ResultGraph />
+                    <Button 
+                      variant="dark" 
+                      style={{ marginLeft: "65%", marginTop: "8%", marginRight:"5%" }}
+                      href = "/"
+                    >
+                      Return to overview
+                    </Button>
+                  </div>
+                </div>
+              </div>
           </div>
         </div>
-          <Button 
-            variant="danger" 
-          style={{ marginLeft: "70%", marginTop: "5%" }}
-          href = "/"
-            >
-            Return to overview
-          </Button>
+      
       </div>
     );
   }

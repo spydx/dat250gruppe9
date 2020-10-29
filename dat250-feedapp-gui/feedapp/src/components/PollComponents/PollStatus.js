@@ -1,19 +1,37 @@
 import React from 'react';
 import Badge from 'react-bootstrap/Badge'
+import EventIcon from '@material-ui/icons/Event';
 
 class PollStatus extends React.Component {
-    state={
-        curTime : new Date().toLocaleString(),
+    getStatus(startDate, endDate) {
+        var currentDate = new Date(Date.now());
+        startDate = new Date(startDate);
+        endDate = new Date(endDate);
+        var started = currentDate > startDate;
+        var ended = currentDate > endDate && endDate.getFullYear() !== 1970;
+        return ended
+
     }
-        render() {
-        return (
-            <div className="PollStatus">
-            <p>
-                Poll ended: {this.state.curTime} 
-                <Badge variant="info">ended</Badge>
-            </p>
-            </div>
-        );
+
+    render() {
+        const ended = this.getStatus(this.props.poll.timestart, this.props.poll.timeend)
+        if (ended) {
+            return (
+                <div>
+                    <Badge variant="danger">Closed</Badge> 
+                    {this.props.poll.timeend}
+                    <EventIcon/>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <Badge variant="success">Live</Badge>
+                </div>
+            );
+        }
+
+        
     }
 }
 

@@ -1,7 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
-import Card from "react-bootstrap/Card";
 import Button from 'react-bootstrap/Button'
 import { connect } from "react-redux";
 
