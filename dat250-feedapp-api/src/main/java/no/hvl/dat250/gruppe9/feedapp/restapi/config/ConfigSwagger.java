@@ -29,7 +29,7 @@ public class ConfigSwagger {
     @Bean
     public Docket api() {
         List<SecurityScheme> schemeList = new ArrayList<>();
-        schemeList.add(new ApiKey(HttpHeaders.AUTHORIZATION, "JWT", "header"));
+        schemeList.add(new ApiKey(HttpHeaders.AUTHORIZATION, "Bearer", "header"));
         return new Docket(DocumentationType.SWAGGER_2)
                 .produces(Collections.singleton("application/json"))
                 .consumes(Collections.singleton("application/json"))
