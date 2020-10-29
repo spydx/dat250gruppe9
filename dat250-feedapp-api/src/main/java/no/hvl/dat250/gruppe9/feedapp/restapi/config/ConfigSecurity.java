@@ -86,26 +86,28 @@ public class ConfigSecurity extends WebSecurityConfigurerAdapter {
                         )
                 .permitAll()
                 // Swagger
-                .antMatchers(
-                        "/v2/api-docs",
-                        "/configuration/**",
-                        "/swagger*/**",
-                        "/webjars/**")
-                    .permitAll()
-                .antMatchers(
-                        "/api/auth/**")
-                    .permitAll()
-                // All GET for public information
-                .antMatchers(HttpMethod.GET,
-                        "/api/polls/**",
-                        "/api/users/**",
-                        "/api/results/**")
-                    .permitAll()
-                .antMatchers(HttpMethod.POST,
-                "/api/polls/**/vote")
-                    .permitAll()
-                .anyRequest()
-                    .authenticated();
+            .antMatchers(
+                    "/v2/api-docs",
+                    "/configuration/**",
+                    "/swagger*/**",
+                    "/webjars/**")
+                .permitAll()
+            .antMatchers(
+                    "/api/auth/**")
+                .permitAll()
+            .antMatchers("/api/devices/connect")
+                .permitAll()
+            // All GET for public information
+            .antMatchers(HttpMethod.GET,
+                    "/api/polls/**",
+                    "/api/users/**",
+                    "/api/results/**")
+                .permitAll()
+            .antMatchers(HttpMethod.POST,
+            "/api/polls/**/vote")
+                .permitAll()
+            .anyRequest()
+                .authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

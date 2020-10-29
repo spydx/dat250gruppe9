@@ -1,10 +1,9 @@
 ### Create a device
-POST http://localhost:8080/api/devices/
+POST http://localhost:8080/api/devices/connect
 Content-Type: application/json
 Cache-Control: no-cache
 
 {
-  "id" : 0,
   "name" : "iot-device-1"
 }
 
@@ -12,19 +11,3 @@ Cache-Control: no-cache
 GET http://localhost:8080/api/devices/
 Accept: */*
 Cache-Control: no-cache
-
-//TODO: this is to be done after creating a poll
-### Update and connect a device to a poll /not finnished /
-PUT http://localhost:8080/api/devices/4
-Content-Type: application/json
-Cache-Control: no-cache
-
-{
-  "connectedPoll": id?
-}
-
-
-###
-# delete device
-###
-DELETE http://localhost:8080/api/devices/4

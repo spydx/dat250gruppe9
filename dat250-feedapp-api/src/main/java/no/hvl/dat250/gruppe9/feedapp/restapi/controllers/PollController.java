@@ -78,7 +78,6 @@ public class PollController {
         return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
     }
 
-
     @GetMapping(value = "/{pollid}")
     public ResponseEntity<?> pollById(@PathVariable("pollid") final String id)
     {

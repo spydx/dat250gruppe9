@@ -21,7 +21,6 @@ public class IoTDAO {
     }
 
     public Optional<IoT> get(String id) {
-
         return Optional.ofNullable(entityManager.find(IoT.class, id));
     }
 
