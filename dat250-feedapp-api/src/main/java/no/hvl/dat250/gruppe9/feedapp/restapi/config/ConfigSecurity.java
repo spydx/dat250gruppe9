@@ -103,7 +103,7 @@ public class ConfigSecurity extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET,
                     "/api/polls/**",
                     "/api/users/**",
-                    "/api/results/**")
+                    "/api/result/**")
                 .permitAll()
             .antMatchers(HttpMethod.POST,
             "/api/polls/**/vote")

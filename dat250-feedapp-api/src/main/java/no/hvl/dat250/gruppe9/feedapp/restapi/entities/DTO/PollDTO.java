@@ -8,8 +8,6 @@ public class PollDTO {
     private String name;
     private String question;
 
-    private Date timestart;
-
     private Date timeend;
 
     private Access access;
@@ -31,14 +29,6 @@ public class PollDTO {
 
     public void setQuestion(String question) {
         this.question = question;
-    }
-
-    public Date getTimestart() {
-        return timestart;
-    }
-
-    public void setTimestart(Date timestart) {
-        this.timestart = timestart;
     }
 
     public Date getTimeend() {

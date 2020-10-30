@@ -31,23 +31,12 @@ GET http://localhost:8080/api/polls/
 GET http://localhost:8080/api/polls/b85c4978-8be6-446f-ba3c-226ea61d6c55/
 Cache-Control: no-cache
 
-### You cannot vote twice
-
-POST http://localhost:8080/api/users/2f8ed7eb-089e-4582-a2be-b78f3f4f85e6/vote/d737a0b1-7781-4fdf-ad9d-271c20783e28
-Content-Type: application/json
-Cache-Control: no-cache
-Authorization: Bearer <token>
-
-{
-  "answer": true
-}
-
-
 ###
-POST http://localhost:8080/api/polls/1aee56d8-7224-4614-8c7b-19867203d1c4/vote/
+POST http://localhost:8080/api/polls/6f29caca-8f20-4894-bedd-cbbbd2005b9c/vote/
 Content-Type: application/json
 Cache-Control: no-cache
+#Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlOWU4MTA0ZC05NzRiLTRjNjYtYjMzOC00ZGU5ZTI3NzY1MGYiLCJpYXQiOjE2MDQwOTE5NTMsImV4cCI6MTYwNDY5Njc1M30.HgfM_g_h7Dvy2EU8cMAAiNRjhxo3mFcTQzTeqh-hO6hc2Xr9v1xMR1LWoawDmpcO6Lsud6Gw9l7pZhFzXY4WHA
 
 {
-"answer" : false
+"answer" : true
 }

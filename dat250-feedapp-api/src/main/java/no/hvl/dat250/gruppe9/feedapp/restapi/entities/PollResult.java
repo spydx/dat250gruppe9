@@ -3,19 +3,23 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
-public class PollResult {
+public class PollResult implements Serializable {
 
     @Id @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid",
             strategy = "uuid2")
     private String id;
 
-    private int yes;
-    private int nos;
-    private int total;
+    private int yes = 0;
+    private int nos = 0;
+    private int total = 0;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pollresult")
+    private List<Vote> votes;
 
     public PollResult() {
     }
@@ -30,6 +34,17 @@ public class PollResult {
         return id;
     }
 
+    public PollResult addNo() {
+        this.nos++;
+        this.total++;
+        return this;
+    }
+
+    public PollResult addYes() {
+        this.yes++;
+        this.total++;
+        return this;
+    }
     public void setId(String id) {
         this.id = id;
     }
@@ -56,6 +71,14 @@ public class PollResult {
 
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
     }
 
     @Override

@@ -34,8 +34,8 @@ public class ResultController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/{pollId}")
-    public ResponseEntity<PollResult> getResult(@PathVariable(value = "pollId") final String id) {
+    @GetMapping(value = "/{resultid}")
+    public ResponseEntity<PollResult> getResult(@PathVariable(value = "resultid") final String id) {
         var res =  resultService.getResult(id);
         if(res.isPresent())
             return new ResponseEntity<>(res.get(), HttpStatus.OK);
@@ -57,15 +57,6 @@ public class ResultController {
             }
         }
 
-        return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
-    }
-
-    @PostMapping(value = "/{pollId}")
-    public ResponseEntity<PollResult> generateResult(@PathVariable(value = "pollId") final String id) {
-        var res = resultService.generateResult(id);
-        if (res.isPresent()) {
-            return new ResponseEntity<>(res.get(), HttpStatus.OK);
-        }
         return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
     }
 }

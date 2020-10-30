@@ -25,13 +25,13 @@ public class Profile implements Serializable {
     private Account account;
 
     @JsonIgnore
-    @OneToMany()
-    private Set<Poll> pollList = new HashSet<>();
+    @OneToMany(mappedBy = "owner")
+    private Set<Poll> pollList;
 
 
     @JsonIgnore
-    @OneToMany
-    private Set<Vote> votedOn = new HashSet<>();
+    @OneToMany(mappedBy = "voter")
+    private Set<Vote> votedOn;
 
     public Profile() {
     }
