@@ -4,10 +4,11 @@ import "bootstrap/dist/css/bootstrap.css";
 import Button from 'react-bootstrap/Button'
 import {Form, Row, Col} from "react-bootstrap";
 
-
-
 class CreatePoll extends React.Component {
+
+
     render() {
+        
         return (
             <div>
                 <div>
@@ -19,15 +20,15 @@ class CreatePoll extends React.Component {
                             Name
                         </Form.Label> 
                         <Col sm={10}>
-                            <Form.Control type="Name" placeholder="Poll Name" />
+                            <Form.Control type="Name" placeholder="Poll Name" onChange={e => this.setState({name: e.target.value})}/>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="VotingOn">
                         <Form.Label column sm={2}>
-                            Voting on 
+                            Question 
                         </Form.Label>
                         <Col sm={10}>
-                            <Form.Control type="VotingOn" placeholder="Topic" />
+                            <Form.Control type="VotingOn" placeholder="Question" onChange={e => this.setState({question: e.target.value})}/>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="YesOption">
@@ -35,7 +36,7 @@ class CreatePoll extends React.Component {
                             Yes Option 
                         </Form.Label>
                         <Col sm={10}>
-                            <Form.Control type="YesOption" placeholder="Default: Yes, otherwise specify" />
+                            <Form.Control type="YesOption" placeholder="Default: Yes, otherwise specify" onChange={e => this.setState({answeryes: e.target.value})}/>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="NoOption">
@@ -43,7 +44,7 @@ class CreatePoll extends React.Component {
                             No Option 
                         </Form.Label>
                         <Col sm={10}>
-                            <Form.Control type="NoOption" placeholder="Default: No, otherwise specify" />
+                            <Form.Control type="NoOption" placeholder="Default: No, otherwise specify" onChange={e => this.setState({answerno: e.target.value})}/>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="Privacy">
@@ -51,10 +52,10 @@ class CreatePoll extends React.Component {
                             Privacy 
                         </Form.Label>
                         <Col sm={10}>
-                            <Form.Control type="Privacy" as="select">
-                            <option value = "public">Public</option>
-                            <option value = "private">Private</option>
-                            <option value = "registered">Registered</option>
+                            <Form.Control type="Privacy" as="select" onChange={e => this.setState({access: e.target.value})}>
+                            <option value = "PUBLIC">Public</option>
+                            <option value = "PRIVATE">Private</option>
+                            <option value = "REGISTERED">Registered</option>
                             </Form.Control>
                         </Col>
                     </Form.Group>

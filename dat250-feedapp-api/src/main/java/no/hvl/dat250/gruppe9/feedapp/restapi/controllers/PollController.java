@@ -55,9 +55,8 @@ public class PollController {
     public ResponseEntity<Poll> createPoll(
             @NotNull @RequestHeader("Authorization") final String token,
             @RequestBody PollDTO newPoll) {
-        var access = jwtControll.validateToken(token);
         var accountid = jwtControll.parseHeader(token);
-        if(accountid.isPresent() && access) {
+        if(accountid.isPresent()) {
 
             var res = pollService.addPoll(newPoll, accountid.get());
             if (res.isPresent()) {
@@ -90,9 +89,8 @@ public class PollController {
     @DeleteMapping(value = "/{pollId}")
     public ResponseEntity<?> deletePoll(@NotNull @RequestHeader("Authorization") final String token,
             @PathVariable("pollId") final String pollid) {
-        var access = jwtControll.validateToken(token);
         var accountid = jwtControll.parseHeader(token);
-        if(accountid.isPresent() && access) {
+        if(accountid.isPresent()) {
             var profile = userService.getProfileByAccount(accountid.get());
             var poll = pollService.getPoll(pollid);
             if(profile.isPresent() && poll.isPresent()) {
@@ -138,12 +136,11 @@ public class PollController {
             @Nullable @RequestHeader("Authorization") final String token,
             @PathVariable("pollid") final String pollid,
             @NotNull @RequestBody final VoteDTO votedto) {
-        var access = jwtControll.validateToken(token);
         var accountid = jwtControll.parseHeader(token);
         var poll = pollService.getPoll(pollid);
 
         // anonmously voting here and we need check if poll is public
-        if(accountid.isPresent() && poll.isPresent() && access) {
+        if(accountid.isPresent() && poll.isPresent()) {
                 var res = voteService.vote(accountid.get(), poll.get(), votedto);
                 if(res.isPresent())
                     return new ResponseEntity<>(res.get(), HttpStatus.OK);

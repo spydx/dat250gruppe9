@@ -97,9 +97,8 @@ public class DeviceController {
             @RequestHeader("Authorization") final String token,
             @PathVariable("deviceid") final String deviceid) {
 
-        var access = tokenProvider.validateToken(token);
         var accountid = tokenProvider.parseHeader(token);
-        if(accountid.isPresent() && access) {
+        if(accountid.isPresent()) {
             if(userService.validateAdmin(accountid.get())) {
                 var found = deviceService.getDevice(deviceid);
                 if(found.isPresent()) {
