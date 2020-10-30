@@ -7,7 +7,6 @@ class PollStatus extends React.Component {
         var currentDate = new Date(Date.now());
         startDate = new Date(startDate);
         endDate = new Date(endDate);
-        var started = currentDate > startDate;
         var ended = currentDate > endDate && endDate.getFullYear() !== 1970;
         return ended
 

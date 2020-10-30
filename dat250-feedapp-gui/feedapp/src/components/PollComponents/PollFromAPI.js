@@ -36,6 +36,8 @@ class PollFromAPI extends React.Component {
   render() {
     const { error, isLoaded, pollData } = this.props.poll;
     
+
+
     if (error) {
       return <div>Something went wrong: {error.message}</div>;
     } else if (!isLoaded) {

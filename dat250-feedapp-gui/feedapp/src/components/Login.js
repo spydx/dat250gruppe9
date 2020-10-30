@@ -6,7 +6,7 @@ import { Post, Get } from "../utils/actionHandler"
 
 class Login extends React.Component {
    
-  
+  //TODO: fix if the user does not exist
   async handleSubmit(email, password) {
     const loginRequest = {
       email: email,
@@ -18,25 +18,24 @@ class Login extends React.Component {
       .then(
         (result) => {
           this.props.setAccessToken(result);
-          
-          this.props.setEmail(this.state.email) // this can also be done when user details is being fetched
         },
         (error) => {
           this.props.setError(error);
         }
       );
     
-    Get("http://localhost:8080/api/users/" + this.props.state.user.id) //TODO should have access token
+    Get("http://localhost:8080/api/users/" + this.props.state.user.id, this.props.state.user.token) //TODO should have access token
       .then((res) => res.json())
       .then(
         (result) => {
           this.props.setLogin(result);
+          this.props.setEmail(this.state.email)
         },
         (error) => {
           this.props.setError(error);
         }
       );
-    
+
   }
 
   render() {
@@ -88,6 +87,7 @@ const mapDispatchToProps = (dispatch) => {
 
     setLogin: (result) => dispatch({
         type: "SET_LOGIN",
+        error: null,
         isLoggedin: true,
         isLoaded: true,
         id: result.id,
@@ -97,12 +97,14 @@ const mapDispatchToProps = (dispatch) => {
     
     setAccessToken: (result) => dispatch({
       type: "AUTHORIZE",
+      error: null,
       token: result.token,
       id: result.profile
     }),
 
     setEmail: (result) => dispatch({
       type: "SET_EMAIL",
+      error: null,
       email: result
     })
   };

@@ -2,6 +2,7 @@ import React from "react";
 import PollFromAPI from "./PollComponents/PollFromAPI";
 import { connect } from "react-redux";
 import { Get } from "../utils/actionHandler"
+import Button from "react-bootstrap/Button";
 
 class PublicPollOverview extends React.Component {
   constructor(props) {
@@ -43,7 +44,22 @@ class PublicPollOverview extends React.Component {
   render() {
     if (!this.state.didFetch) {
       this.fetchPollData();
-      //console.log("fetched poll data") - for debugging
+    }
+    if (!this.props.state.user.isLoggedin) {
+      return (
+        <div>
+          <div className="container">
+            <div className="row">
+              <div className="col-sm">
+                <h1 className="display-4" style={{ textAlign: "center" }}>
+                  All polls
+                </h1>
+                <PollFromAPI poll={this.props.state.poll}/>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
     }
     
     return (
@@ -57,10 +73,18 @@ class PublicPollOverview extends React.Component {
               <PollFromAPI poll={this.props.state.poll}/>
             </div>
             <div className="col-sm">
+              <Button
+                variant="success"
+                style={{ width: "50%", marginLeft: "50%" }}
+                block
+                href="/createpoll"
+              >
+                Create Poll
+              </Button>
               <h1 className="display-4" style={{ textAlign: "center" }}>
                 Created polls
               </h1>
-              {<PollFromAPI poll={this.props.state.user}/>}
+              <PollFromAPI poll={this.props.state.user}/>
             </div>
           </div>
         </div>
