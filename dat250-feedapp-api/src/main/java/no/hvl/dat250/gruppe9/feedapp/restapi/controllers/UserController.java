@@ -29,7 +29,6 @@ public class UserController {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
-    //TODO: to be removed, just for prototyping
     @GetMapping("/")
     public ResponseEntity<List<Profile>> getAll() {
         var res = userService.getAll();
@@ -42,9 +41,8 @@ public class UserController {
     public ResponseEntity<Profile> getUserById(
             @RequestHeader("Authorization") final String token,
             @PathVariable("profileid") final String profileid) {
-        var access = tokenProvider.validateToken(token);
         var accountid = tokenProvider.parseHeader(token);
-        if(accountid.isPresent() && access) {
+        if(accountid.isPresent()) {
             var profile = userService.getProfileByAccount(accountid.get());
             var admin = userService.validateAdmin(accountid.get());
             if(profile.isPresent()) {
@@ -62,9 +60,8 @@ public class UserController {
     @DeleteMapping(value = "/{profileid}")
     public ResponseEntity<Account> deleteUser(@RequestHeader("Authorization") final String token,
                                               @PathVariable("profileid") final String id) {
-        var access = tokenProvider.validateToken(token);
         var accountid = tokenProvider.parseHeader(token);
-        if(accountid.isPresent() && access) {
+        if(accountid.isPresent()) {
             var profile = userService.getProfileByAccount(accountid.get()).get();
             if(userService.validateAdmin(accountid.get()) || profile.getId().equals(id)) {
                 var found = userService.getProfile(id);
@@ -84,10 +81,9 @@ public class UserController {
     public ResponseEntity<Profile> updateProfile(@RequestHeader("Authorization")  final String token,
                                             @PathVariable("profileid") final String profileid,
                                             @RequestBody ProfileDTO updatedUser) {
-        var access = tokenProvider.validateToken(token);
         var authuser = tokenProvider.parseHeader(token);
         var profile = userService.getProfile(profileid);
-        if(authuser.isPresent() && profile.isPresent() && access) {
+        if(authuser.isPresent() && profile.isPresent()) {
             if(authuser.get().equals(profile.get().getAccount().getId())) {
                 profile.get().setFirstname(updatedUser.getFirstname());
                 profile.get().setLastname(updatedUser.getLastname());
