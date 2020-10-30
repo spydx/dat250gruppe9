@@ -3,6 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Button from 'react-bootstrap/Button'
 import {Form, Row, Col} from "react-bootstrap";
+import Datetime from "react-datetime";
+import "react-datetime/css/react-datetime.css";
 
 class CreatePoll extends React.Component {
 
@@ -57,6 +59,14 @@ class CreatePoll extends React.Component {
                             <option value = "PRIVATE">Private</option>
                             <option value = "REGISTERED">Registered</option>
                             </Form.Control>
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId="Privacy">
+                        <Form.Label column sm={2}>
+                            End Time 
+                        </Form.Label>
+                        <Col sm={10}>
+                            <Datetime closeOnClickOutside="true" onChange={e => this.setState({access: e})}/>
                         </Col>
                     </Form.Group>
                     <div>
