@@ -27,8 +27,8 @@ class NavBar extends React.Component {
               </Navbar.Text>
             </Navbar.Collapse>
 
-            <NavDropdown title={this.props.state.user.firstname + " " + this.props.state.user.lastname} id="collasible-nav-dropdown">
-              <NavDropdown.Item href="\">Account</NavDropdown.Item>
+            <NavDropdown title={this.props.state.user.firstname + " " + this.props.state.user.lastname} id="collapsible-nav-dropdown">
+              <NavDropdown.Item href="/">Account</NavDropdown.Item>
             </NavDropdown>
           </Container>
         </Navbar>
