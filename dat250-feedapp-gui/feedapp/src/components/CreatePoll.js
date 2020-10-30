@@ -8,6 +8,29 @@ import "react-datetime/css/react-datetime.css";
 
 class CreatePoll extends React.Component {
 
+    async handleSubmit(access, answerno, answeryes, name, question, timeend) {
+        const createPollRequest = {
+            access: access,
+            answerno: answerno,
+            answeryes: answeryes,
+            name: name,
+            question: question,
+            timeend: timeend
+        }
+
+        console.log(JSON.stringify(createPollRequest));
+    }
+
+    componentDidMount() {
+        this.setState({
+            access: "PUBLIC",
+            answerno: "No",
+            answeryes: "Yes",
+            name: "",
+            question: "",
+            timeend: new Date()
+        })
+    }
 
     render() {
         
@@ -38,7 +61,7 @@ class CreatePoll extends React.Component {
                             Yes Option 
                         </Form.Label>
                         <Col sm={10}>
-                            <Form.Control type="YesOption" placeholder="Default: Yes, otherwise specify" onChange={e => this.setState({answeryes: e.target.value})}/>
+                            <Form.Control type="YesOption" placeholder="Default: Yes" onChange={e => this.setState({answeryes: e.target.value})}/>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="NoOption">
@@ -46,7 +69,7 @@ class CreatePoll extends React.Component {
                             No Option 
                         </Form.Label>
                         <Col sm={10}>
-                            <Form.Control type="NoOption" placeholder="Default: No, otherwise specify" onChange={e => this.setState({answerno: e.target.value})}/>
+                            <Form.Control type="NoOption" placeholder="Default: No" onChange={e => this.setState({answerno: e.target.value})}/>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="Privacy">
@@ -66,7 +89,7 @@ class CreatePoll extends React.Component {
                             End Time 
                         </Form.Label>
                         <Col sm={10}>
-                            <Datetime closeOnClickOutside="true" onChange={e => this.setState({access: e})}/>
+                            <Datetime closeOnClickOutside="true" value= { new Date().toISOString() } onChange={e => this.setState({timeend: e})}/>
                         </Col>
                     </Form.Group>
                     <div>
@@ -77,9 +100,16 @@ class CreatePoll extends React.Component {
                         </Button>
                     </div>
                     <div>
-                        <Button variant="success" 
-                                style={{ marginLeft: "5%", marginTop: "5%" }}
-                                onClick={() => alert("Saved")}>
+                        <Button variant="success"
+                            style={{ marginLeft: "5%", marginTop: "5%" }}
+                            onClick={() => this.handleSubmit(
+                                    this.state.access,
+                                    this.state.answerno,
+                                    this.state.answeryes,
+                                    this.state.name,
+                                    this.state.question,
+                                    this.state.timeend.toISOString()
+                                )}>
                             Create
                         </Button>  
                     </div>
