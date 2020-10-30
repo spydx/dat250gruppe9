@@ -51,9 +51,17 @@ const userReducer = (state = userinitialState, action) => {
                 id: action.id
             }
             break;
-        case "RESET":
+        case "RESET_USER":
             state = {
-                userinitialState
+                error: null,
+                isLoaded: false,
+                isLoggedin: false,
+                id: null,
+                firstname: null,
+                lastname: null,
+                email: null,
+                pollData: [],
+                token: null
             }
             break;
         case "SET_EMAIL":

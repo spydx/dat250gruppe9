@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
 import { Post, Get } from "../utils/actionHandler"
+import { Redirect } from "react-router-dom";
 
 class Login extends React.Component {
    
@@ -20,11 +21,12 @@ class Login extends React.Component {
           this.props.setAccessToken(result);
         },
         (error) => {
+          this.props.setReset();
           this.props.setError(error);
         }
       );
     
-    Get("http://localhost:8080/api/users/" + this.props.state.user.id, this.props.state.user.token) //TODO should have access token
+    await Get("http://localhost:8080/api/users/" + this.props.state.user.id, this.props.state.user.token) //TODO should have access token
       .then((res) => res.json())
       .then(
         (result) => {
@@ -32,6 +34,7 @@ class Login extends React.Component {
           this.props.setEmail(this.state.email)
         },
         (error) => {
+          this.props.setReset();
           this.props.setError(error);
         }
       );
@@ -39,6 +42,10 @@ class Login extends React.Component {
   }
 
   render() {
+    if (this.props.state.user.isLoggedin) { 
+      return <Redirect to="/"/>
+    }
+
     return (
       <Form>
         <Form.Group controlId="email">
@@ -106,6 +113,10 @@ const mapDispatchToProps = (dispatch) => {
       type: "SET_EMAIL",
       error: null,
       email: result
+    }),
+
+    setReset: () => dispatch({
+      type: "RESET_USER"
     })
   };
 };
