@@ -2,7 +2,6 @@ import React from "react";
 import Spinner from "react-bootstrap/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
-import NavBar from "./NavBar";
 import Button from 'react-bootstrap/Button'
 import { connect } from "react-redux";
 import Divider from '@material-ui/core/Divider'
@@ -55,9 +54,7 @@ class Result extends React.Component {
     }
     return (
       <div>
-        <div>
-          <NavBar/>
-          
+        <div>    
           <div key={resultData.id} className="mt-2">
               <p style={{textAlign: "center", marginTop: "2%"}} className="display-4">
                 <small>{poll.question}</small>
