@@ -1,5 +1,9 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.DAO;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Account;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.IoTDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.IoT;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,18 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.ErrorManager;
 
 
 @Repository
 @Transactional
 public class IoTDAO {
 
-    private final EntityManager entityManager;
-
     @Autowired
-    public IoTDAO(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    private EntityManager entityManager;
+
+    private final Logger logger = LoggerFactory.getLogger(IoTDTO.class);
 
     public Optional<IoT> get(String id) {
         return Optional.ofNullable(entityManager.find(IoT.class, id));
@@ -58,7 +61,18 @@ public class IoTDAO {
     }
 
 
-
-
-
+    public Optional<IoT> getByName(String username) {
+        try {
+            var query = entityManager
+                    .createQuery("SELECT a FROM IoT a WHERE a.name = :id", IoT.class)
+                    .setParameter("id", username);
+            var res = Optional.ofNullable(query.getSingleResult());
+            if (res.isPresent())
+                return res;
+            return Optional.empty();
+        } catch (Exception e) {
+            logger.error("Failed to fetch user {}", e.toString() );
+            return Optional.empty();
+        }
+    }
 }

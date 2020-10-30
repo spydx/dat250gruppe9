@@ -1,6 +1,7 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.services;
 
 
+import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.PollDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.VoteDOA;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.DeviceVoteDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.VoteDTO;
@@ -24,10 +25,10 @@ public class VoteService {
     private VoteDOA voteStorage;
 
     @Autowired
-    private DeviceService deviceService;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    private PollDAO pollStorage;
 
     @Value("${app.anonymous.account}")
     private String anonAccount;
@@ -46,29 +47,31 @@ public class VoteService {
         return Optional.empty();
     }
 
-    //TODO : needs to be rewritten
     public Optional<List<Vote>> deviceVote(IoT voter, DeviceVoteDTO responses) {
         var l = new ArrayList<Vote>();
+        var poll = voter.getConnectedPoll();
         for (int i = 0; i < responses.getYes() ; i++) {
             var yes = new Vote();
             yes.setAnswer(true);
             yes.setVotetime(new Date());
             yes.setVoter(voter.getId());
-            yes.setPoll(yes.getPoll());
-            voteStorage.save(yes);
+            yes.setPoll(voter.getConnectedPoll());
             l.add(yes);
         }
 
         for (int i = 0; i < responses.getNo() ; i++) {
             var no = new Vote();
-            no.setAnswer(true);
+            no.setAnswer(false);
             no.setVotetime(new Date());
             no.setVoter(voter.getId());
-            no.setPoll(no.getPoll());
-            voteStorage.save(no);
+            no.setPoll(voter.getConnectedPoll());
             l.add(no);
         }
+        for(var v : l) {
+            voteStorage.save(v);
+        }
 
+        //pollStorage.update(poll);
         return Optional.of(l);
     }
 

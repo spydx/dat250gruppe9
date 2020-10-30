@@ -17,15 +17,15 @@ public class Vote {
             strategy = "uuid2")
     private String id;
 
+    @JsonIgnore
     private String voter;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Poll poll;
 
     private Boolean answer;
 
-    @JsonIgnore
     @Temporal(TemporalType.TIMESTAMP)
     private Date votetime;
 

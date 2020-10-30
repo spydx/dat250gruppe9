@@ -27,16 +27,29 @@ public class JwtTokenProvider {
     private int expireTTL;
 
     public String generateToken(Authentication auth) {
-        var accountPrincipals = (AccountPrincipals) auth.getPrincipal();
         var now = new Date();
         var exp = new Date(now.getTime()+ expireTTL);
+
+        if(auth.getPrincipal().getClass().equals(AccountPrincipals.class)) {
+            var accountPrincipals = (AccountPrincipals) auth.getPrincipal();
+            return Jwts.builder()
+                    .setSubject(accountPrincipals.getId())
+                    .setIssuedAt(new Date())
+                    .setExpiration(exp)
+                    .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                    .compact();
+        }
+        var accountPrincipals = (DevicePrincipals) auth.getPrincipal();
         return Jwts.builder()
                 .setSubject(accountPrincipals.getId())
                 .setIssuedAt(new Date())
                 .setExpiration(exp)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
+
+
     }
+
 
     public String getUserIdFromJwt(String token) {
         Claims claims = Jwts.parser()
