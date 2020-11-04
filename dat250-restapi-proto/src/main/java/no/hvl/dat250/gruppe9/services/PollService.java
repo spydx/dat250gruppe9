@@ -70,6 +70,9 @@ public class PollService {
         //Todo: check if the user owns the poll , or is an admin
         var tobeDeleted = feedPollDAO.getPoll(id);
         if (tobeDeleted != null) {
+            var user = feedUserDAO.getUser(tobeDeleted.getOwner());
+            user.getPollsList().remove(tobeDeleted);
+            feedUserDAO.updateUser(user);
             feedPollDAO.deletePoll(tobeDeleted);
             return true;
         }
