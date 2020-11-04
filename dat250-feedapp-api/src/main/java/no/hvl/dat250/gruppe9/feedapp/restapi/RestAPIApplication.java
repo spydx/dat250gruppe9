@@ -1,5 +1,6 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi;
 
+import no.hvl.dat250.gruppe9.feedapp.restapi.messaging.RabbitSender;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.SetupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +26,13 @@ public class RestAPIApplication {
         @Autowired
         private SetupService setupService;
 
+        @Autowired
+        private RabbitSender sender;
+
         @Override
         public void run(String... args) throws Exception {
             setupService.init();
+            sender.broadcast("test");
             logger.info("ApplicationStartupRunner run method Started !!");
         }
     }

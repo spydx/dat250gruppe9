@@ -7,6 +7,7 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.ProfileDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PollDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.PollResult;
+import no.hvl.dat250.gruppe9.feedapp.restapi.messaging.RabbitSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,9 @@ public class PollService {
 
     @Autowired
     private AccountDAO accountStorage;
+
+    @Autowired
+    private RabbitSender rabbitSender;
 
     //Authenticated
     public Optional<List<Poll>> getAllLoggedIn() {
@@ -67,7 +71,11 @@ public class PollService {
             p.setOwner(o);
             p.setPollResult(r);
             o.getPollList().add(p);
-            return pollStorage.save(p);
+            var savepoll = pollStorage.save(p);
+            if(savepoll.isPresent()) {
+                rabbitSender.publishNewPoll(savepoll.get());
+                return savepoll;
+            }
         }
         return Optional.empty();
     }
