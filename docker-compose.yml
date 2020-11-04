@@ -1,6 +1,7 @@
 version : '3.7'
 
 services:
+
    feedapp-api:
       build: 
          context: dat250-feedapp-api
@@ -20,6 +21,9 @@ services:
             condition: service_healthy
       environment:
          SPRING_DATASOURCE_URL: jdbc:mysql://feedapp-db:3306/feedappdb?createDatabaseIfNotExist=true
+         SPRING_RABBITMQ_HOST: feedapp-messaging
+         SPRING_RABBITMQ_USER: guest
+         SPRING_RABBITMQ_PASSWORD: guest
       networks:
          - backend
          - frontend
@@ -43,6 +47,7 @@ services:
          - db-data:/var/lib/mysql
       networks:
          - backend
+
    feedapp-messaging:
       image: rabbitmq:3-management
       healthcheck:
@@ -55,6 +60,21 @@ services:
          - 15672:15672
       networks:
          - backend
+
+   feedapp-muservice:
+         build:
+            context: dat250-feedapp-muservice
+            dockerfile: Dockerfile
+         restart: always
+         environment: 
+            RABBITSERVER: feedapp-messaging
+            RABBITUSER: guest
+            RABBITPASSWORD: guest
+            RABBITROUTINGKEY: FEEDAPP
+         depends_on:
+            - feedapp-messaging
+         networks:
+            - backend
 
 
 volumes:
