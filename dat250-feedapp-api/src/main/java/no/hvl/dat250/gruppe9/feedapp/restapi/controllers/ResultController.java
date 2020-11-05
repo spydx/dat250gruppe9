@@ -2,7 +2,9 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.controllers;
 
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.config.security.JwtTokenProvider;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.PollResult;
+import no.hvl.dat250.gruppe9.feedapp.restapi.services.PollService;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.ResultService;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.UserService;
 import org.apache.catalina.User;
@@ -24,6 +26,9 @@ public class ResultController {
     private UserService userService;
 
     @Autowired
+    private PollService pollService;
+
+    @Autowired
     private JwtTokenProvider tokenProvider;
 
     @GetMapping("/")
@@ -34,11 +39,13 @@ public class ResultController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/{resultid}")
-    public ResponseEntity<PollResult> getResult(@PathVariable(value = "resultid") final String id) {
-        var res =  resultService.getResult(id);
-        if(res.isPresent())
-            return new ResponseEntity<>(res.get(), HttpStatus.OK);
+    @GetMapping(value = "/{pollid}")
+    public ResponseEntity<PollResult> getResult(@PathVariable(value = "pollid") final String id) {
+        var res = pollService.getPoll(id);
+        if(res.isPresent()) {
+            var pollresult = res.get().getPollResult();
+            return new ResponseEntity<>(pollresult, HttpStatus.OK);
+        }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iotdevice/LoginScreen.dart';
 import 'package:iotdevice/VoteState.dart';
 import 'package:provider/provider.dart';
 import 'package:iotdevice/VoteScreen.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       lazy: false,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: VoteScreen(),
+        home: LoginScreen(),
       ),
     );
   }
