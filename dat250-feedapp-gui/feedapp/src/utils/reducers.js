@@ -100,7 +100,9 @@ const pollReducer = (state = pollinitialState, action) => {
             break;
         case "RESET_POLL_DATA":
             state = {
-                pollinitialState
+                error: null,
+                isLoaded: false,
+                pollData:[] 
             }
             break;
         default:
@@ -126,6 +128,12 @@ const resultReducer = (state = resultinitialState, action) => {
                 resultData: action.resultData,
             }
             break;
+        case "RESET_RESULT":
+            state = {
+                error: null, 
+                isLoaded: false, 
+                resultData: []
+            }
         default:
             break;
     }

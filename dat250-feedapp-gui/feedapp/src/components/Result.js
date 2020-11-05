@@ -7,6 +7,8 @@ import { connect } from "react-redux";
 import Divider from '@material-ui/core/Divider'
 import ResultGraph from "./ResultComponents/ResultGraph"
 import PollStatus from "./PollComponents/PollStatus"
+import { API_URL } from "../constants/constants"
+import { Get } from "../utils/actionHandler"
 
 class Result extends React.Component {
 
@@ -19,19 +21,21 @@ class Result extends React.Component {
     } 
   }
 
-  fetchResultData() {
-    fetch("http://localhost:8080/api/result/" + this.props.id)
-      .then((res) => res.json())
+  async fetchResultData() {
+    console.log(this.props.id)
+    await Get(API_URL + "/polls/" + this.props.id + "/result")
+    .then((res) => res.json())
       .then(
         (result) => {
           this.props.setData(result);
-          },
+        },
 
         (error) => {
+          console.log(error)
           this.props.setError(error)
             
         }
-      );
+    );
   }
 
   render() {
@@ -56,14 +60,15 @@ class Result extends React.Component {
       <div>
         <div>    
           <div key={resultData.id} className="mt-2">
+            
               <p style={{textAlign: "center", marginTop: "2%"}} className="display-4">
                 <small>{poll.question}</small>
-              <Divider variant="middle"/>
+                <Divider variant="middle"/>
               </p>
 
-              <div class="container">
-                <div class="row">
-                  <div class="col" style={{ textAlign: "left", fontSize:"140%" }}>
+              <div className="container">
+                <div className="row">
+                  <div className="col" style={{ textAlign: "left", fontSize:"140%" }}>
                     <div style={{textAlign:"right"}}>
                       <PollStatus poll={poll}/>
                     </div>
@@ -84,7 +89,7 @@ class Result extends React.Component {
                       {"Winner:"}
                     </p>
                   </div>
-                  <div class="col">
+                  <div className="col">
                     <ResultGraph />
                     <Button 
                       variant="dark" 

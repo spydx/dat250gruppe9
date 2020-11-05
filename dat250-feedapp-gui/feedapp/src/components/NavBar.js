@@ -35,6 +35,7 @@ class NavBar extends React.Component {
               id="collapsible-nav-dropdown"
             >
               <NavDropdown.Item href="/account">Account</NavDropdown.Item>
+              <NavDropdown.Item onClick={() => {this.props.setResetUser()}} href="/">Logout</NavDropdown.Item>
             </NavDropdown>
           </Container>
         </Navbar>
@@ -61,7 +62,6 @@ class NavBar extends React.Component {
           </Navbar.Collapse>
 
           <NavDropdown title="User" id="collasible-nav-dropdown">
-            <NavDropdown.Item href="/account">Account</NavDropdown.Item>
             <NavDropdown.Item href="/login">Login</NavDropdown.Item>
           </NavDropdown>
         </Container>
@@ -77,7 +77,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    setResetUser: () => dispatch({
+      type: "RESET_USER"
+    })
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
