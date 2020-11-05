@@ -21,6 +21,14 @@ class Result extends React.Component {
     } 
   }
 
+  getCurrentWinner(yes, no, pollYes, pollNo) {
+    if (yes < no) {
+      return pollNo
+    } else {
+      return pollYes
+    }
+  }
+
   async fetchResultData() {
     console.log(this.props.id)
     await Get(API_URL + "/polls/" + this.props.id + "/result")
@@ -86,7 +94,7 @@ class Result extends React.Component {
                     <br></br>
 
                     <p>
-                      {"Winner:"}
+                      {"Current lead: " + this.getCurrentWinner(resultData.yes, resultData.no, poll.answeryes, poll.asnwerno)}
                     </p>
                   </div>
                   <div className="col">

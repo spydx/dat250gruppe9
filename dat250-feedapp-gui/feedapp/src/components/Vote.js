@@ -3,22 +3,35 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import Button from 'react-bootstrap/Button'
 import { connect } from "react-redux";
-
-
+import { Post } from "../utils/actionHandler";
+import { API_URL } from "../constants/constants"
+import { Redirect } from "react-router-dom";
 
 class Vote extends React.Component {
 
     getPoll(pollid) {
         
         for (const element of this.props.state.poll.pollData) {
-          if (element.id === pollid) {
+            if (element.id === pollid) {
             return element;
-          }
+            }
         } 
-      }
+    }
+
+    async handleSubmit(answer) {
+        const voteRequest = {
+            answer: answer
+        }
+        if (this.props.state.user.isLoggedin) {
+            await Post(API_URL + "/polls/" + this.props.id + "/vote/", voteRequest, this.props.state.user.token)
+            
+        } else {
+            await Post(API_URL + "/polls/" + this.props.id + "/vote/", voteRequest)
+            
+        }
+    }
 
     render() {
-        console.log("polls",this.props.state.poll.pollData )
         const poll = this.getPoll(this.props.id)
         return(
             <div>
@@ -35,22 +48,20 @@ class Vote extends React.Component {
                                     <Button
                                         variant = "success"
                                         style = {{width: "35%", marginLeft: "30%"}}
-                                        onClick = {() => {
-                                        alert("Vote yes");
-                                    }}
+                                        onClick={() => { this.handleSubmit(true) }}
+                                        href={ "/result/" + this.props.id }
                                     >
-                                        Yes
+                                        {poll.answeryes}
                                     </Button>
                                 </div>
                                 <div className="col-sm" style = {{marginTop:"8%"}}>
                                     <Button
                                         variant = "danger"
                                         style = {{width: "35%", marginLeft:"23%"}}
-                                        onClick = {() => {
-                                            alert("Vote no");
-                                        }}
+                                    onClick={() => { this.handleSubmit(false) }}
+                                    href={ "/result/" + this.props.id }
                                     >
-                                        No
+                                        {poll.answerno}
                                     </Button>
                                 </div> 
                             </div>
