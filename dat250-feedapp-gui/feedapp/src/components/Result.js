@@ -31,7 +31,7 @@ class Result extends React.Component {
 
   async fetchResultData() {
     console.log(this.props.id)
-    await Get(API_URL + "/polls/" + this.props.id + "/result")
+    await Get(API_URL + "/result/" + this.props.id)
     .then((res) => res.json())
       .then(
         (result) => {
@@ -69,10 +69,10 @@ class Result extends React.Component {
         <div>    
           <div key={resultData.id} className="mt-2">
             
-              <p style={{textAlign: "center", marginTop: "2%"}} className="display-4">
+              <div style={{textAlign: "center", marginTop: "2%"}} className="display-4">
                 <small>{poll.question}</small>
                 <Divider variant="middle"/>
-              </p>
+              </div>
 
               <div className="container">
                 <div className="row">
