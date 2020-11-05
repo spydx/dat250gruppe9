@@ -31,8 +31,14 @@ class Login extends React.Component {
       .then((res) => res.json())
       .then(
         (result) => {
-          this.props.setLogin(result);
-          this.props.setEmail(this.state.email)
+          if (this.props.state.user.id && this.props.state.user.token) {
+            this.props.setError(null);
+            this.props.setLogin(result);
+            this.props.setEmail(this.state.email);
+          } else {
+            this.props.setReset();
+            this.props.setError("Password and email did not match!");
+          }
         },
         (error) => {
           this.props.setReset();
@@ -47,6 +53,40 @@ class Login extends React.Component {
       return <Redirect to="/"/>
     }
 
+    if (this.props.state.user.error) {
+      return (
+        <Form>
+          <Form.Group controlId="email">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control type="email" placeholder="Enter email" onChange={e => this.setState({email: e.target.value})}/> 
+          </Form.Group>
+  
+          <Form.Group controlId="password">
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
+          </Form.Group>
+          <div>
+            {this.props.state.user.error}
+          </div>
+          <Form.Group controlId="checkbox">
+            <Form.Check type="checkbox" label="Remember me" />
+          </Form.Group>
+          <Button
+            variant="success"
+            style={{ width: "5rem", margin: "1rem" }}
+          >
+            Register
+          </Button>
+          <Button
+            variant="success"
+            style={{ width: "5rem", margin: "0.5rem", marginLeft: "5rem" }}
+            onClick={() => { this.handleSubmit(this.state.email, this.state.password) }}
+          >
+            Login
+          </Button>
+        </Form>
+      );
+    }
     return (
       <Form>
         <Form.Group controlId="email">
