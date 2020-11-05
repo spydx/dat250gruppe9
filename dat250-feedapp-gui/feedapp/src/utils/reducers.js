@@ -130,10 +130,11 @@ const resultReducer = (state = resultinitialState, action) => {
             break;
         case "RESET_RESULT":
             state = {
-                error: null, 
-                isLoaded: false, 
+                error: null,
+                isLoaded: false,
                 resultData: []
             }
+            break;
         default:
             break;
     }

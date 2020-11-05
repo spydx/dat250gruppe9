@@ -53,7 +53,7 @@ class PollFromAPI extends React.Component {
         {pollData.map((poll) => (
           
           <div key={poll.id} className="mt-2">
-            { this.getdate(poll.timestart, poll.timeend) != "Ended" &&
+            { this.getdate(poll.timestart, poll.timeend) !== "Ended" &&
               
               <Card text={"dark"} className="mb-2">
                 <h1 className="display-4" style={{ textAlign: "center" }}>
@@ -91,7 +91,7 @@ class PollFromAPI extends React.Component {
               </Card>
 
             }
-            { this.getdate(poll.timestart, poll.timeend) == "Ended" &&
+            { this.getdate(poll.timestart, poll.timeend) === "Ended" &&
             
               <Card text={"dark"} className="mb-2">
                 <h1 className="display-4" style={{ textAlign: "center" }}>

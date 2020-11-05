@@ -8,7 +8,7 @@ import "react-datetime/css/react-datetime.css";
 import { Post } from "../utils/actionHandler"
 import { API_URL } from "../constants/constants"
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+
 
 class CreatePoll extends React.Component {
 

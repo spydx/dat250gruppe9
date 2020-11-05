@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button'
 import { connect } from "react-redux";
 import { Post } from "../utils/actionHandler";
 import { API_URL } from "../constants/constants"
-import { Redirect } from "react-router-dom";
 
 class Vote extends React.Component {
 
