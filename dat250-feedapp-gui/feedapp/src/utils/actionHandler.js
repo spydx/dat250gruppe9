@@ -36,6 +36,7 @@ export async function Post(url, request, access_token = '', profileid = '') {
                 'Cache-Control': 'no-cache'
             }
         });
+        
         return response;
     } else {
         const response = await fetch(url, {
@@ -46,9 +47,10 @@ export async function Post(url, request, access_token = '', profileid = '') {
                 'Content-Type': 'application/json',
                 'Cache-Control': 'no-cache',
                 'Accept': 'application/json',
-                'Authorization': 'Bearer' + access_token
+                'Authorization': 'Bearer ' + access_token
             }
         });
+        
         return response;
     }
 

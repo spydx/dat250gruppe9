@@ -61,7 +61,7 @@ class NavBar extends React.Component {
           </Navbar.Collapse>
 
           <NavDropdown title="User" id="collasible-nav-dropdown">
-            <NavDropdown.Item href="\">Account</NavDropdown.Item>
+            <NavDropdown.Item href="/account">Account</NavDropdown.Item>
             <NavDropdown.Item href="/login">Login</NavDropdown.Item>
           </NavDropdown>
         </Container>

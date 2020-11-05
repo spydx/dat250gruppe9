@@ -19,7 +19,7 @@ class Feedapp extends React.Component {
               <Switch>
                 <Route exact path="/result/:id" render={(props) => (<ResultPage props={props}/>)}/>
                 <Route exact path="/login" render={() => (<LoginPage />)}/>
-                <Route exact path="/account" render={() => (<Account />)}/>
+              <Route exact path="/account" render={(props) => (<Account props={props}/>)}/>
                 <Route exact path="/" render={() => (<Home/>)}/>  
                 <Route exact path="/vote/:id" render={(props) => (<VotePage props={props}/>)}/>      
                 <Route exact path="/createpoll" render={() => (<CreatePollPage/>)}/>     

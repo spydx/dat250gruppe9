@@ -5,6 +5,10 @@ import Button from 'react-bootstrap/Button'
 import {Form, Row, Col} from "react-bootstrap";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
+import { Post } from "../utils/actionHandler"
+import { API_URL } from "../constants/constants"
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 class CreatePoll extends React.Component {
 
@@ -18,11 +22,22 @@ class CreatePoll extends React.Component {
             timeend: timeend
         }
 
-        console.log(JSON.stringify(createPollRequest));
+        await Post(API_URL + "/polls/", createPollRequest, this.props.state.user.token)
+            .then((res) => res.json())
+            .then(
+                (result) => {
+                    console.log(result)
+                    //return <Redirect to="/"/>
+                },
+                (error) => {
+                    this.setState({error: error})
+                }
+            )
     }
 
     componentDidMount() {
         this.setState({
+            error: null,
             access: "PUBLIC",
             answerno: "No",
             answeryes: "Yes",
@@ -119,4 +134,16 @@ class CreatePoll extends React.Component {
     }
 }
 
-export default CreatePoll
+const mapStateToProps = (state) => {
+    return {
+      state: state
+    };
+  };
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      
+    };
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(CreatePoll);

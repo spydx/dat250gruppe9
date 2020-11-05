@@ -3,6 +3,7 @@ import PollFromAPI from "./PollComponents/PollFromAPI";
 import { connect } from "react-redux";
 import { Get } from "../utils/actionHandler"
 import Button from "react-bootstrap/Button";
+import { API_URL } from "../constants/constants"
 
 class PublicPollOverview extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class PublicPollOverview extends React.Component {
   }
 
   fetchPollData() {
-    Get("http://localhost:8080/api/polls/")
+    Get(API_URL + "/polls/")
     .then((res) => res.json())
     .then(
        (result) => {

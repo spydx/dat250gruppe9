@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
 import { Post, Get } from "../utils/actionHandler"
 import { Redirect } from "react-router-dom";
+import { API_URL } from "../constants/constants"
 
 class Login extends React.Component {
    
@@ -14,7 +15,7 @@ class Login extends React.Component {
       password: password
     }
 
-    await Post("http://localhost:8080/api/auth/login", loginRequest)
+    await Post(API_URL + "/auth/login", loginRequest)
       .then((res) => res.json())
       .then(
         (result) => {
@@ -26,7 +27,7 @@ class Login extends React.Component {
         }
       );
     
-    await Get("http://localhost:8080/api/users/" + this.props.state.user.id, this.props.state.user.token) //TODO should have access token
+    await Get(API_URL + "/users/" + this.props.state.user.id, this.props.state.user.token)
       .then((res) => res.json())
       .then(
         (result) => {
