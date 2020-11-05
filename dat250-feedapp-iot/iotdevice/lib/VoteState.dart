@@ -1,61 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:iotdevice/AuthToken.dart';
+import 'package:iotdevice/Login.dart';
 import 'package:iotdevice/webservice.dart';
 
-import 'Vote.dart';
+import 'Device.dart';
+import 'Votes.dart';
 
 class VoteState with ChangeNotifier {
-  List<Vote> _votes = new List<Vote>();
+  int _voteyes = 0;
+  int _voteno = 0;
   WebServices api;
+  Device _device = new Device();
+
+  TextEditingController textEditingController = TextEditingController();
+  bool isAuthenticated = false;
 
   VoteState() {
     api = new WebServices();
+    _device.name = "iot-test-device";
+  }
+
+  Future<void> login() async {
+    var pin = textEditingController.text;
+    Login l = new Login(name: _device.name, password: pin);
+    var auth = await api.auth(l);
+    if (auth != null) {
+      _device.profile = auth.profile;
+      _device.token = auth.token;
+      this.isAuthenticated = true;
+      textEditingController.text = null;
+    } else {
+      textEditingController.text = null;
+      this.isAuthenticated = false;
+    }
+    notifyListeners();
   }
 
   void voteYes() {
-    var v = new Vote(true);
-    _votes.add(v);
+    _voteyes++;
     print("voting y");
     notifyListeners();
   }
 
   void voteNo() {
-    var v = new Vote(false);
-    _votes.add(v);
-    print("voting y");
+
+    _voteno++;
+    print("voting no");
     notifyListeners();
   }
 
   void reset() {
-    _votes.clear();
+    this.isAuthenticated = false;
+    _voteno = 0;
+    _voteyes = 0;
+    _device.token = null;
+    _device.profile = null;
     print("Cleard");
     notifyListeners();
   }
 
-  void send() {
+  Future<bool> send() async {
+    Votes v = new Votes(yes: _voteyes, no: _voteno);
+    var res = await api.postVotes(v, _device);
     print("sending votes");
-    reset();
+    if (res) {
+      reset();
+      return true;
+    }
+    print("failed to vote");
+    return false;
   }
 
-  _generateJson() {
-
-  }
 
   String getStatus() {
-    if(_votes.isEmpty) {
+    if(_voteyes == 0 && _voteno == 0) {
       return "No one has votes";
     }
-
-    var t = _votes.length;
-    var y = 0;
-    var n = 0;
-    for(Vote v in _votes) {
-      if(v.answer)
-        y++;
-      else
-        n++;
-    }
-
-    return "Total:\t ${t} \n Yes:\t ${y} \n No: \t ${n}";
+    var t = _voteyes + _voteno;
+    return "Total:\t ${t} \n Yes:\t ${_voteyes} \n No: \t ${_voteno}";
 
   }
 
