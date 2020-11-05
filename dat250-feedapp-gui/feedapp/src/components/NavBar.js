@@ -3,6 +3,7 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
 import { connect } from "react-redux";
+import Button from "react-bootstrap/esm/Button";
 
 class NavBar extends React.Component {
   render() {
@@ -61,9 +62,7 @@ class NavBar extends React.Component {
             </Navbar.Text>
           </Navbar.Collapse>
 
-          <NavDropdown title="User" id="collasible-nav-dropdown">
-            <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-          </NavDropdown>
+          <Button href="/login">Login</Button>
         </Container>
       </Navbar>
     );
