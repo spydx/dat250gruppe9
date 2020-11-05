@@ -1,23 +1,40 @@
 version : '3.7'
 
 services:
+
    feedapp-api:
       build: 
          context: dat250-feedapp-api
          dockerfile: Dockerfile
+      healthcheck:
+         test: curl --fail -s http://localhost:8080/ || exit 1
+         timeout: 45s
+         interval: 10s
+         retries: 10
       ports:
          - "8080:8080"
       #restart: always
       depends_on:
-         - feedapp-db
+         feedapp-db:
+            condition: service_healthy
+         feedapp-messaging:
+            condition: service_healthy
       environment:
          SPRING_DATASOURCE_URL: jdbc:mysql://feedapp-db:3306/feedappdb?createDatabaseIfNotExist=true
+         SPRING_RABBITMQ_HOST: feedapp-messaging
+         SPRING_RABBITMQ_USER: guest
+         SPRING_RABBITMQ_PASSWORD: guest
       networks:
          - backend
          - frontend
 
    feedapp-db:
       image: mysql:latest
+      healthcheck:
+         test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+         timeout: 45s
+         interval: 10s
+         retries: 10
       ports:
          - "3306:3306"
       restart: always
@@ -30,6 +47,35 @@ services:
          - db-data:/var/lib/mysql
       networks:
          - backend
+
+   feedapp-messaging:
+      image: rabbitmq:3-management
+      healthcheck:
+         test: rabbitmq-diagnostics -q ping
+         timeout: 30s
+         interval: 30s
+         retries: 3
+      ports:
+         - 5672:5672
+         - 15672:15672
+      networks:
+         - backend
+
+   feedapp-muservice:
+         build:
+            context: dat250-feedapp-muservice
+            dockerfile: Dockerfile
+         restart: always
+         environment: 
+            RABBITSERVER: feedapp-messaging
+            RABBITUSER: guest
+            RABBITPASSWORD: guest
+            RABBITROUTINGKEY: FEEDAPP
+         depends_on:
+            - feedapp-messaging
+         networks:
+            - backend
+
 
 volumes:
    db-data:

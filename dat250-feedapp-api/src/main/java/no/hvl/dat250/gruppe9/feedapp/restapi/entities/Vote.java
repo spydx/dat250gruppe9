@@ -8,7 +8,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
-@Data
 @Entity
 public class Vote {
 
@@ -21,8 +20,8 @@ public class Vote {
     private String voter;
 
     @JsonIgnore
-    @ManyToOne
-    private Poll poll;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private PollResult pollresult;
 
     private Boolean answer;
 
@@ -45,12 +44,12 @@ public class Vote {
         this.voter = voter;
     }
 
-    public Poll getPoll() {
-        return poll;
+    public PollResult getPollresult() {
+        return pollresult;
     }
 
-    public void setPoll(Poll poll) {
-        this.poll = poll;
+    public void setPollresult(PollResult pollresult) {
+        this.pollresult = pollresult;
     }
 
     public Boolean getAnswer() {
@@ -75,12 +74,12 @@ public class Vote {
         if (o == null || getClass() != o.getClass()) return false;
         Vote vote = (Vote) o;
         return voter.equals(vote.voter) &&
-                poll.equals(vote.poll);
+                pollresult.equals(vote.pollresult);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(voter, poll);
+        return Objects.hash(voter, pollresult);
     }
 
     @Override
@@ -88,7 +87,7 @@ public class Vote {
         return "Vote{" +
                 "id=" + id +
                 ", voter=" + voter +
-                ", poll=" + poll +
+                ", pollresult=" + pollresult +
                 ", answer=" + answer +
                 ", votetime=" + votetime +
                 '}';

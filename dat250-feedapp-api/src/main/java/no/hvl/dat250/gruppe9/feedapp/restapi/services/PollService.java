@@ -2,9 +2,12 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.services;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.AccountDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.PollDAO;
+import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.PollResultDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.ProfileDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PollDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.PollResult;
+import no.hvl.dat250.gruppe9.feedapp.restapi.messaging.RabbitSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +22,16 @@ public class PollService {
     private PollDAO pollStorage;
 
     @Autowired
+    private PollResultDAO pollresultStorage;
+
+    @Autowired
     private ProfileDAO profileStorage;
 
     @Autowired
     private AccountDAO accountStorage;
+
+    @Autowired
+    private RabbitSender rabbitSender;
 
     //Authenticated
     public Optional<List<Poll>> getAllLoggedIn() {
@@ -46,6 +55,9 @@ public class PollService {
 
         if(owner.isPresent()) {
             var p = new Poll();
+            var r = new PollResult();
+            pollresultStorage.save(r);
+
             var o = owner.get();
 
             p.setAccess(newpoll.getAccess());
@@ -57,8 +69,13 @@ public class PollService {
             p.setTimeend(newpoll.getTimeend());
             p.setTimestart(new Date());
             p.setOwner(o);
+            p.setPollResult(r);
             o.getPollList().add(p);
-            return pollStorage.save(p);
+            var savepoll = pollStorage.save(p);
+            if(savepoll.isPresent()) {
+                rabbitSender.publishNewPoll(savepoll.get());
+                return savepoll;
+            }
         }
         return Optional.empty();
     }

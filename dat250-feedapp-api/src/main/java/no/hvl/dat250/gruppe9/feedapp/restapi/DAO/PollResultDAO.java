@@ -21,14 +21,11 @@ public class PollResultDAO {
     private final Logger logger = LoggerFactory.getLogger(PollResultDAO.class);
 
     public Optional<PollResult> save(PollResult item) {
-        entityManager.getTransaction().begin();
         try {
             entityManager.persist(item);
-            entityManager.getTransaction().commit();
             return Optional.ofNullable(item);
         } catch (Exception e) {
             logger.error("Save error");
-            entityManager.getTransaction().rollback();
             return Optional.ofNullable(item);
         }
     }
@@ -37,7 +34,6 @@ public class PollResultDAO {
         var current = Optional.ofNullable(entityManager.find(PollResult.class, item.getId()));
         if(current.isPresent()) {
             entityManager.merge(item);
-            entityManager.getTransaction().commit();
             return Optional.ofNullable(entityManager.find(PollResult.class, item.getId()));
         }
         logger.error("Update error for {}", item);

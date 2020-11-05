@@ -7,6 +7,7 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.VoteDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.PollResult;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.PollService;
+import no.hvl.dat250.gruppe9.feedapp.restapi.services.ResultService;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.UserService;
 import no.hvl.dat250.gruppe9.feedapp.restapi.services.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/polls")
 public class PollController {
+
+    @Autowired
+    private ResultService resultService;
 
     @Autowired
     private PollService pollService;
@@ -124,10 +127,7 @@ public class PollController {
         if(poll.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-        var res = Optional.ofNullable(poll.get().getPollResult());
-        if(res.isPresent())
-            return new ResponseEntity<>(res.get(), HttpStatus.OK);
-        return new ResponseEntity<>(new PollResult(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(poll.get().getPollResult(), HttpStatus.OK);
     }
 
 

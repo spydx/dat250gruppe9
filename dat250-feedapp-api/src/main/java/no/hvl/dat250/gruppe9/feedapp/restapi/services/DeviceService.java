@@ -71,9 +71,7 @@ public class DeviceService {
     }
 
     public Optional<List<Vote>> vote(IoT iot, DeviceVoteDTO response) {
-        var pollid = iot.getConnectedPoll().getId();
-        var deviceid = iot.getId();
-        return voteService.deviceVote(iot ,response);
+        return voteService.deviceVote(iot, response);
 
     }
 }

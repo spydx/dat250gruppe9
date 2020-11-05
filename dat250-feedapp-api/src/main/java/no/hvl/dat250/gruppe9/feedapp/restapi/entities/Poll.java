@@ -34,10 +34,7 @@ public class Poll {
     @ManyToOne(cascade = CascadeType.ALL)
     private Profile owner;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Vote> votes = new ArrayList<>();
-
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     private PollResult pollResult;
 
@@ -120,14 +117,6 @@ public class Poll {
         this.owner = owner;
     }
 
-    public List<Vote> getVotes() {
-        return votes;
-    }
-
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
-    }
-
     public PollResult getPollResult() {
         return pollResult;
     }
@@ -169,7 +158,6 @@ public class Poll {
                 ", answeryes='" + answeryes + '\'' +
                 ", answerno='" + answerno + '\'' +
                 ", owner=" + owner.toString() +
-                ", votes=" + votes.size() +
                 ", pollResult=" + pollResult +
                 ", connectedDevices=" + connectedDevices.size() +
                 '}';

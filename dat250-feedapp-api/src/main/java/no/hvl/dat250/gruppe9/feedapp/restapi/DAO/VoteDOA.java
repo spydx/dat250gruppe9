@@ -71,7 +71,7 @@ public class VoteDOA {
 
     public Optional<List<Vote>> getVoteUserPoll(String pollid) {
         var q = entityManager
-                .createQuery("SELECT v From Vote v where v.poll.id = :polluuid", Vote.class)
+                .createQuery("SELECT v From Vote v where v.pollresult = :polluuid", Vote.class)
                 .setParameter("polluuid", pollid);
 
         return Optional.ofNullable(q.getResultList());

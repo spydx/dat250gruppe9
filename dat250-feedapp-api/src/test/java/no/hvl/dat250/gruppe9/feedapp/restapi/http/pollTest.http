@@ -4,23 +4,12 @@ Accept: */*
 Cache-Control: no-cache
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4MzFmODNmZi05NjFjLTQ2OWEtYjgzZC0wN2JjNDIwNmQ0MjMiLCJpYXQiOjE2MDM2MDgyNDcsImV4cCI6MTYwNDIxMzA0N30.98tnkeGCiwvZwbBuFt5URpObmgCznUtWjQXVnTQK2u_IvSCeuSjS4ILkL8PZVK4Tb3FCrjDwdNbFHy3q5ZrWJA
 
-###
-POST http://localhost:8080/api/users/
-Content-Type: application/json
-Cache-Control: no-cache
-
-{
-  "email": "fossen.kenneth@gmail.com",
-  "password" : "test123",
-  "firstname": "Kenneth",
-  "lastname": "Fossen"
-}
 
 ###
 POST http://localhost:8080/api/polls/
 Content-Type: application/json
 Cache-Control: no-cache
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhY2IxOTQxZi0xYjBhLTQ0OTQtYjAxYy0xMjBjYzBjMjQ2YzAiLCJpYXQiOjE2MDM3NTA5ODgsImV4cCI6MTYwNDM1NTc4OH0.FEg7uKFTMGD9UWr92koMPCYpkp5jRaMtB8gMtJzdO9XI-Lo2vBJQMhyC1qKSWT_CfOh_AuzdOW_xJXeXiTmcWg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlOWU4MTA0ZC05NzRiLTRjNjYtYjMzOC00ZGU5ZTI3NzY1MGYiLCJpYXQiOjE2MDQwOTk0MzIsImV4cCI6MTYwNDcwNDIzMn0.vUidijuN7Tgw-pC0PZsmsQUtwpGQT2tqzsewqg9-FlLGT-I5GCZJArHimvv4px1j4oBxA2IHP2K3oi27mQW7pA
 
 {
   "access": "PUBLIC",

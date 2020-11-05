@@ -23,28 +23,28 @@ Cache-Control: no-cache
   "password": "1234"
 }
 ###
-PUT http://localhost:8080/api/devices/82317bec-6be8-468c-bc6c-de459c32fd1c/
+PUT http://localhost:8080/api/devices/34d9b1a8-e5ad-4b0d-a7bc-913f642c5268/
 Content-Type: application/json
 Cache-Control: no-cache
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4MjMxN2JlYy02YmU4LTQ2OGMtYmM2Yy1kZTQ1OWMzMmZkMWMiLCJpYXQiOjE2MDQwMDM0NjcsImV4cCI6MTYwNDYwODI2N30.hyAwz4tBR19xLnBUkQ0_ldiWU9w0ZsGiuHO9o5B5r8c3sfuyPKds2lLz_1lRG3LU7Ze893CuRsWhbTh-Z2bpMw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzNGQ5YjFhOC1lNWFkLTRiMGQtYTdiYy05MTNmNjQyYzUyNjgiLCJpYXQiOjE2MDQwOTIzMDYsImV4cCI6MTYwNDY5NzEwNn0.7sDJ8fwGJQ66br1oMkcr_faNFlJjZI2ffIL5aZBlBtYIPX89G1F22-lz5mLCwujmPTdxoI7SQvmmfSp09kYbOQ
 
 {
   "name": "string",
-  "pollId": "1aee56d8-7224-4614-8c7b-19867203d1c4"
+  "pollId": "6f29caca-8f20-4894-bedd-cbbbd2005b9c"
 }
 
 ###
-POST http://localhost:8080/api/devices/82317bec-6be8-468c-bc6c-de459c32fd1c/vote/
+POST http://localhost:8080/api/devices/34d9b1a8-e5ad-4b0d-a7bc-913f642c5268/vote/
 Content-Type: application/json
 Cache-Control: no-cache
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4MjMxN2JlYy02YmU4LTQ2OGMtYmM2Yy1kZTQ1OWMzMmZkMWMiLCJpYXQiOjE2MDQwMDE4MjEsImV4cCI6MTYwNDYwNjYyMX0.QsxAi4GGo6AL2azPL23gFIwYv8hz0381szzjykx3ur-2GWKMD58SWS3kI3lPiFpgDiaKcioEju-VKPDk1c_rtQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzNGQ5YjFhOC1lNWFkLTRiMGQtYTdiYy05MTNmNjQyYzUyNjgiLCJpYXQiOjE2MDQwOTIzMDYsImV4cCI6MTYwNDY5NzEwNn0.7sDJ8fwGJQ66br1oMkcr_faNFlJjZI2ffIL5aZBlBtYIPX89G1F22-lz5mLCwujmPTdxoI7SQvmmfSp09kYbOQ
 
 {
-  "yes": 10,
-  "no": 100
+  "yes": 5,
+  "no": 10
 }
 
 ###
 
-GET http://localhost:8080/api/polls/1aee56d8-7224-4614-8c7b-19867203d1c4
+GET http://localhost:8080/api/polls/17ac2f53-84ab-4010-a80f-1598ee7ddfe5/result
 Accept: application/json
