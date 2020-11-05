@@ -35,8 +35,6 @@ class PollFromAPI extends React.Component {
 
   render() {
     const { error, isLoaded, pollData } = this.props.poll;
-    
-
 
     if (error) {
       return <div>Something went wrong: {error.message}</div>;
@@ -50,53 +48,87 @@ class PollFromAPI extends React.Component {
       );
     }
     return (
+      
       <div>
         {pollData.map((poll) => (
+          
           <div key={poll.id} className="mt-2">
-            <Card text={"dark"} className="mb-2">
-              <h1 className="display-4" style={{ textAlign: "center" }}>
-                {poll.name}
-              </h1>
-              <h3 className="font-weight-light" style={{ textAlign: "center" }}>
-                {poll.question}
-              </h3>
-              <div className="container">
-                <div className="row">
-                  <div className="col-sm">
-                    <Button
-                      variant="info"
-                      style={{ width: "90%", marginLeft: "5%" }}
-                      block
-                      href={"/result/" + poll.id}
-                    >
-                      Result
-                    </Button>
-                  </div>
-                  <div className="col-sm">
-                    <Button
-                      variant="success"
-                      style={{ width: "90%", marginRight: "5%" }}
-                      block
-                      href={"/vote/" + poll.id}
-                    >
-                      Vote
-                    </Button>
+            { this.getdate(poll.timestart, poll.timeend) != "Ended" &&
+              
+              <Card text={"dark"} className="mb-2">
+                <h1 className="display-4" style={{ textAlign: "center" }}>
+                  {poll.name}
+                </h1>
+                <h3 className="font-weight-light" style={{ textAlign: "center" }}>
+                  {poll.question}
+                </h3>
+                <div className="container">
+                  <div className="row">
+                    <div className="col-sm">
+                      <Button
+                        variant="success"
+                        style={{ width: "50%", marginLeft: "25%" }}
+                        block
+                        href={"/vote/" + poll.id}
+                      >
+                        Vote
+                      </Button>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <Card
-                bg={"dark"}
-                text={"light"}
-                style={{ width: "50%", marginLeft: "25%" }}
-                className="mb-3 mt-3"
-              >
-                <h6 style={{ textAlign: "center" }}>
-                  <small>
-                    Poll status: {this.getdate(poll.timestart, poll.timeend)}
-                  </small>
-                </h6>
+                <Card
+                  bg={"dark"}
+                  text={"light"}
+                  style={{ width: "20%", marginLeft: "40%" }}
+                  className="mb-3 mt-3"
+                >
+                  <h6 style={{ textAlign: "center" }}>
+                    <small>
+                      Poll status: {this.getdate(poll.timestart, poll.timeend)}
+                    </small>
+                  </h6>
+                </Card>
               </Card>
-            </Card>
+
+            }
+            { this.getdate(poll.timestart, poll.timeend) == "Ended" &&
+            
+              <Card text={"dark"} className="mb-2">
+                <h1 className="display-4" style={{ textAlign: "center" }}>
+                  {poll.name}
+                </h1>
+                <h3 className="font-weight-light" style={{ textAlign: "center" }}>
+                  {poll.question}
+                </h3>
+                <div className="container">
+                  <div className="row">
+                    <div className="col-sm">
+                      <Button
+                        variant="info"
+                        style={{ width: "50%", marginLeft: "25%" }}
+                        block
+                        href={"/result/" + poll.id}
+                      >
+                        Result
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                <Card
+                  bg={"dark"}
+                  text={"light"}
+                  style={{ width: "20%", marginLeft: "40%" }}
+                  className="mb-3 mt-3"
+                >
+                  <h6 style={{ textAlign: "center" }}>
+                    <small>
+                      Poll status: {this.getdate(poll.timestart, poll.timeend)}
+                    </small>
+                  </h6>
+                </Card>
+              </Card>
+            }
+            
           </div>
         ))}
       </div>
