@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 
 class NavBar extends React.Component {
   render() {
-
     if (this.props.state.user.isLoggedin) {
       return (
         <Navbar bg="white" variant="white">
@@ -22,17 +21,24 @@ class NavBar extends React.Component {
             </Navbar.Brand>
 
             <Navbar.Collapse className="justify-content-center">
-              <Navbar.Text >
+              <Navbar.Text>
                 <h1 className="display-4">FeedApp</h1>
               </Navbar.Text>
             </Navbar.Collapse>
 
-            <NavDropdown title={this.props.state.user.firstname + " " + this.props.state.user.lastname} id="collapsible-nav-dropdown">
-              <NavDropdown.Item href="/">Account</NavDropdown.Item>
+            <NavDropdown
+              title={
+                this.props.state.user.firstname +
+                " " +
+                this.props.state.user.lastname
+              }
+              id="collapsible-nav-dropdown"
+            >
+              <NavDropdown.Item href="/account">Account</NavDropdown.Item>
             </NavDropdown>
           </Container>
         </Navbar>
-      )
+      );
     }
 
     return (
@@ -49,7 +55,7 @@ class NavBar extends React.Component {
           </Navbar.Brand>
 
           <Navbar.Collapse className="justify-content-center">
-            <Navbar.Text >
+            <Navbar.Text>
               <h1 className="display-4">FeedApp</h1>
             </Navbar.Text>
           </Navbar.Collapse>
@@ -66,16 +72,12 @@ class NavBar extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    state: state
+    state: state,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    
-  };
+  return {};
 };
-
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
