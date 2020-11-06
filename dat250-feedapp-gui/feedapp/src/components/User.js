@@ -34,8 +34,7 @@ class User extends React.Component {
     await Put(
       API_URL + "/users/" + this.props.state.user.id,
       updateUserRequest,
-      this.props.state.user.token,
-      this.props.state.user.id
+      this.props.state.user.token
     )
       .then((res) => res.json())
       .then((result) => {
