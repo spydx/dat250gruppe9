@@ -8,6 +8,7 @@ import Container from "react-bootstrap/Container";
 import { connect } from "react-redux";
 import { Put } from "../utils/actionHandler";
 import { API_URL } from "../constants/constants";
+import { Redirect } from "react-router-dom";
 
 class User extends React.Component {
   constructor(props) {
@@ -43,6 +44,9 @@ class User extends React.Component {
   }
 
   render() {
+    if (!this.props.state.user.isLoggedin) {
+      return <Redirect to="/"/>
+    }
     return (
       <Container fluid="sm" className="mt-4">
         <h1>
