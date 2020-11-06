@@ -45,11 +45,11 @@ public class ConfigSwagger {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "FeedApp REST API",
-                "FeedApp Voting API.",
+                "PollHub REST API",
+                "PollHub Voting API.",
                 "API Production",
                 "Terms of service",
-                new Contact("FeedApp Admin", "www.feedapp.com", "support@feedapp.com"),
+                new Contact("PollHub Admin", "www.pollhub.no", "support@pollhub.no"),
                 "License of API", "API license URL", Collections.emptyList());
     }
 }
