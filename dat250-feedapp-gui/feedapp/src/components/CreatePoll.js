@@ -100,7 +100,7 @@ class CreatePoll extends React.Component {
                             End Time 
                         </Form.Label>
                         <Col sm={10}>
-                            <Datetime closeOnClickOutside="true" value= { new Date()} onChange={e => this.setState({timeend: e})}/>
+                            <Datetime closeOnClickOutside="true" value= { new Date().toISOString()} onChange={e => this.setState({timeend: e})}/>
                         </Col>
                     </Form.Group>
                     <div>
@@ -111,7 +111,8 @@ class CreatePoll extends React.Component {
                         </Button>
                     </div>
                     <div>
-                        <Button variant="success"
+                        <Button
+                            variant="success"
                             style={{ marginLeft: "5%", marginTop: "5%" }}
                             onClick={() => this.handleSubmit(
                                     this.state.access,
@@ -120,7 +121,9 @@ class CreatePoll extends React.Component {
                                     this.state.name,
                                     this.state.question,
                                     this.state.timeend.toISOString()
-                                )}>
+                            )}
+                            href="/"
+                        >
                             Create
                         </Button>  
                     </div>

@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import { API_URL } from "../constants/constants"
 import Divider from '@material-ui/core/Divider'
 
+
 class PublicPollOverview extends React.Component {
   constructor(props) {
     super(props)
@@ -75,40 +76,43 @@ class PublicPollOverview extends React.Component {
         <div className="container">
           {this.props.state.user.isLoggedin &&
             <div>
-            <Button
-            variant="success"
-            style={{ width: "25%", marginLeft: "73%", marginBottom: "0.5%" }}
-            block
-            href="/createpoll"
-            >
-            Create Poll
-            </Button>
-            <hr className="text-dark bg-dark" />
-            <div className="row">
-              <div className="col-sm">
-                <h1 className="display-4" style={{ textAlign: "center" }}>
-                  All polls
+              <div style={{display: "flex"}}>
+                <h1 style={{ textAlign: "Left", fontSize: "190%"}}>
+                  Poll Overview
                 </h1>
-                <Poll poll={this.props.state.poll}/>
+                <Button
+                variant="success"
+                style={{ width: "25%", marginLeft: "58%", marginBottom: "0.5%" }}
+                block
+                href="/createpoll"
+                >
+                  Create Poll
+                </Button>
               </div>
-              <Divider variant="middle" orientation="vertical" flexItem/>
-              <div className="col-sm">
-                <h1 className="display-4" style={{ textAlign: "center" }}>
-                  Your polls
-                </h1>
-                <Poll poll={this.props.state.user}/>
+              <hr className="text-dark bg-dark" />
+              <div className="row">
+                <div className="col-sm">
+                  
+                  <Poll poll={this.props.state.poll}/>
+                </div>
+                <Divider variant="middle" orientation="vertical" flexItem/>
+                <div className="col-sm">
+                  <h1 className="display-4" style={{ textAlign: "Left", fontSize: "175%", }}>
+                    Your polls
+                  </h1>
+                  <Poll poll={this.props.state.user}/>
+                </div>
               </div>
-            </div>
             </div>
           }
           {!this.props.state.user.isLoggedin &&
             <div>
+            <h1 className="display-4" style={{ textAlign: "Left" }}>
+                Poll Overview
+            </h1>
             <hr className="text-dark bg-dark" />
               <div className="row">
                 <div className="col-sm">
-                    <h1 className="display-4" style={{ textAlign: "center" }}>
-                      All polls
-                    </h1>
                   <div className="container" style={{width: "50%"}}>
                       <Poll poll={this.props.state.poll}/>
                   </div>
