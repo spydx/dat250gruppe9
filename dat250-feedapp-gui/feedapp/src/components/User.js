@@ -30,12 +30,17 @@ class User extends React.Component {
       lastname: lastname,
     };
     console.log(updateUserRequest);
+
     await Put(
       API_URL + "/users/" + this.props.state.user.id,
       updateUserRequest,
       this.props.state.user.token,
       this.props.state.user.id
-    );
+    )
+      .then((res) => res.json())
+      .then((result) => {
+        this.props.setUserName(result);
+      });
   }
 
   render() {
@@ -126,4 +131,15 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(User);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUserName: (result) =>
+      dispatch({
+        type: "SET_NAME",
+        firstname: result.firstname,
+        lastname: result.lastname,
+      }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(User);
