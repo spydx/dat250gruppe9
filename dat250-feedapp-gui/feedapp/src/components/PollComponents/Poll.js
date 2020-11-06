@@ -93,8 +93,7 @@ class Poll extends React.Component {
                   <div className="row">
                     <div className="col-sm" style={{textAlign: "right"}}>
                       <Button
-                        variant="info"
-                        style={{ width: "20%", marginLeft: "80%", marginBottom: "1%"}}
+                        style={{ width: "20%", marginLeft: "80%", marginBottom: "1%", backgroundColor: "#2196F3"}}
                         block
                         href={"/result/" + poll.id}
                       >

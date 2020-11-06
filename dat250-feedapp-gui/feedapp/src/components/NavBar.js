@@ -4,6 +4,8 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
 import { connect } from "react-redux";
 import Button from "react-bootstrap/esm/Button";
+import { Dropdown } from "react-bootstrap";
+import DropdownMenu from "react-bootstrap/esm/DropdownMenu";
 
 class NavBar extends React.Component {
   render() {
@@ -14,23 +16,25 @@ class NavBar extends React.Component {
             <Navbar.Brand href="\">
               <img
                 alt="F"
-                src="/pollhublogo.png"
+                src="/pollhubblue.png"
                 width="297"
                 height="109"
-                className="align-center"
+                className="align-left"
               />
             </Navbar.Brand>
-            <NavDropdown
-              title={
-                this.props.state.user.firstname +
-                " " +
-                this.props.state.user.lastname
-              }
-              id="collapsible-nav-dropdown"
-            >
-              <NavDropdown.Item href="/account">Account</NavDropdown.Item>
-              <NavDropdown.Item onClick={() => {this.props.setResetUser()}} href="/">Logout</NavDropdown.Item>
-            </NavDropdown>
+            <Dropdown>
+              <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                {
+                  this.props.state.user.firstname +
+                  " " +
+                  this.props.state.user.lastname
+                }
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="/account">Account</Dropdown.Item>
+                <Dropdown.Item onClick={() => {this.props.setResetUser()}} href="/">Logout</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Container>
         </Navbar>
       );
@@ -42,10 +46,10 @@ class NavBar extends React.Component {
           <Navbar.Brand href="\">
             <img
               alt="F"
-              src="/pollhublogo.png"
+              src="/pollhubblue.png"
               width="297"
               height="109"
-              className="align-center"
+              className="align-left"
             />
           </Navbar.Brand>
           <Button href="/login" variant="success">Login/Register</Button>
