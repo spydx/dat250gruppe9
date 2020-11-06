@@ -16,7 +16,7 @@ class PollStatus extends React.Component {
     render() {
         const ended = this.getStatus(this.props.poll.timestart, this.props.poll.timeend)
         var date = this.props.poll.timeend
-        date = moment(date).format("DD-mm-yyyy");
+        date = moment(date).format("DD-MM-YYYY");
 
         if (ended) {
             return (

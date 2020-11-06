@@ -1,5 +1,5 @@
 import React from "react";
-import PollFromAPI from "./PollComponents/PollFromAPI";
+import PollFromAPI from "./PollComponents/Poll";
 import { connect } from "react-redux";
 import { Get } from "../utils/actionHandler"
 import Button from "react-bootstrap/Button";
@@ -15,21 +15,40 @@ class PublicPollOverview extends React.Component {
   }
 
   fetchPollData() {
-    Get(API_URL + "/polls/")
-    .then((res) => res.json())
-    .then(
-       (result) => {
-          this.props.setData(result);
-          this.setState({ didFetch: true });
-          if (this.props.state.user.isLoggedin) { // if user is logged in add all its polls to the state store
+    
+    if (this.props.state.user.isLoggedin) {
+      Get(API_URL + "/polls/", this.props.state.user.token)
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            this.props.setData(result);
+            this.setState({ didFetch: true });
+            if (this.props.state.user.isLoggedin) { // if user is logged in add all its polls to the state store
               this.props.setUserPolls(this.getUserPolls(this.props.state.user.id))
+            }
+          },
+          (error) => {
+            this.props.setError(error);
+            this.setState({ didFetch: true });
           }
-        },
-        (error) => {
-          this.props.setError(error);
-          this.setState({ didFetch: true });
-        }
-      );
+        );
+    } else {
+      Get(API_URL + "/polls/")
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            this.props.setData(result);
+            this.setState({ didFetch: true });
+            if (this.props.state.user.isLoggedin) { // if user is logged in add all its polls to the state store
+              this.props.setUserPolls(this.getUserPolls(this.props.state.user.id))
+            }
+          },
+          (error) => {
+            this.props.setError(error);
+            this.setState({ didFetch: true });
+          }
+        );
+    }
   }
 
   getUserPolls(uid) {
@@ -55,7 +74,7 @@ class PublicPollOverview extends React.Component {
       return (
         <div>
           <div className="container">
-            <Divider variant="middle"/>
+            <hr className="text-dark bg-dark" />
             <div className="row">
               <div className="col-sm">
                 <h1 className="display-4" style={{ textAlign: "center" }}>
@@ -80,7 +99,7 @@ class PublicPollOverview extends React.Component {
               >
                 Create Poll
           </Button>
-          <Divider variant="middle"/>
+          <hr className="text-dark bg-dark" />
           <div className="row">
             <div className="col-sm">
               <h1 className="display-4" style={{ textAlign: "center" }}>
@@ -88,7 +107,7 @@ class PublicPollOverview extends React.Component {
               </h1>
               <PollFromAPI poll={this.props.state.poll}/>
             </div>
-            <Divider variant="middle" classes="vertical"/>
+            <Divider variant="middle" orientation="vertical" flexItem/>
             <div className="col-sm">
               <h1 className="display-4" style={{ textAlign: "center" }}>
                 Your polls

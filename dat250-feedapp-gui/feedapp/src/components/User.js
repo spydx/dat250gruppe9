@@ -68,21 +68,21 @@ class User extends React.Component {
             </div>
           </div>
         </Container>
-        <Container style={{ marginTop: "10%" }}>
-          <Row className="d-flex flex-row-reverse" xs={4} md={6} lg={8} xl={10}>
-            <Col>
-              <Button variant="success" size="lg" block href="/">
-                {"Save"}
-              </Button>
-            </Col>
-            <Col>
-              <Button variant="danger" size="lg" block href="/">
-                {"Cancel"}
-              </Button>
-            </Col>
-          </Row>
-        </Container>
-      </Container>
+          <Container style={{ marginTop: "10%" }}>
+            <Row className="d-flex flex-row-reverse" xs={4} md={6} lg={8} xl={10}>
+              <Col>
+                <Button variant="success" size="lg" block href="/">
+                  {"Save"}
+                </Button>
+              </Col>
+              <Col>
+                <Button variant="danger" size="lg" block href="/">
+                  {"Cancel"}
+                </Button>
+              </Col>
+            </Row>
+          </Container>
+       </Container>
     );
   }
 }

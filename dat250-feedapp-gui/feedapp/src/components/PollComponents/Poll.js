@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import PollStatus from "./PollStatus";
 
-class PollFromAPI extends React.Component {
+class Poll extends React.Component {
 
   getdate(startDate, endDate) { //TODO: change this to the same as getStatus from PollStatus.js
     var currentDate = new Date(Date.now());
@@ -56,7 +56,7 @@ class PollFromAPI extends React.Component {
           <div key={poll.id} className="mt-2">
             { this.getdate(poll.timestart, poll.timeend) !== "Ended" &&
               
-              <Card text={"dark"} className="mb-2" style={{width: "70%", marginLeft: "25%"}}>
+              <Card text={"dark"} className="mb-2" style={{textAlign: "center"}}>
                 <h1 style={{ textAlign: "Left", fontSize: "140%", marginTop: "1%", marginLeft: "1%"}}>
                   <PollStatus poll={poll}/>
                 </h1>
@@ -68,7 +68,7 @@ class PollFromAPI extends React.Component {
                     <div className="col-sm" style={{textAlign: "right"}}>
                       <Button
                         variant="success"
-                        style={{ width: "20%", marginLeft: "83%", marginBottom: "1%" }}
+                        style={{ width: "20%", marginLeft: "80%", marginBottom: "1%" }}
                         block
                         href={"/vote/" + poll.id}
                       >
@@ -82,7 +82,7 @@ class PollFromAPI extends React.Component {
             }
             { this.getdate(poll.timestart, poll.timeend) === "Ended" &&
             
-              <Card text={"dark"} className="mb-2" style={{width: "70%", marginLeft: "25%"}}>
+              <Card text={"dark"} className="mb-2" style={{ textAlign: "center"}}>
                 <h1 style={{ textAlign: "Left", fontSize: "140%", marginTop: "1%", marginLeft: "1%"}}>
                   <PollStatus poll={poll}/>
                 </h1>
@@ -94,7 +94,7 @@ class PollFromAPI extends React.Component {
                     <div className="col-sm" style={{textAlign: "right"}}>
                       <Button
                         variant="info"
-                        style={{ width: "25%", marginLeft: "78%", marginBottom: "1%"}}
+                        style={{ width: "20%", marginLeft: "80%", marginBottom: "1%"}}
                         block
                         href={"/result/" + poll.id}
                       >
@@ -113,5 +113,5 @@ class PollFromAPI extends React.Component {
   }
 }
 
-export default PollFromAPI;
+export default Poll;
 
