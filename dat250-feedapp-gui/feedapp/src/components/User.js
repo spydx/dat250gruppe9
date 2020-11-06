@@ -105,6 +105,7 @@ class User extends React.Component {
                 type="submit"
                 variant="success"
                 size="lg"
+                block
                 onClick={() =>
                   this.handleSubmit(this.state.firstname, this.state.lastname)
                 }
