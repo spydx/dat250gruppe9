@@ -46,8 +46,6 @@ class Login extends React.Component {
           this.props.setError(error);
         }
       );
-    
-    this.setState({email: null, password: null})
   }
 
   render() {
@@ -55,53 +53,12 @@ class Login extends React.Component {
       return <Redirect to="/"/>
     }
 
-    if (this.props.state.user.error) {
-      return (
-        <Form>
-          <Form.Group as={Row} controlId="email">
-            <Form.Label column sm={2}>
-              <MailOutlineIcon/>
-            </Form.Label>
-            <Col sm={10}>
-              <Form.Control type="email" placeholder="Enter email" onChange={e => this.setState({email: e.target.value})}/> 
-            </Col>
-          </Form.Group>
-  
-          <Form.Group as={Row} controlId="password">
-            <Form.Label column sm={2}>
-              <VpnKeyIcon/>
-            </Form.Label>
-            <Col sm={10}>
-              <Form.Control type="password" placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
-            </Col>
-          </Form.Group>
-
-          <div>
-            {this.props.state.user.error}
-          </div>
-          <Button
-            variant="success"
-            style={{ width: "5rem", margin: "1rem" }}
-            href="/register"
-          >
-            Register
-          </Button>
-          <Button
-            variant="success"
-            style={{ width: "5rem", margin: "0.5rem", marginLeft: "5rem" }}
-            onClick={() => { this.handleSubmit(this.state.email, this.state.password) }}
-          >
-            Login
-          </Button>
-        </Form>
-      );
-    }
     return (
       <Form>
         <Form.Group as={Row} controlId="email">
           <Form.Label column sm={2}>
             <MailOutlineIcon/>
-          </Form.Label> 
+          </Form.Label>
           <Col sm={10}>
             <Form.Control type="email" placeholder="Enter email" onChange={e => this.setState({email: e.target.value})}/> 
           </Col>
@@ -115,6 +72,12 @@ class Login extends React.Component {
             <Form.Control type="password" placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
           </Col>
         </Form.Group>
+        {this.props.state.user.error &&
+          <div>
+            {this.props.state.user.error}
+          </div>
+        }
+        
         <Button
           variant="success"
           style={{ width: "5rem", margin: "1rem" }}
@@ -133,6 +96,7 @@ class Login extends React.Component {
     );
   }
 }
+
 
 const mapStateToProps = (state) => {
   return {

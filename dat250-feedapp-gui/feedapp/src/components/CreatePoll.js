@@ -48,12 +48,8 @@ class CreatePoll extends React.Component {
     }
 
     render() {
-        
         return (
             <div>
-                <div>
-                    <h1 style={{ textAlign: "center", marginTop: "2rem" }}><u>Create poll</u></h1>                                                                                           
-                </div>
                 <Form style = {{marginTop:"13%"}}>
                     <Form.Group as={Row} controlId="PollName">
                         <Form.Label column sm={2}>
@@ -104,7 +100,7 @@ class CreatePoll extends React.Component {
                             End Time 
                         </Form.Label>
                         <Col sm={10}>
-                            <Datetime closeOnClickOutside="true" value= { new Date().toISOString() } onChange={e => this.setState({timeend: e})}/>
+                            <Datetime closeOnClickOutside="true" value= { new Date()} onChange={e => this.setState({timeend: e})}/>
                         </Col>
                     </Form.Group>
                     <div>

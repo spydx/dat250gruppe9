@@ -1,11 +1,10 @@
 import React from "react";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
 import { connect } from "react-redux";
 import Button from "react-bootstrap/esm/Button";
 import { Dropdown } from "react-bootstrap";
-import DropdownMenu from "react-bootstrap/esm/DropdownMenu";
+
 
 class NavBar extends React.Component {
   render() {

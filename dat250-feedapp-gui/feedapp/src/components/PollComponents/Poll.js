@@ -36,8 +36,6 @@ class Poll extends React.Component {
         {pollData.map((poll) => (
           
           <div key={poll.id} className="mt-2">
-            { !this.getStatus(poll.timestart, poll.timeend) &&
-              
               <Card text={"dark"} className="mb-2" style={{textAlign: "center"}}>
                 <h1 style={{ textAlign: "Left", fontSize: "140%", marginTop: "1%", marginLeft: "1%"}}>
                   <PollStatus poll={poll}/>
@@ -47,7 +45,8 @@ class Poll extends React.Component {
                 </h3>
                 <div className="container">
                   <div className="row">
-                    <div className="col-sm" style={{textAlign: "right"}}>
+                  <div className="col-sm" style={{ textAlign: "right" }}>
+                    {!this.getStatus(poll.timestart, poll.timeend) && 
                       <Button
                         variant="success"
                         style={{ width: "20%", marginLeft: "80%", marginBottom: "1%" }}
@@ -56,37 +55,20 @@ class Poll extends React.Component {
                       >
                         Vote
                       </Button>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-
-            }
-            { this.getStatus(poll.timestart, poll.timeend) &&
-            
-              <Card text={"dark"} className="mb-2" style={{ textAlign: "center"}}>
-                <h1 style={{ textAlign: "Left", fontSize: "140%", marginTop: "1%", marginLeft: "1%"}}>
-                  <PollStatus poll={poll}/>
-                </h1>
-                <h3 className="font-weight-light" style={{ textAlign: "center" }}>
-                  {poll.question}
-                </h3>
-                <div className="container">
-                  <div className="row">
-                    <div className="col-sm" style={{textAlign: "right"}}>
+                    }
+                    {this.getStatus(poll.timestart, poll.timeend) &&
                       <Button
-                        style={{ width: "20%", marginLeft: "80%", marginBottom: "1%", backgroundColor: "#2196F3"}}
-                        block
-                        href={"/result/" + poll.id}
+                      style={{ width: "20%", marginLeft: "80%", marginBottom: "1%", backgroundColor: "#2196F3"}}
+                      block
+                      href={"/result/" + poll.id}
                       >
-                        Result
+                      Result
                       </Button>
+                    } 
                     </div>
                   </div>
                 </div>
-              </Card>
-            }
-            
+              </Card>   
           </div>
         ))}
       </div>

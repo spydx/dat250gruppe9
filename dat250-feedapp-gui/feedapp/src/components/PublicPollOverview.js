@@ -69,59 +69,58 @@ class PublicPollOverview extends React.Component {
     if (!this.state.didFetch) {
       this.fetchPollData();
     }
-    if (!this.props.state.user.isLoggedin) {
-      return (
-        <div>
-          <div className="container">
+
+    return (
+      <div>
+        <div className="container">
+          {this.props.state.user.isLoggedin &&
+            <div>
+            <Button
+            variant="success"
+            style={{ width: "25%", marginLeft: "73%", marginBottom: "0.5%" }}
+            block
+            href="/createpoll"
+            >
+            Create Poll
+            </Button>
             <hr className="text-dark bg-dark" />
             <div className="row">
               <div className="col-sm">
                 <h1 className="display-4" style={{ textAlign: "center" }}>
                   All polls
                 </h1>
-                <div className="container" style={{width: "50%"}}>
-                  <Poll poll={this.props.state.poll}/>
-                </div>
-                
+                <Poll poll={this.props.state.poll}/>
+              </div>
+              <Divider variant="middle" orientation="vertical" flexItem/>
+              <div className="col-sm">
+                <h1 className="display-4" style={{ textAlign: "center" }}>
+                  Your polls
+                </h1>
+                <Poll poll={this.props.state.user}/>
               </div>
             </div>
-          </div>
-        </div>
-      );
-    }
-    
-    return (
-      <div>
-        <div className="container">
-          <Button
-                variant="success"
-                style={{ width: "25%", marginLeft: "73%", marginBottom: "0.5%" }}
-                block
-                href="/createpoll"
-              >
-                Create Poll
-          </Button>
-          <hr className="text-dark bg-dark" />
-          <div className="row">
-            <div className="col-sm">
-              <h1 className="display-4" style={{ textAlign: "center" }}>
-                All polls
-              </h1>
-              <Poll poll={this.props.state.poll}/>
             </div>
-            <Divider variant="middle" orientation="vertical" flexItem/>
-            <div className="col-sm">
-              <h1 className="display-4" style={{ textAlign: "center" }}>
-                Your polls
-              </h1>
-              <Poll poll={this.props.state.user}/>
+          }
+          {!this.props.state.user.isLoggedin &&
+            <div>
+            <hr className="text-dark bg-dark" />
+              <div className="row">
+                <div className="col-sm">
+                    <h1 className="display-4" style={{ textAlign: "center" }}>
+                      All polls
+                    </h1>
+                  <div className="container" style={{width: "50%"}}>
+                      <Poll poll={this.props.state.poll}/>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          }  
         </div>
       </div>
-    );
+      );
+    }
   }
-}
 
 
 const mapStateToProps = (state) => {
