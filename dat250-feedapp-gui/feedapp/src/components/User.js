@@ -3,10 +3,41 @@ import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import { connect } from "react-redux";
+import { Put } from "../utils/actionHandler";
+import { API_URL } from "../constants/constants";
 
 class User extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstname: this.props.state.user.firstname,
+      lastname: this.props.state.user.lastname,
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.submitChange = this.handleSubmit.bind(this);
+  }
+
+  handleChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  async handleSubmit(firstname, lastname) {
+    const updateUserRequest = {
+      firstname: firstname,
+      lastname: lastname,
+    };
+    console.log(updateUserRequest);
+    await Put(
+      API_URL + "/users/" + this.props.state.user.id,
+      updateUserRequest,
+      this.props.state.user.token,
+      this.props.state.user.id
+    );
+  }
+
   render() {
     return (
       <Container fluid="sm" className="mt-4">
@@ -18,71 +49,73 @@ class User extends React.Component {
         </h1>
         <hr className="text-dark bg-dark" />
         <Container fluid="sm">
-          <div className="row">
-            <div className="col-sm-2">
-              <h5>Email</h5>
-            </div>
-            <div className="col-sm">
-              <div className="form-group">
-                <input
-                  type="email"
-                  className="form-control"
-                  id="inputEmail"
-                  aria-describedby="emailHelp"
-                  placeholder={this.props.state.user.email}
+          <Form>
+            <Form.Group as={Row} controlId="formEmail">
+              <Form.Label column sm="2">
+                <h5>Email</h5>
+              </Form.Label>
+              <Col>
+                <Form.Control
+                  plaintext
+                  readOnly
+                  defaultValue={this.props.state.user.email}
                 />
-              </div>
-            </div>
-          </div>
+              </Col>
+            </Form.Group>
 
-          <div className="row">
-            <div className="col-sm-2">
-              <h5>Firstname</h5>
-            </div>
-            <div className="col-sm">
-              <div className="form-group">
-                <input
-                  type="email"
-                  className="form-control"
-                  id="inputFirstname"
-                  placeholder={this.props.state.user.firstname}
+            <Form.Group as={Row} controlId="formFirstName">
+              <Form.Label column sm="2">
+                <h5>Firstname</h5>
+              </Form.Label>
+              <Col>
+                <Form.Control
+                  type="text"
+                  required
+                  name="firstname"
+                  value={this.state.firstname}
+                  onChange={this.handleChange}
                 />
-              </div>
-            </div>
-          </div>
+              </Col>
+            </Form.Group>
 
-          <div className="row">
-            <div className="col-sm-2">
-              <h5>Lastname</h5>
-            </div>
-            <div className="col-sm">
-              <div className="form-group">
-                <input
-                  type="email"
-                  className="form-control"
-                  id="inputLastname"
-                  aria-describedby="emailHelp"
-                  placeholder={this.props.state.user.lastname}
+            <Form.Group as={Row} controlId="formLastName">
+              <Form.Label column sm="2">
+                <h5>Lastname</h5>
+              </Form.Label>
+              <Col>
+                <Form.Control
+                  type="text"
+                  required
+                  name="lastname"
+                  value={this.state.lastname}
+                  onChange={this.handleChange}
                 />
-              </div>
-            </div>
-          </div>
+              </Col>
+            </Form.Group>
+          </Form>
         </Container>
-          <Container style={{ marginTop: "10%" }}>
-            <Row className="d-flex flex-row-reverse" xs={4} md={6} lg={8} xl={10}>
-              <Col>
-                <Button variant="success" size="lg" block href="/">
-                  {"Save"}
-                </Button>
-              </Col>
-              <Col>
-                <Button variant="danger" size="lg" block href="/">
-                  {"Cancel"}
-                </Button>
-              </Col>
-            </Row>
-          </Container>
-       </Container>
+        <Container style={{ marginTop: "10%" }}>
+          <Row className="d-flex flex-row-reverse" xs={4} md={6} lg={8} xl={10}>
+            <Col>
+              <Button
+                type="submit"
+                variant="success"
+                size="lg"
+                onClick={() =>
+                  this.handleSubmit(this.state.firstname, this.state.lastname)
+                }
+              >
+                {"Save"}
+              </Button>
+            </Col>
+            <Col>
+              <Button variant="danger" size="lg" block href="/">
+                {"Cancel"}
+              </Button>
+            </Col>
+          </Row>
+        </Container>
+      </Container>
     );
   }
 }
