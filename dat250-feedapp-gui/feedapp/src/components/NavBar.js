@@ -14,19 +14,12 @@ class NavBar extends React.Component {
             <Navbar.Brand href="\">
               <img
                 alt="F"
-                src="/feedApp-logo.png"
-                width="100"
-                height="70"
-                className="align-left"
+                src="/pollhublogo.png"
+                width="297"
+                height="109"
+                className="align-center"
               />
             </Navbar.Brand>
-
-            <Navbar.Collapse className="justify-content-center">
-              <Navbar.Text>
-                <h1 className="display-4">FeedApp</h1>
-              </Navbar.Text>
-            </Navbar.Collapse>
-
             <NavDropdown
               title={
                 this.props.state.user.firstname +
@@ -49,19 +42,12 @@ class NavBar extends React.Component {
           <Navbar.Brand href="\">
             <img
               alt="F"
-              src="/feedApp-logo.png"
-              width="100"
-              height="70"
-              className="align-left"
+              src="/pollhublogo.png"
+              width="297"
+              height="109"
+              className="align-center"
             />
           </Navbar.Brand>
-
-          <Navbar.Collapse className="justify-content-center">
-            <Navbar.Text>
-              <h1 className="display-4">FeedApp</h1>
-            </Navbar.Text>
-          </Navbar.Collapse>
-
           <Button href="/login" variant="success">Login/Register</Button>
         </Container>
       </Navbar>
