@@ -1,5 +1,5 @@
 import React from "react";
-import PollFromAPI from "./PollComponents/Poll";
+import Poll from "./PollComponents/Poll";
 import { connect } from "react-redux";
 import { Get } from "../utils/actionHandler"
 import Button from "react-bootstrap/Button";
@@ -79,7 +79,10 @@ class PublicPollOverview extends React.Component {
                 <h1 className="display-4" style={{ textAlign: "center" }}>
                   All polls
                 </h1>
-                <PollFromAPI poll={this.props.state.poll}/>
+                <div className="container" style={{width: "50%"}}>
+                  <Poll poll={this.props.state.poll}/>
+                </div>
+                
               </div>
             </div>
           </div>
@@ -104,14 +107,14 @@ class PublicPollOverview extends React.Component {
               <h1 className="display-4" style={{ textAlign: "center" }}>
                 All polls
               </h1>
-              <PollFromAPI poll={this.props.state.poll}/>
+              <Poll poll={this.props.state.poll}/>
             </div>
             <Divider variant="middle" orientation="vertical" flexItem/>
             <div className="col-sm">
               <h1 className="display-4" style={{ textAlign: "center" }}>
                 Your polls
               </h1>
-              <PollFromAPI poll={this.props.state.user}/>
+              <Poll poll={this.props.state.user}/>
             </div>
           </div>
         </div>

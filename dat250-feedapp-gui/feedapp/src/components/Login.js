@@ -8,7 +8,6 @@ import { API_URL } from "../constants/constants"
 
 class Login extends React.Component {
    
-  //TODO: fix if the user does not exist
   async handleSubmit(email, password) {
     const loginRequest = {
       email: email,
@@ -45,7 +44,8 @@ class Login extends React.Component {
           this.props.setError(error);
         }
       );
-
+    
+    this.setState({email: null, password: null})
   }
 
   render() {

@@ -8,30 +8,12 @@ import PollStatus from "./PollStatus";
 
 class Poll extends React.Component {
 
-  getdate(startDate, endDate) { //TODO: change this to the same as getStatus from PollStatus.js
+  getStatus(startDate, endDate) {
     var currentDate = new Date(Date.now());
     startDate = new Date(startDate);
     endDate = new Date(endDate);
-    var started = currentDate > startDate;
     var ended = currentDate > endDate && endDate.getFullYear() !== 1970;
-    if (started && !ended) {
-      if (endDate.getFullYear() === 1970) return "On Going, no endtime set";
-      else
-        return (
-          "On Going, poll ends in " +
-          Math.floor((endDate - currentDate) / 1000 / 60) +
-          " minutes"
-        );
-    }
-    if (!started) {
-      return (
-        "Starting in " +
-        Math.floor((endDate - startDate) / 1000 / 60) +
-        " minutes"
-      );
-    }
-    if (ended) return "Ended";
-    return "What???";
+    return ended
   }
 
   render() {
@@ -54,7 +36,7 @@ class Poll extends React.Component {
         {pollData.map((poll) => (
           
           <div key={poll.id} className="mt-2">
-            { this.getdate(poll.timestart, poll.timeend) !== "Ended" &&
+            { !this.getStatus(poll.timestart, poll.timeend) &&
               
               <Card text={"dark"} className="mb-2" style={{textAlign: "center"}}>
                 <h1 style={{ textAlign: "Left", fontSize: "140%", marginTop: "1%", marginLeft: "1%"}}>
@@ -80,7 +62,7 @@ class Poll extends React.Component {
               </Card>
 
             }
-            { this.getdate(poll.timestart, poll.timeend) === "Ended" &&
+            { this.getStatus(poll.timestart, poll.timeend) &&
             
               <Card text={"dark"} className="mb-2" style={{ textAlign: "center"}}>
                 <h1 style={{ textAlign: "Left", fontSize: "140%", marginTop: "1%", marginLeft: "1%"}}>
