@@ -6,6 +6,7 @@ import ResultPage from "./pages/ResultPage";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import VotePage from './pages/VotePage';
 import CreatePollPage from './pages/CreatePollPage'
+import RegisterPage from './pages/RegisterPage';
 
 
 
@@ -23,6 +24,7 @@ class Feedapp extends React.Component {
                 <Route exact path="/" render={() => (<Home/>)}/>  
                 <Route exact path="/vote/:id" render={(props) => (<VotePage props={props}/>)}/>      
                 <Route exact path="/createpoll" render={() => (<CreatePollPage/>)}/>     
+                <Route exact path="/register" render={() => (<RegisterPage/>)}/>
               </Switch>   
             </Router>
           

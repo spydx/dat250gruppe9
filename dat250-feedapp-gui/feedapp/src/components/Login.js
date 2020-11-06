@@ -1,10 +1,12 @@
 import React from "react";
-import Form from "react-bootstrap/Form";
+import {Form, Row, Col} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
 import { Post, Get } from "../utils/actionHandler"
 import { Redirect } from "react-router-dom";
 import { API_URL } from "../constants/constants"
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 class Login extends React.Component {
    
@@ -56,21 +58,31 @@ class Login extends React.Component {
     if (this.props.state.user.error) {
       return (
         <Form>
-          <Form.Group controlId="email">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" onChange={e => this.setState({email: e.target.value})}/> 
+          <Form.Group as={Row} controlId="email">
+            <Form.Label column sm={2}>
+              <MailOutlineIcon/>
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control type="email" placeholder="Enter email" onChange={e => this.setState({email: e.target.value})}/> 
+            </Col>
           </Form.Group>
   
-          <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
+          <Form.Group as={Row} controlId="password">
+            <Form.Label column sm={2}>
+              <VpnKeyIcon/>
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control type="password" placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
+            </Col>
           </Form.Group>
+
           <div>
             {this.props.state.user.error}
           </div>
           <Button
             variant="success"
             style={{ width: "5rem", margin: "1rem" }}
+            href="/register"
           >
             Register
           </Button>
@@ -86,18 +98,27 @@ class Login extends React.Component {
     }
     return (
       <Form>
-        <Form.Group controlId="email">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" onChange={e => this.setState({email: e.target.value})}/> 
+        <Form.Group as={Row} controlId="email">
+          <Form.Label column sm={2}>
+            <MailOutlineIcon/>
+          </Form.Label> 
+          <Col sm={10}>
+            <Form.Control type="email" placeholder="Enter email" onChange={e => this.setState({email: e.target.value})}/> 
+          </Col>
         </Form.Group>
 
-        <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
+        <Form.Group as={Row} controlId="password">
+          <Form.Label column sm={2}>
+            <VpnKeyIcon/>
+          </Form.Label>
+          <Col sm={10}>
+            <Form.Control type="password" placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
+          </Col>
         </Form.Group>
         <Button
           variant="success"
           style={{ width: "5rem", margin: "1rem" }}
+          href="/register"
         >
           Register
         </Button>
