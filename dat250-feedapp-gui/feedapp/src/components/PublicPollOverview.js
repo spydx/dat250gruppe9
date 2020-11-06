@@ -14,8 +14,7 @@ class PublicPollOverview extends React.Component {
     }
   }
 
-  fetchPollData() {
-    
+  fetchPollData() { 
     if (this.props.state.user.isLoggedin) {
       Get(API_URL + "/polls/", this.props.state.user.token)
         .then((res) => res.json())
@@ -23,9 +22,8 @@ class PublicPollOverview extends React.Component {
           (result) => {
             this.props.setData(result);
             this.setState({ didFetch: true });
-            if (this.props.state.user.isLoggedin) { // if user is logged in add all its polls to the state store
-              this.props.setUserPolls(this.getUserPolls(this.props.state.user.id))
-            }
+            this.fetchUserPolls();
+            
           },
           (error) => {
             this.props.setError(error);
@@ -39,9 +37,6 @@ class PublicPollOverview extends React.Component {
           (result) => {
             this.props.setData(result);
             this.setState({ didFetch: true });
-            if (this.props.state.user.isLoggedin) { // if user is logged in add all its polls to the state store
-              this.props.setUserPolls(this.getUserPolls(this.props.state.user.id))
-            }
           },
           (error) => {
             this.props.setError(error);
@@ -51,14 +46,18 @@ class PublicPollOverview extends React.Component {
     }
   }
 
-  getUserPolls(uid) {
-    var polls = []
-    for (const element of this.props.state.poll.pollData) {
-      if (element.owner.id === uid) {
-        polls.push(element);
-      }
-    }
-    return polls;
+  fetchUserPolls() {
+    Get(API_URL + "/polls/mine", this.props.state.user.token)
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            this.props.setUserPolls(result)
+          },
+          (error) => {
+            this.props.setError(error);
+            this.setState({ didFetch: true });
+          }
+        );
   }
 
   componentDidMount() {
