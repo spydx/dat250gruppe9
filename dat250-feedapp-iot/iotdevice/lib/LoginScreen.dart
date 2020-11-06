@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(Statics.FEEDAPP_TITLE),
+        backgroundColor: Colors.blue,
       ),
       body: voteState.isAuthenticated ? VoteScreen() :
         SafeArea(
@@ -22,44 +22,52 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Flexible(
-                flex: 1,
-                child: Image(
-                  image: AssetImage(Statics.LOGO),
+              Center(
+                  child: Image(
+                    image: AssetImage(Statics.LOGO),
+
+                  ),
                 ),
-              ),
               //Spacer(),
-              Container(
-                      width: 100.0,
-                      height: 100,
-                      child: TextField(
-                        key: Key('pin'),
-                        obscureText: true,
-                        controller: voteState.textEditingController,
-                        decoration:
-                          InputDecoration(
-                              labelText: "Enter device pin"),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],)
-                ),
-              Container(
-                child: RaisedButton(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          width: 100.0,
+                          height: 100,
+                          child: TextField(
+                            key: Key('pin'),
+                            obscureText: true,
+                            controller: voteState.textEditingController,
+                            decoration:
+                            InputDecoration(
+                                labelText: "   Enter pin"),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],)
+                      ),
+                      Container(
+                        child: RaisedButton(
 
-                  padding: EdgeInsets.all(8.0),
-                  onPressed: () {
-                    voteState.login();
-                  },
-                  child: Text("Login",
-                      style: TextStyle(fontSize: 20.0)),
-
-                ),
+                          padding: EdgeInsets.all(8.0),
+                          onPressed: () {
+                            voteState.login();
+                          },
+                          child: Text("Login",
+                              style: TextStyle(fontSize: 20.0)),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
               ),
 
 
             ],
-
           ),
         ),
       ),
