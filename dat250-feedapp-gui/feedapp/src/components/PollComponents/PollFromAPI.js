@@ -4,10 +4,11 @@ import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
+import PollStatus from "./PollStatus";
 
 class PollFromAPI extends React.Component {
 
-  getdate(startDate, endDate) {
+  getdate(startDate, endDate) { //TODO: change this to the same as getStatus from PollStatus.js
     var currentDate = new Date(Date.now());
     startDate = new Date(startDate);
     endDate = new Date(endDate);
@@ -55,19 +56,19 @@ class PollFromAPI extends React.Component {
           <div key={poll.id} className="mt-2">
             { this.getdate(poll.timestart, poll.timeend) !== "Ended" &&
               
-              <Card text={"dark"} className="mb-2">
-                <h1 className="display-4" style={{ textAlign: "center" }}>
-                  {poll.name}
+              <Card text={"dark"} className="mb-2" style={{width: "70%", marginLeft: "25%"}}>
+                <h1 style={{ textAlign: "Left", fontSize: "140%", marginTop: "1%", marginLeft: "1%"}}>
+                  <PollStatus poll={poll}/>
                 </h1>
                 <h3 className="font-weight-light" style={{ textAlign: "center" }}>
                   {poll.question}
                 </h3>
                 <div className="container">
                   <div className="row">
-                    <div className="col-sm">
+                    <div className="col-sm" style={{textAlign: "right"}}>
                       <Button
                         variant="success"
-                        style={{ width: "50%", marginLeft: "25%" }}
+                        style={{ width: "20%", marginLeft: "83%", marginBottom: "1%" }}
                         block
                         href={"/vote/" + poll.id}
                       >
@@ -76,36 +77,24 @@ class PollFromAPI extends React.Component {
                     </div>
                   </div>
                 </div>
-                <Card
-                  bg={"dark"}
-                  text={"light"}
-                  style={{ width: "20%", marginLeft: "40%" }}
-                  className="mb-3 mt-3"
-                >
-                  <h6 style={{ textAlign: "center" }}>
-                    <small>
-                      Poll status: {this.getdate(poll.timestart, poll.timeend)}
-                    </small>
-                  </h6>
-                </Card>
               </Card>
 
             }
             { this.getdate(poll.timestart, poll.timeend) === "Ended" &&
             
-              <Card text={"dark"} className="mb-2">
-                <h1 className="display-4" style={{ textAlign: "center" }}>
-                  {poll.name}
+              <Card text={"dark"} className="mb-2" style={{width: "70%", marginLeft: "25%"}}>
+                <h1 style={{ textAlign: "Left", fontSize: "140%", marginTop: "1%", marginLeft: "1%"}}>
+                  <PollStatus poll={poll}/>
                 </h1>
                 <h3 className="font-weight-light" style={{ textAlign: "center" }}>
                   {poll.question}
                 </h3>
                 <div className="container">
                   <div className="row">
-                    <div className="col-sm">
+                    <div className="col-sm" style={{textAlign: "right"}}>
                       <Button
                         variant="info"
-                        style={{ width: "50%", marginLeft: "25%" }}
+                        style={{ width: "25%", marginLeft: "78%", marginBottom: "1%"}}
                         block
                         href={"/result/" + poll.id}
                       >
@@ -114,18 +103,6 @@ class PollFromAPI extends React.Component {
                     </div>
                   </div>
                 </div>
-                <Card
-                  bg={"dark"}
-                  text={"light"}
-                  style={{ width: "20%", marginLeft: "40%" }}
-                  className="mb-3 mt-3"
-                >
-                  <h6 style={{ textAlign: "center" }}>
-                    <small>
-                      Poll status: {this.getdate(poll.timestart, poll.timeend)}
-                    </small>
-                  </h6>
-                </Card>
               </Card>
             }
             

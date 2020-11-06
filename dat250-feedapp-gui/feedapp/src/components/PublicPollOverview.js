@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Get } from "../utils/actionHandler"
 import Button from "react-bootstrap/Button";
 import { API_URL } from "../constants/constants"
+import Divider from '@material-ui/core/Divider'
 
 class PublicPollOverview extends React.Component {
   constructor(props) {
@@ -54,6 +55,7 @@ class PublicPollOverview extends React.Component {
       return (
         <div>
           <div className="container">
+            <Divider variant="middle"/>
             <div className="row">
               <div className="col-sm">
                 <h1 className="display-4" style={{ textAlign: "center" }}>
@@ -70,6 +72,15 @@ class PublicPollOverview extends React.Component {
     return (
       <div>
         <div className="container">
+          <Button
+                variant="success"
+                style={{ width: "25%", marginLeft: "73%", marginBottom: "0.5%" }}
+                block
+                href="/createpoll"
+              >
+                Create Poll
+          </Button>
+          <Divider variant="middle"/>
           <div className="row">
             <div className="col-sm">
               <h1 className="display-4" style={{ textAlign: "center" }}>
@@ -77,17 +88,10 @@ class PublicPollOverview extends React.Component {
               </h1>
               <PollFromAPI poll={this.props.state.poll}/>
             </div>
+            <Divider variant="middle" classes="vertical"/>
             <div className="col-sm">
-              <Button
-                variant="success"
-                style={{ width: "50%", marginLeft: "50%" }}
-                block
-                href="/createpoll"
-              >
-                Create Poll
-              </Button>
               <h1 className="display-4" style={{ textAlign: "center" }}>
-                Created polls
+                Your polls
               </h1>
               <PollFromAPI poll={this.props.state.user}/>
             </div>

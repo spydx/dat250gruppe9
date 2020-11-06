@@ -85,10 +85,10 @@ class Result extends React.Component {
                       {"Number of Votes: " + resultData.total} 
                     </p>
                     <p>
-                      {"Number of Yes: " + resultData.yes}
+                      {poll.answeryes +": " + resultData.yes}
                     </p>
                     <p>
-                      {"Number of No: " + resultData.nos} 
+                      {poll.answerno +": "+ resultData.nos} 
                     </p>
 
                     <br></br>

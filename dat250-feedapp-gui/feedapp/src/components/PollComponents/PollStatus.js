@@ -1,6 +1,7 @@
 import React from 'react';
 import Badge from 'react-bootstrap/Badge'
 import EventIcon from '@material-ui/icons/Event';
+import moment from 'moment';
 
 class PollStatus extends React.Component {
     getStatus(startDate, endDate) {
@@ -14,17 +15,22 @@ class PollStatus extends React.Component {
 
     render() {
         const ended = this.getStatus(this.props.poll.timestart, this.props.poll.timeend)
+        var date = this.props.poll.timeend
+        date = moment(date).format("DD-mm-yyyy");
+
         if (ended) {
             return (
                 <div>
-                    <Badge variant="danger">Closed</Badge> 
-                    {this.props.poll.timeend}
+                    {date}
                     <EventIcon/>
+                    <Badge variant="danger">Closed</Badge> 
                 </div>
             );
         } else {
             return (
                 <div>
+                    {date}
+                    <EventIcon/>
                     <Badge variant="success">Live</Badge>
                 </div>
             );

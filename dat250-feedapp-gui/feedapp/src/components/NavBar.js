@@ -62,7 +62,7 @@ class NavBar extends React.Component {
             </Navbar.Text>
           </Navbar.Collapse>
 
-          <Button href="/login" variant="light">Login</Button>
+          <Button href="/login" variant="success">Login/Register</Button>
         </Container>
       </Navbar>
     );

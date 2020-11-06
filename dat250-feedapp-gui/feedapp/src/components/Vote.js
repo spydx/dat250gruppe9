@@ -57,8 +57,8 @@ class Vote extends React.Component {
                                     <Button
                                         variant = "danger"
                                         style = {{width: "35%", marginLeft:"23%"}}
-                                    onClick={() => { this.handleSubmit(false) }}
-                                    href={ "/result/" + this.props.id }
+                                        onClick={() => { this.handleSubmit(false) }}
+                                        href={ "/result/" + this.props.id }
                                     >
                                         {poll.answerno}
                                     </Button>
@@ -78,9 +78,7 @@ const mapStateToProps = (state) => {
   };
   
   const mapDispatchToProps = (dispatch) => {
-    return {
-      
-    };
+    return {};
   };
   
   
