@@ -21,7 +21,7 @@ class NavBar extends React.Component {
                 className="align-left"
               />
             </Navbar.Brand>
-            <Dropdown>
+            <Dropdown style={{marginRight: "1.5%"}}>
               <Dropdown.Toggle variant="dark" id="dropdown-basic">
                 {
                   this.props.state.user.firstname +

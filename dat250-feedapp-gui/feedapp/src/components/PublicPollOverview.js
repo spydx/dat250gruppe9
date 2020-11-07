@@ -81,26 +81,27 @@ class PublicPollOverview extends React.Component {
                 <h1 style={{ textAlign: "Left", fontSize: "190%"}}>
                   Poll Overview
                 </h1>
-                <Button
-                variant="success"
-                style={{ width: "25%", marginLeft: "58%", marginBottom: "0.5%" }}
-                block
-                href="/createpoll"
-                >
-                  Create Poll
-                </Button>
               </div>
               <hr className="text-dark bg-dark" />
               <div className="row">
                 <div className="col-sm">
-                  
                   <Poll poll={this.props.state.poll}/>
                 </div>
                 <Divider variant="middle" orientation="vertical" flexItem/>
                 <div className="col-sm">
-                  <h1 className="display-4" style={{ textAlign: "Left", fontSize: "175%", }}>
-                    Your polls
-                  </h1>
+                  <div style={{display: "flex"}}>
+                    <h1 style={{ textAlign: "Left", fontSize: "160%"}}>
+                      Your Polls
+                    </h1>
+                    <Button
+                    variant="success"
+                    style={{ width: "30%", marginLeft: "48.41%", marginBottom: "0.5%" }}
+                    block
+                    href="/createpoll"
+                    >
+                      Create Poll
+                    </Button>
+                  </div>
                   <Poll poll={this.props.state.user}/>
                 </div>
               </div>
