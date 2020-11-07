@@ -25,6 +25,7 @@ class Login extends React.Component {
         (error) => {
           this.props.setReset();
           this.props.setError(error);
+          return;
         }
       );
     
