@@ -135,11 +135,9 @@ class Register extends React.Component {
                     </Form.Label> 
                     <Col sm={10}>
                         <Form.Control type="password" placeholder="Re-enter password" onChange={e => this.setState({ passwordCheck: e.target.value })} />
-                        
-                            {this.props.state.user.error &&
-                                <small id="emailHelp" className="form-text text-muted">{this.props.state.user.error}</small>
-                            }
-                        
+                        {this.props.state.user.error &&
+                            <small id="emailHelp" className="form-text text-muted">{this.props.state.user.error}</small>
+                        }                       
                     </Col>
                     
                 </Form.Group>

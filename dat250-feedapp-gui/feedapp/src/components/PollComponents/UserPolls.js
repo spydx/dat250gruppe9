@@ -7,6 +7,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import PollStatus from "./PollStatus";
 import { Delete } from "../../utils/actionHandler"
 import { API_URL } from "../../constants/constants"
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Redirect } from "react-router-dom";
+import { IconButton } from "@material-ui/core";
 
 class UserPolls extends React.Component {
 
@@ -20,6 +23,7 @@ class UserPolls extends React.Component {
         
     async handleDelete(pollid) {
         await Delete(API_URL + "/polls/" + pollid, this.props.poll.token)
+        
     }
 
     render() {
@@ -44,61 +48,52 @@ class UserPolls extends React.Component {
             <div key={poll.id} className="mt-2">
                 <Card text={"dark"} className="mb-2" style={{textAlign: "center"}}>
                     <h1 style={{ textAlign: "Left", fontSize: "140%", marginTop: "1%", marginLeft: "1%"}}>
-                    <PollStatus poll={poll}/>
+                        <PollStatus poll={poll}/>
                     </h1>
                     <h3 className="font-weight-light" style={{ textAlign: "center" }}>
-                    {poll.question}
+                        {poll.question}
                     </h3>
                     <div className="container">
                     <div className="row">
-                    <div className="col-sm" style={{ textAlign: "right" }}>
+                    <div className="col-sm" style={{ textAlign: "right"}}>
                         {!this.getStatus(poll.timestart, poll.timeend) && 
-                        <div style={{display: "flex", marginLeft: "73%"}}>         
-                            <div style={{marginRight: "1%"}}>
-                                <Button
-                                variant="danger"
-                                style={{marginBottom: "7%"}}
-                                block
+                        <div style={{display: "flex"}}>         
+                            
+                            <IconButton
                                 onClick={() => { this.handleDelete(poll.id) }}
-                                href={"/"}
+                                href="/"
+                                style={{ float: "inline-start", marginBottom: "2%"}}
                                 >
-                                Delete
-                                </Button>
-                            </div>
-                            <div>          
-                                <Button
-                                variant="success"
-                                style={{width: "120%", marginBottom: "1%"}}
-                                block
-                                href={"/vote/" + poll.id}
-                                >
-                                Vote
-                                </Button>
-                            </div>
+                                <DeleteIcon /> 
+                            </IconButton> 
+                              
+                            <Button
+                            variant="success"
+                            style={{width: "20%", marginLeft: "auto", marginBottom: "2%", marginTop: "2%"}}
+                            href={"/vote/" + poll.id}
+                            >
+                            Vote
+                            </Button>
                         </div>
                         }
                         {this.getStatus(poll.timestart, poll.timeend) &&
-                        <div style={{display: "flex", marginLeft: "73%"}}>         
-                            <div style={{marginRight: "1%"}}>
-                                <Button
-                                variant="danger"
-                                style={{marginBottom: "7%" }}
-                                block
+                        <div style={{display: "flex"}}>         
+                            
+                            <IconButton
                                 onClick={() => { this.handleDelete(poll.id) }}
-                                href={"/"}
+                                href="/"
+                                style={{float: "inline-start", marginBottom: "2%"}}
                                 >
-                                Delete
-                                </Button>
-                            </div>
-                            <div>          
-                                <Button
-                                style={{width: "100%", marginBottom: "1%", backgroundColor: "#2196F3"}}
-                                block
-                                href={"/result/" + poll.id}
-                                >
-                                Result
-                                </Button>
-                            </div>
+                                <DeleteIcon /> 
+                            </IconButton> 
+                         
+                            <Button
+                            style={{width: "20%", marginLeft: "auto", backgroundColor: "#2196F3", marginBottom: "2%", marginTop: "2%"}}
+                            href={"/result/" + poll.id}
+                            >
+                            Result
+                            </Button>
+                            
                         </div>   
                         } 
                         </div>

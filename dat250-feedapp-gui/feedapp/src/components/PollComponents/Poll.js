@@ -49,7 +49,7 @@ class Poll extends React.Component {
                     {!this.getStatus(poll.timestart, poll.timeend) && 
                       <Button
                         variant="success"
-                        style={{ width: "20%", marginLeft: "80%", marginBottom: "1%" }}
+                        style={{ width: "20%", marginLeft: "80%", marginBottom: "2%" }}
                         block
                         href={"/vote/" + poll.id}
                       >
@@ -58,7 +58,7 @@ class Poll extends React.Component {
                     }
                     {this.getStatus(poll.timestart, poll.timeend) &&
                       <Button
-                      style={{ width: "20%", marginLeft: "80%", marginBottom: "1%", backgroundColor: "#2196F3"}}
+                      style={{ width: "20%", marginLeft: "80%", marginBottom: "2%", backgroundColor: "#2196F3"}}
                       block
                       href={"/result/" + poll.id}
                       >
