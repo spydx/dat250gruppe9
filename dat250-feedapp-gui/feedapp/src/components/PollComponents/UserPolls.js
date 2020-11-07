@@ -8,7 +8,6 @@ import PollStatus from "./PollStatus";
 import { Delete } from "../../utils/actionHandler"
 import { API_URL } from "../../constants/constants"
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Redirect } from "react-router-dom";
 import { IconButton } from "@material-ui/core";
 
 class UserPolls extends React.Component {
@@ -75,7 +74,7 @@ class UserPolls extends React.Component {
                             </Button>
                         </div>
                         }
-                        {this.getStatus(poll.timestart, poll.timeend) &&
+                        {this.getStatus(poll.timeend) &&
                         <div style={{display: "flex"}}>         
                             
                             <IconButton

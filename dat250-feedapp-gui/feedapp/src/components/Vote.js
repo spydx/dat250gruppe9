@@ -47,7 +47,6 @@ class Vote extends React.Component {
     render() {
         
         const poll = this.getPoll(this.props.id)
-        console.log(this.getStatus(poll.timeend))
         if (this.getStatus(poll.timeend)) {
             return <Redirect to={"/result/" + poll.id}/>
         }
