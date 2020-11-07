@@ -8,9 +8,8 @@ import PollStatus from "./PollStatus";
 
 class Poll extends React.Component {
 
-  getStatus(startDate, endDate) {
-    var currentDate = new Date(Date.now());
-    startDate = new Date(startDate);
+  getStatus(endDate) {
+    var currentDate = new Date();
     endDate = new Date(endDate);
     var ended = currentDate > endDate && endDate.getFullYear() !== 1970;
     return ended
@@ -46,7 +45,7 @@ class Poll extends React.Component {
                 <div className="container">
                   <div className="row">
                   <div className="col-sm" style={{ textAlign: "right" }}>
-                    {!this.getStatus(poll.timestart, poll.timeend) && 
+                    {!this.getStatus(poll.timeend) && 
                       <Button
                         variant="success"
                         style={{ width: "20%", marginLeft: "80%", marginBottom: "2%" }}
@@ -56,7 +55,7 @@ class Poll extends React.Component {
                         Vote
                       </Button>
                     }
-                    {this.getStatus(poll.timestart, poll.timeend) &&
+                    {this.getStatus(poll.timeend) &&
                       <Button
                       style={{ width: "20%", marginLeft: "80%", marginBottom: "2%", backgroundColor: "#2196F3"}}
                       block

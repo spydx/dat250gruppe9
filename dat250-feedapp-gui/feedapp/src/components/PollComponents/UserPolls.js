@@ -13,9 +13,8 @@ import { IconButton } from "@material-ui/core";
 
 class UserPolls extends React.Component {
 
-    getStatus(startDate, endDate) {
-        var currentDate = new Date(Date.now());
-        startDate = new Date(startDate);
+    getStatus(endDate) {
+        var currentDate = new Date();
         endDate = new Date(endDate);
         var ended = currentDate > endDate && endDate.getFullYear() !== 1970;
         return ended
@@ -56,7 +55,7 @@ class UserPolls extends React.Component {
                     <div className="container">
                     <div className="row">
                     <div className="col-sm" style={{ textAlign: "right"}}>
-                        {!this.getStatus(poll.timestart, poll.timeend) && 
+                        {!this.getStatus(poll.timeend) && 
                         <div style={{display: "flex"}}>         
                             
                             <IconButton

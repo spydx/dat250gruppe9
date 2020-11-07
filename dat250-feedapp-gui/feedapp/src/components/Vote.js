@@ -5,8 +5,16 @@ import Button from 'react-bootstrap/Button'
 import { connect } from "react-redux";
 import { Post } from "../utils/actionHandler";
 import { API_URL } from "../constants/constants"
+import { Redirect } from "react-router-dom";
 
 class Vote extends React.Component {
+
+    getStatus(endDate) {
+        var currentDate = new Date();
+        endDate = new Date(endDate);
+        var ended = currentDate > endDate && endDate.getFullYear() !== 1970;
+        return ended
+    }
 
     getPoll(pollid) {
         //Check for public polls
@@ -37,7 +45,13 @@ class Vote extends React.Component {
     }
 
     render() {
+        
         const poll = this.getPoll(this.props.id)
+        console.log(this.getStatus(poll.timeend))
+        if (this.getStatus(poll.timeend)) {
+            return <Redirect to={"/result/" + poll.id}/>
+        }
+
         return(
             <div>
                 <div>

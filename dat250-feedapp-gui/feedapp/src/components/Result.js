@@ -26,7 +26,7 @@ class Result extends React.Component {
             return element;
         }
     }
-}
+  }
 
   getCurrentWinner(yes, no, pollYes, pollNo) {
     if (yes === no) {
