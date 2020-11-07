@@ -5,7 +5,7 @@ import { Get } from "../utils/actionHandler"
 import Button from "react-bootstrap/Button";
 import { API_URL } from "../constants/constants"
 import Divider from '@material-ui/core/Divider'
-
+import UserPoll from "./PollComponents/UserPolls"
 
 class PublicPollOverview extends React.Component {
   constructor(props) {
@@ -102,7 +102,7 @@ class PublicPollOverview extends React.Component {
                       Create Poll
                     </Button>
                   </div>
-                  <Poll poll={this.props.state.user}/>
+                <UserPoll poll={this.props.state.user}/>
                 </div>
               </div>
             </div>

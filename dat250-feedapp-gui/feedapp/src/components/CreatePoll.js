@@ -13,6 +13,12 @@ import { connect } from "react-redux";
 class CreatePoll extends React.Component {
 
     async handleSubmit(access, answerno, answeryes, name, question, timeend) {
+        if (answerno === "") {
+            answerno = "No"
+        }
+        if (answeryes === "") {
+            answeryes = "Yes"
+        }
         const createPollRequest = {
             access: access,
             answerno: answerno,
@@ -50,7 +56,7 @@ class CreatePoll extends React.Component {
     render() {
         return (
             <div>
-                <Form style = {{marginTop:"13%"}}>
+                <Form style = {{marginTop:"13%", width: "150%"}}>
                     <Form.Group as={Row} controlId="PollName">
                         <Form.Label column sm={2}>
                             Name
@@ -100,7 +106,7 @@ class CreatePoll extends React.Component {
                             End Time 
                         </Form.Label>
                         <Col sm={10}>
-                            <Datetime closeOnClickOutside="true" dateFormat="DD-MM-YYYY" value= { new Date().toISOString()} onChange={e => this.setState({timeend: e})}/>
+                            <Datetime closeOnClickOutside="true" dateFormat="DD-MM-YYYY" initialValue={new Date()} onChange={e => this.setState({timeend: e})}/>
                         </Col>
                     </Form.Group>
                     <div>

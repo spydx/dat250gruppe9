@@ -4,7 +4,8 @@ import EventIcon from '@material-ui/icons/Event';
 import moment from 'moment';
 
 class PollStatus extends React.Component {
-    getStatus(startDate, endDate) {
+
+    getStatus(startDate, endDate) {//TODO: this might be broken
         var currentDate = new Date(Date.now());
         startDate = new Date(startDate);
         endDate = new Date(endDate);

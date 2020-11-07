@@ -21,7 +21,7 @@ export async function Get(url, access_token = "") {
   }
 }
 
-export async function Post(url, request, access_token = "", profileid = "") {
+export async function Post(url, request, access_token = "") {
   if (access_token.length === 0) {
     const response = await fetch(url, {
       method: "POST",
@@ -52,7 +52,7 @@ export async function Post(url, request, access_token = "", profileid = "") {
   }
 }
 
-export async function Put(url, request, access_token = "", profileid = "") {
+export async function Put(url, request, access_token = "") {
   const response = await fetch(url, {
     method: "Put",
     mode: "cors",
@@ -66,4 +66,27 @@ export async function Put(url, request, access_token = "", profileid = "") {
   });
 
   return response;
+}
+
+export async function Delete(url, access_token = "") {
+  if (access_token.length === 0) {
+    const response = await fetch(url, {
+      method: "DELETE",
+
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    return response;
+  } else {
+    const response = await fetch(url, {
+      method: "DELETE",
+
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + access_token,
+      },
+    });
+    return response;
+  }
 }

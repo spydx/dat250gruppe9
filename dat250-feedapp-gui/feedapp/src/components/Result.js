@@ -14,14 +14,25 @@ class Result extends React.Component {
 
   
   getPoll(pollid) {
+    //Check for public polls
     for (const element of this.props.state.poll.pollData) {
-      if (element.id === pollid) {
-        return element;
-      }
+        if (element.id === pollid) {
+            return element;
+        }
     } 
-  }
+    //check for users polls
+    for (const element of this.props.state.user.pollData) {
+        if (element.id === pollid) {
+            return element;
+        }
+    }
+}
 
   getCurrentWinner(yes, no, pollYes, pollNo) {
+    if (yes === no) {
+      return "It's a tie."
+    } 
+
     if (yes < no) {
       return pollNo
     } else {
@@ -30,7 +41,6 @@ class Result extends React.Component {
   }
 
   async fetchResultData() {
-    console.log(this.props.id)
     await Get(API_URL + "/result/" + this.props.id)
     .then((res) => res.json())
       .then(
@@ -94,7 +104,7 @@ class Result extends React.Component {
                     <br></br>
 
                     <p>
-                      {"Current lead: " + this.getCurrentWinner(resultData.yes, resultData.no, poll.answeryes, poll.asnwerno)}
+                      {"Current lead: " + this.getCurrentWinner(resultData.yes, resultData.nos, poll.answeryes, poll.asnwerno)}
                     </p>
                   </div>
                   <div className="col">

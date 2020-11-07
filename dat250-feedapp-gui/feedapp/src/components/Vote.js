@@ -9,12 +9,18 @@ import { API_URL } from "../constants/constants"
 class Vote extends React.Component {
 
     getPoll(pollid) {
-        
+        //Check for public polls
         for (const element of this.props.state.poll.pollData) {
             if (element.id === pollid) {
-            return element;
+                return element;
             }
         } 
+        //check for users polls
+        for (const element of this.props.state.user.pollData) {
+            if (element.id === pollid) {
+                return element;
+            }
+        }
     }
 
     async handleSubmit(answer) {
