@@ -54,7 +54,7 @@ class UserPolls extends React.Component {
                     <div className="col-sm" style={{ textAlign: "right" }}>
                         {!this.getStatus(poll.timestart, poll.timeend) && 
                         <div style={{display: "flex", marginLeft: "73%"}}>         
-                            <div>
+                            <div style={{marginRight: "1%"}}>
                                 <Button
                                 variant="danger"
                                 style={{marginBottom: "7%"}}
@@ -79,7 +79,7 @@ class UserPolls extends React.Component {
                         }
                         {this.getStatus(poll.timestart, poll.timeend) &&
                         <div style={{display: "flex", marginLeft: "73%"}}>         
-                            <div >
+                            <div style={{marginRight: "1%"}}>
                                 <Button
                                 variant="danger"
                                 style={{marginBottom: "7%" }}

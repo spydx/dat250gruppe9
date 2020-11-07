@@ -6,7 +6,7 @@ import moment from 'moment';
 class PollStatus extends React.Component {
 
     getStatus(startDate, endDate) {//TODO: this might be broken
-        var currentDate = new Date(Date.now());
+        var currentDate = new Date();
         startDate = new Date(startDate);
         endDate = new Date(endDate);
         var ended = currentDate > endDate && endDate.getFullYear() !== 1970;
