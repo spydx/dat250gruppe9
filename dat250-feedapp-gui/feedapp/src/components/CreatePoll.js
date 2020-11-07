@@ -100,7 +100,7 @@ class CreatePoll extends React.Component {
                             End Time 
                         </Form.Label>
                         <Col sm={10}>
-                            <Datetime closeOnClickOutside="true" value= { new Date().toISOString()} onChange={e => this.setState({timeend: e})}/>
+                            <Datetime closeOnClickOutside="true" dateFormat="DD-MM-YYYY" value= { new Date().toISOString()} onChange={e => this.setState({timeend: e})}/>
                         </Col>
                     </Form.Group>
                     <div>
