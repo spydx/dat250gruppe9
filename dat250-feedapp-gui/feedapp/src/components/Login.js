@@ -48,6 +48,10 @@ class Login extends React.Component {
       );
   }
 
+  componentDidMount() {
+    this.props.setReset();
+  }
+
   render() {
     if (this.props.state.user.isLoggedin) { 
       return <Redirect to="/"/>
