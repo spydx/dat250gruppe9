@@ -8,11 +8,26 @@ import "react-datetime/css/react-datetime.css";
 import { Post } from "../utils/actionHandler"
 import { API_URL } from "../constants/constants"
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 
 class CreatePoll extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+          didCreate: false
+        }
+    }
+    
 
     async handleSubmit(access, answerno, answeryes, name, question, timeend) {
+        
+        if (name === "" || question === "") {
+            this.props.setReset()
+            this.props.setError("Please give a poll name and question.")
+            return;
+        }
+        
         if (answerno === "") {
             answerno = "No"
         }
@@ -33,11 +48,13 @@ class CreatePoll extends React.Component {
             .then(
                 (result) => {
                     console.log(result)
+                    this.setState({didCreate: true})
                 },
                 (error) => {
-                    this.setState({error: error})
+                    this.setError(error)
                 }
-            )
+        )
+        
     }
 
     componentDidMount() {
@@ -48,11 +65,15 @@ class CreatePoll extends React.Component {
             answeryes: "Yes",
             name: "",
             question: "",
-            timeend: new Date()
+            timeend: new Date(),
+            didCreate: false
         })
     }
 
     render() {
+        if (this.state.didCreate) {
+            return <Redirect to="/"/>
+        }
         return (
             <div>
                 <Form style = {{marginTop:"13%", width: "150%"}}>
@@ -108,9 +129,18 @@ class CreatePoll extends React.Component {
                             <Datetime closeOnClickOutside="true" dateFormat="DD-MM-YYYY" initialValue={new Date()} onChange={e => this.setState({timeend: e})}/>
                         </Col>
                     </Form.Group>
+                    
+                    {this.props.state.poll.error &&
+                    <div>
+                        <p style={{color: "red"}}>{this.props.state.poll.error}</p>
+                    </div>                       
+                    }
+                    
+                    
+
                     <div>
                         <Button variant="danger" 
-                                style={{ marginLeft: "5%", marginTop: "5%" }}
+                                style={{ marginLeft: "17%", marginTop: "5%" }}
                                 href = "/">
                             Return to overview
                         </Button>
@@ -118,7 +148,7 @@ class CreatePoll extends React.Component {
                     <div>
                         <Button
                             variant="success"
-                            style={{ marginLeft: "5%", marginTop: "5%" }}
+                            style={{ marginLeft: "17%", marginTop: "5%" }}
                             onClick={() => this.handleSubmit(
                                     this.state.access,
                                     this.state.answerno,
@@ -127,7 +157,6 @@ class CreatePoll extends React.Component {
                                     this.state.question,
                                     this.state.timeend.toISOString()
                             )}
-                            href="/"
                         >
                             Create
                         </Button>  
@@ -146,7 +175,15 @@ const mapStateToProps = (state) => {
   
   const mapDispatchToProps = (dispatch) => {
     return {
-      
+        setError: (error) => dispatch({
+            type: "SET_POLL_ERROR",
+            error: error,
+            isLoaded: false
+        }),
+        
+        setReset: () => dispatch({
+            type: "RESET_POLL_DATA"
+        })
     };
   };
   

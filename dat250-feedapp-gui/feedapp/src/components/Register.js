@@ -142,9 +142,6 @@ class Register extends React.Component {
                     
                 </Form.Group>
                 
-                
-                
-                
                 <Form.Group as={Row} controlId="password">
                     <Form.Label column sm={2}></Form.Label> 
                     <Col sm={10} style={{textAlign: "right"}}>
