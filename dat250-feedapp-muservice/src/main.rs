@@ -4,10 +4,10 @@ use amiquip::{
 };
 use serde::{Deserialize, Serialize};
 
-use reqwest;
 use std::{env, thread};
 use kv::*;
 use std::sync::mpsc;
+use std::borrow::Cow;
 
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -72,18 +72,11 @@ async fn main() {
     let user = env::var("RABBITUSER").unwrap_or("guest".to_string());
     let pass = env::var("RABBITPASSWORD").unwrap_or("guest".to_string());
     let routingkey = env::var("RABBITROUTINGKEY").unwrap_or("FEEDAPP".to_string());
-    let dweet_id = env::var("DWEETID").unwrap_or("be4106c3-bd56-40ca-9a5a-c1cb0c0bf8cc".to_string());
-    let debug = env::var("RELEASE").unwrap_or("DEBUG".to_string());
-    //static post_url : str = ["https://dweet.io/dweet/for/", dweet_id.as_str()].join("");
     let cfg = Config::new("jobs");
     let store = Store::new(cfg).unwrap();
-    let db = store.bucket::<&str, Json<PollEntry>>(None).unwrap();
-    if debug == "DEBUG" {
-        db.clear();
-    }
-    /*for job in db.iter() {
-        verify(job.unwrap())
-    }*/
+    let _db = store.bucket::<&str, Json<PollEntry>>(None).unwrap();
+
+    // db Thread?
 
     process(server,user,pass,routingkey).await.unwrap_err();
 
@@ -91,22 +84,8 @@ async fn main() {
 
 
 
-async fn post_dweetio(dweet: String) -> Result<String> {
-    let url = "https://dweet.io/dweet/for/be4106c3-bd56-40ca-9a5a-c1cb0c0bf8cc";
-    let json_value = serde_json::to_string(&dweet);
-    let client = reqwest::Client::new();
-    let res = client
-        .post(url)
-        .json(&dweet)
-        .send().await;
-    println!("Dweeted");
-    Ok("Success".to_string())
-
-}
 
 async fn process(server: String, user: String, pass: String, routingkey: String) -> Result<()> {
-    let (tx, rx) = mpsc::channel();
-
     let connection = format!(
         "{:?}",
         format_args!(
@@ -149,24 +128,40 @@ async fn process(server: String, user: String, pass: String, routingkey: String)
 
     println!("[>] Waiting for Polls");
 
-    thread::spawn(move || {
-        // lets start working on this job here.
-        // send the data to dweet.io
-        let dweet = rx.recv().unwrap();
-        async {
-            let res = post_dweetio(dweet).await;
-        }
-    });
-
     for (i, msg) in consumer.receiver().iter().enumerate() {
         match msg {
             ConsumerMessage::Delivery(delivery) => {
                 let body = String::from_utf8_lossy(&delivery.body);
                 println!("({:3}) {} : {}", i, delivery.routing_key, body);
-                // missing error handling
-                let p : Poll = ::serde_json::from_str(&body).unwrap();
-                let dw = DweetPoll {id: p.id, status: PollStatus::OPEN };
-                tx.send((&body).to_string()).unwrap();
+
+                let p = json_to_object(&body);
+                if p.is_ok() {
+                    let (tx, rx) = mpsc::channel();
+                    thread::spawn(move || {
+                        // lets start working on this job here.
+                        // send the data to dweet.io
+                        println!("[> Thr] Thread spawned");
+                        let id = rx.recv().unwrap();
+                        println!("[| Thr: {}", &id);
+                        let dw = DweetPoll { id: id, status: PollStatus::OPEN };
+
+                        let url = "https://dweet.io/dweet/for/be4106c3-bd56-40ca-9a5a-c1cb0c0bf8cc";
+                        println!("[| posting: {}", url);
+                        let resp = ureq::post(url)
+                            .send_json(serde_json::json!(dw));
+
+                        if resp.ok() {
+                            println!("success: {}", resp.into_string().unwrap());
+                        } else {
+                            println!("error {}: {}", resp.status(), resp.into_string().unwrap());
+                        }
+                        println!("[> Thr] Thread closed");
+                    });
+                    tx.send(p.unwrap().id).unwrap();
+
+                } else {
+                    println!("({:3}) {} : {} => {}", i, delivery.routing_key, "Incorrect msg", &body);
+                }
             }
             other => {
                 println!("[Q] Other msg {:?}", other);
@@ -177,4 +172,13 @@ async fn process(server: String, user: String, pass: String, routingkey: String)
 
     con.close()?;
     Ok(())
+}
+
+fn json_to_object(body: &Cow<str>) -> Result<Poll, serde_json::Error> {
+    let p = ::serde_json::from_str(&body);
+    let p = match p {
+        Ok(p) => p,
+        Err(e) => return Err(e),
+    };
+    return Ok(p);
 }
