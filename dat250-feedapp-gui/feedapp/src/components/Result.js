@@ -108,7 +108,7 @@ class Result extends React.Component {
                     </p>
                   </div>
                   <div className="col">
-                    <ResultGraph />
+                  <ResultGraph votes={this.props.state.result.resultData.votes} poll={poll}/>
                     <Button 
                       variant="dark" 
                       style={{ marginLeft: "65%", marginTop: "8%", marginRight:"5%" }}
