@@ -70,7 +70,7 @@ class ResultGraph extends React.Component {
 					text: "Answers"
 				},
 				axisY : {
-                    title: "Number of Yes/no"
+                    title: "Number of "+ yesAnswer +"/"+noAnswer
 				},
 				toolTip: {
 					shared: true
