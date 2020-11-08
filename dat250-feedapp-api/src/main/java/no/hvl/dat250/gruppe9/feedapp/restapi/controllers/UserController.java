@@ -67,9 +67,10 @@ public class UserController {
                 var found = userService.getProfile(id);
                 if(found.isPresent()) {
                     var res = userService.delete(found.get());
-                    if(res.isPresent())
-                        return new ResponseEntity<>(res.get(), HttpStatus.OK);
-                    return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+                    if(res.isEmpty()) { // this is what we expect
+                        return new ResponseEntity<>(null, HttpStatus.OK);
+                    }
+                    return new ResponseEntity<>(res.get(), HttpStatus.NOT_FOUND);
                 }
             }
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
