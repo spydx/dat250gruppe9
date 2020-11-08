@@ -89,8 +89,8 @@ public class SetupService {
         }
 
         var anonowner = userService.getAccount(anonymousUser);
-        Optional<Poll> poll = Optional.empty();
-        if(anonowner.isPresent()) {
+        Optional<Poll> poll = pollService.getPollByName("Biden vs Trump");
+        if(anonowner.isPresent() && poll.isEmpty()) {
             PollDTO p = new PollDTO();
             p.setName("Biden vs Trump");
             p.setQuestion("Who do you wanna vote for?");

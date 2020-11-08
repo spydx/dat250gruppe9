@@ -48,6 +48,9 @@ public class PollService {
         return pollStorage.get(id);
     }
 
+    public Optional<Poll> getPollByName(String name) {
+        return pollStorage.getPollByName(name);
+    }
 
     public Optional<Poll> addPoll(PollDTO newpoll, String accountid) {
         var account = accountStorage.get(accountid);
