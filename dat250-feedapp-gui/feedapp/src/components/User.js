@@ -5,8 +5,11 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 import { connect } from "react-redux";
 import { Put } from "../utils/actionHandler";
+import { Delete } from "../utils/actionHandler";
 import { API_URL } from "../constants/constants";
 import { Redirect } from "react-router-dom";
 
@@ -16,36 +19,66 @@ class User extends React.Component {
     this.state = {
       firstname: this.props.state.user.firstname,
       lastname: this.props.state.user.lastname,
+      deleteAccount: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.submitChange = this.handleSubmit.bind(this);
+    this.handleCheckbox = this.handleCheckbox.bind(this);
   }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+    console.log(this.state.deleteAccount);
   }
 
-  async handleSubmit(firstname, lastname) {
-    const updateUserRequest = {
-      firstname: firstname,
-      lastname: lastname,
-    };
-    console.log(updateUserRequest);
+  handleCheckbox(e) {
+    this.state.deleteAccount = !this.state.deleteAccount;
+    console.log(this.state.deleteAccount);
+  }
 
-    await Put(
-      API_URL + "/users/" + this.props.state.user.id,
-      updateUserRequest,
-      this.props.state.user.token
-    )
-      .then((res) => res.json())
-      .then((result) => {
-        this.props.setUserName(result);
-      });
+  async deleteAccount() {}
+
+  async handleSubmit(firstname, lastname) {
+    if (this.state.deleteAccount) {
+      console.log("Deleting account");
+      await Delete(
+        API_URL + "/users/" + this.props.state.user.id,
+        this.props.state.user.token
+      )
+        .then((res) => res)
+        .then(
+          (result) => {
+            console.log("Logged out user");
+            console.log(result);
+            this.props.setResetUser();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    } else {
+      const updateUserRequest = {
+        firstname: firstname,
+        lastname: lastname,
+      };
+      console.log("Changing name");
+      console.log(updateUserRequest);
+
+      await Put(
+        API_URL + "/users/" + this.props.state.user.id,
+        updateUserRequest,
+        this.props.state.user.token
+      )
+        .then((res) => res.json())
+        .then((result) => {
+          this.props.setUserName(result);
+        });
+    }
   }
 
   render() {
     if (!this.props.state.user.isLoggedin) {
-      return <Redirect to="/"/>
+      return <Redirect to="/" />;
     }
     return (
       <Container fluid="sm" className="mt-4">
@@ -100,6 +133,25 @@ class User extends React.Component {
                 />
               </Col>
             </Form.Group>
+
+            <Form.Group as={Row} controlId="formDeleteAccount">
+              <OverlayTrigger
+                placement="bottom"
+                overlay={
+                  <Tooltip id="tooltip">
+                    <strong>Warning, deleting account is permanent</strong>.
+                  </Tooltip>
+                }
+              >
+                <Form.Check
+                  style={{ marginLeft: "15px" }}
+                  name="deleteAccount"
+                  type="checkbox"
+                  label="Delete account"
+                  onChange={this.handleCheckbox}
+                />
+              </OverlayTrigger>
+            </Form.Group>
           </Form>
         </Container>
         <Container style={{ marginTop: "10%" }}>
@@ -142,6 +194,10 @@ const mapDispatchToProps = (dispatch) => {
         type: "SET_NAME",
         firstname: result.firstname,
         lastname: result.lastname,
+      }),
+    setResetUser: () =>
+      dispatch({
+        type: "RESET_USER",
       }),
   };
 };
