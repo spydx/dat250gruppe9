@@ -33,7 +33,6 @@ class CreatePoll extends React.Component {
             .then(
                 (result) => {
                     console.log(result)
-                    //return <Redirect to="/"/>
                 },
                 (error) => {
                     this.setState({error: error})

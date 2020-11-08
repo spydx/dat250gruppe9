@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import { API_URL } from "../constants/constants"
 import Divider from '@material-ui/core/Divider'
 import UserPoll from "./PollComponents/UserPolls"
+import {Form} from "react-bootstrap";
 
 class PublicPollOverview extends React.Component {
   constructor(props) {
@@ -79,8 +80,24 @@ class PublicPollOverview extends React.Component {
             <div>
               <div style={{display: "flex"}}>
                 <h1 style={{ textAlign: "Left", fontSize: "190%"}}>
-                  Poll Overview
+                Poll Overview
                 </h1>
+              <div style={{ display: "flex", marginLeft: "51%" }}>
+                <p style={{width: "50%", fontSize: "120%", marginTop: "1%"}}> Open poll: </p>
+                
+                <Form.Control
+                  placeholder="Pollid"
+                  onChange={e => this.setState({ openpollid: e.target.value })}
+                  style={{float: "inline-end", marginRight: "1%"}}
+                />
+                <Button
+                  variant="success"
+                  style={{ marginBottom: "3%" }}
+                  href={"/vote/" + this.state.openpollid}
+                >
+                  Open</Button>
+              </div>
+                    
               </div>
               <hr className="text-dark bg-dark" />
               <div className="row">
@@ -102,7 +119,7 @@ class PublicPollOverview extends React.Component {
                       Create Poll
                     </Button>
                   </div>
-                <UserPoll poll={this.props.state.user}/>
+                  <UserPoll poll={this.props.state.user}/>
                 </div>
               </div>
             </div>

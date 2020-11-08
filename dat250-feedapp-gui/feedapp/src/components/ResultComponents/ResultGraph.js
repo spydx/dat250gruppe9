@@ -4,7 +4,7 @@ import moment from 'moment';
 
 var yesDataPoints = [];
 var noDataPoints = [];
-const graphTimeFormat = 'MM YYYY, hh:mm';
+const graphTimeFormat = 'DD MM YYYY, hh:mm';
 
 
 class ResultGraph extends React.Component {	
