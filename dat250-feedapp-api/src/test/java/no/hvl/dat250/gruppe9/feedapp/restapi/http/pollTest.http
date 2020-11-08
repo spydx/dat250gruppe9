@@ -9,7 +9,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4MzFmODNmZi05NjFjLTQ2OWEtY
 POST http://localhost:8080/api/polls/
 Content-Type: application/json
 Cache-Control: no-cache
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlOWU4MTA0ZC05NzRiLTRjNjYtYjMzOC00ZGU5ZTI3NzY1MGYiLCJpYXQiOjE2MDQwOTk0MzIsImV4cCI6MTYwNDcwNDIzMn0.vUidijuN7Tgw-pC0PZsmsQUtwpGQT2tqzsewqg9-FlLGT-I5GCZJArHimvv4px1j4oBxA2IHP2K3oi27mQW7pA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyYTQ2YWQzYi04MTk1LTRhZGQtODY5NS01OGFhZTFiNTkwY2IiLCJpYXQiOjE2MDQ4Njg1MDIsImV4cCI6MTYwNTQ3MzMwMn0.vF5P0rBt9PaxVvGfTNPGtdDD5U6ayL_5l54WU_xPnrJfA_fZ38ylt9msKHvCFb4jUpdn5VOpfpA296y3500z2Q
 
 {
   "access": "PUBLIC",
