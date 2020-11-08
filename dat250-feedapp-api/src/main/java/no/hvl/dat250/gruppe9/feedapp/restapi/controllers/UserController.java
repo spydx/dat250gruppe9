@@ -75,7 +75,7 @@ public class UserController {
             }
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     @PutMapping(value = "/{profileid}")
