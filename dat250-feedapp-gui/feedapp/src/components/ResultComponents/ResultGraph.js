@@ -14,10 +14,11 @@ class ResultGraph extends React.Component {
 		var currentYes = 0;
 		var currentNos  = 0;
 		
+		const sorted = this.props.votes.sort(function (a, b) { return a.votetime > b.votetime ? 1 : a.votetime < b.votetime ? -1 : 0; })
 		
-
-		for (const element of this.props.votes) {
+		for (const element of sorted) {
 			var date = element.votetime;
+			
 			date = moment(date).format(graphTimeFormat);
 			
 			if(currentDate !== date) {
