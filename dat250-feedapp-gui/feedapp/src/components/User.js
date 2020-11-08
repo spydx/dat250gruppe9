@@ -32,8 +32,10 @@ class User extends React.Component {
   }
 
   handleCheckbox(e) {
-    this.state.deleteAccount = !this.state.deleteAccount;
-    console.log(this.state.deleteAccount);
+    this.setState({
+      deleteAccount: e.target.checked,
+    });
+    console.log(e.target.checked);
   }
 
   async deleteAccount() {}
@@ -145,9 +147,9 @@ class User extends React.Component {
               >
                 <Form.Check
                   style={{ marginLeft: "15px" }}
-                  name="deleteAccount"
                   type="checkbox"
                   label="Delete account"
+                  checked={this.state.deleteAccount}
                   onChange={this.handleCheckbox}
                 />
               </OverlayTrigger>
