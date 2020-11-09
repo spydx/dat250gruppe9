@@ -6,12 +6,8 @@ use serde::{Deserialize, Serialize};
 
 use std::{env, thread};
 use std::sync::mpsc;
-use std::borrow::{Cow, Borrow};
+use std::borrow::{Cow};
 use mongodb::*;
-
-#[macro_use]
-extern crate bson;
-extern crate mongodb;
 
 #[derive(Serialize, Deserialize, Debug)]
 enum PollStatus {
@@ -171,7 +167,7 @@ async fn process(server: String, user: String, pass: String) -> Result<()> {
                             } else {
                                 println!("error {}: {}", resp.status(), resp.into_string().unwrap());
                             }
-                            println!("[> Thr] Thread closed");
+                            println!("[> Thr] Thread done");
                         });
                         tx.send(p.unwrap().id).unwrap();
                     } else {
@@ -208,8 +204,13 @@ async fn process(server: String, user: String, pass: String) -> Result<()> {
                     }
                 } else if delivery.routing_key == routing_result {
                     println!("[> Pushing to mongodb");
-                    let res = push_to_mongodb(body.borrow()).await;
-                    res.unwrap();
+                    let pr = json_to_pollresult(&body);
+                    if pr.is_ok() {
+                        let res = push_to_mongodb(pr.unwrap()).await;
+                        res.unwrap();
+                    } else {
+                        println!("Failed to convert" );
+                    }
 
                 } else
                 {
@@ -236,12 +237,20 @@ fn json_to_poll(body: &Cow<str>) -> Result<Poll, serde_json::Error> {
     return Ok(p);
 }
 
-async fn push_to_mongodb(body: &str) -> Result<(), mongodb::error::Error> {
+fn json_to_pollresult(body: &Cow<str>) -> Result<PollResult, serde_json::Error> {
+    let pollresult = ::serde_json::from_str(&body);
+    let pollresult = match pollresult {
+        Ok(pollresult) => pollresult,
+        Err(e) => return Err(e),
+    };
+    return Ok(pollresult);
+}
 
-    let mongoserver = "localhost";
+async fn push_to_mongodb(pr: PollResult) -> Result<(), mongodb::error::Error> {
+    let mongoserver = env::var("MONGO_SERVER").unwrap_or("localhost".to_string());
     let mongocon = format!(
         "{:?}", format_args!(
-            "mongodb://{u}:{p}@{con}:27017",
+            "mongodb://{u}:{p}@{con}:27017/feedapp",
             con = mongoserver,
             u = "feedapp",
             p = "mongo")
@@ -251,20 +260,14 @@ async fn push_to_mongodb(body: &str) -> Result<(), mongodb::error::Error> {
 
     let db = client.database("feedapp");
     let mongodb_coll = db.collection("resultcol");
-    println!("{}", body);
-    let  pollresult =  ::serde_json::from_str(&body);
-    let pollresult = match pollresult {
-        OK(pollresult) => pollresult,
-        Err(e) => return Err(e),
-    };
-    let bsonpoll = bson::to_bson(&pollresult.unwrap()).unwrap();
-    let document = bson::to_document(&bsonpoll);
+
+    let document = bson::to_document(&pr);
 
     if document.is_ok() {
-        println!("aølksdjføalksdjfølaskdjfa");
         let _result = mongodb_coll.insert_one(document.unwrap(), None).await?;
+        println!("[> MongoDb : Document inserted");
     } else {
-        println!("Error creating document: {} => {}", bsonpoll.to_string(), document.unwrap().to_string());
+        println!("[> MongoDb : Error creating document: {}", document.unwrap().to_string());
     }
     Ok(())
 }
