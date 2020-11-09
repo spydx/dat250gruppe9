@@ -1,7 +1,11 @@
+import "dart:io";
+
 class Statics {
-  static const API_URL = "http://localhost:8080/api/";
-  static const DEVICE_AUTH = "http://localhost:8080/api/devices/authenticate";
-  static String DEVICE_ROOT = "http://localhost:8080/api/devices/";
+  static Map<String, String> env = Platform.environment;
+
+  static String API_URL = env.containsKey("API") ? env["API"] : "http://localhost:8080/api/ ";
+  static String DEVICE_AUTH = API_URL +"/api/devices/authenticate";
+  static String DEVICE_ROOT = API_URL + "/api/devices/";
   static const LOGO = "assets/pollhubblue.png";
   static double BUTTONW = 150;
   static double BUTTONH = 75;
