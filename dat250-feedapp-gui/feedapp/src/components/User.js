@@ -19,10 +19,12 @@ class User extends React.Component {
     this.state = {
       firstname: this.props.state.user.firstname,
       lastname: this.props.state.user.lastname,
+      email: this.props.state.user.email,
+      password: "",
+      passwordControl: "",
       deleteAccount: false,
     };
     this.handleChange = this.handleChange.bind(this);
-    this.submitChange = this.handleSubmit.bind(this);
     this.handleCheckbox = this.handleCheckbox.bind(this);
   }
 
@@ -38,7 +40,23 @@ class User extends React.Component {
     console.log(e.target.checked);
   }
 
-  async deleteAccount() {}
+  async submitPasswordChange(password, passwordControl, email) {
+    if (
+      password.length >= 6 &&
+      password.length <= 60 &&
+      password === passwordControl
+    ) {
+      const updateUserRequest = {
+        email: email,
+        password: password,
+      };
+      await Put(
+        API_URL + "/account/" + this.props.state.user.id,
+        updateUserRequest,
+        this.props.state.user.token
+      );
+    }
+  }
 
   async handleSubmit(firstname, lastname) {
     if (this.state.deleteAccount) {
@@ -133,6 +151,50 @@ class User extends React.Component {
                   value={this.state.lastname}
                   onChange={this.handleChange}
                 />
+              </Col>
+            </Form.Group>
+
+            <Form.Group as={Row}>
+              <Form.Label column sm="2">
+                <h5>Password</h5>
+              </Form.Label>
+              <Col sm="3">
+                <Form.Control
+                  type="password"
+                  required
+                  name="password"
+                  placeholder="Password"
+                  value={this.state.password}
+                  onChange={this.handleChange}
+                />
+              </Col>
+              <Col sm="3">
+                <Form.Control
+                  type="password"
+                  required
+                  name="passwordControl"
+                  placeholder="Confirm password"
+                  value={this.state.passwordControl}
+                  onChange={this.handleChange}
+                />
+              </Col>
+              <Col>
+                <Col>
+                  <Button
+                    type="submit"
+                    variant="secondary"
+                    size="md"
+                    onClick={() =>
+                      this.submitPasswordChange(
+                        this.state.password,
+                        this.state.passwordControl,
+                        this.state.email
+                      )
+                    }
+                  >
+                    {"Change Password"}
+                  </Button>
+                </Col>
               </Col>
             </Form.Group>
 

@@ -52,9 +52,9 @@ export async function Post(url, request, access_token = "") {
   }
 }
 
-export async function Put(url, request, access_token = "") {
+export async function Put(url, request, access_token) {
   const response = await fetch(url, {
-    method: "Put",
+    method: "PUT",
     mode: "cors",
     body: JSON.stringify(request),
     headers: {
