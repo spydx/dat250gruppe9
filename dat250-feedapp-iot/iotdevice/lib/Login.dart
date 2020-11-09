@@ -15,4 +15,9 @@ class Login {
     data['password'] = this.password;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'Login{name: $name, password: **** }';
+  }
 }
