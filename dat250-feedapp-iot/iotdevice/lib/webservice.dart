@@ -14,11 +14,14 @@ class WebServices {
 
   Future<AuthToken> auth(Login login) async {
     var auth = Statics.DEVICE_AUTH;
+    print(auth);
+    print(login);
     final response = await http.post(
         auth,
         headers: { HttpHeaders.contentTypeHeader: "application/json"},
         body: jsonEncode(login)
     );
+
     if(response.statusCode == 200) {
       final reponseJson = jsonDecode(response.body);
       print(reponseJson);
@@ -33,6 +36,7 @@ class WebServices {
     var posturl = "${base}${d.profile}/vote/";
 
     print(posturl);
+    print(v);
     var response = await http.post(
       posturl,
       headers: {
@@ -43,6 +47,7 @@ class WebServices {
     );
 
     if(response.statusCode == 200) {
+      print(response);
       return true;
     } else {
       print('Unable to post data: ${response.statusCode}');
