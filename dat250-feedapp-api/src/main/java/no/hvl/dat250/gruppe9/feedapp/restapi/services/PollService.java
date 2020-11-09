@@ -8,7 +8,10 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.entities.DTO.PollDTO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.PollResult;
 import no.hvl.dat250.gruppe9.feedapp.restapi.messaging.RabbitSender;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -43,6 +46,7 @@ public class PollService {
        return  pollStorage.getAllPublic();
     }
 
+    private Logger logger = LoggerFactory.getLogger(PollService.class);
 
     public Optional<Poll> getPoll(String id) {
         return pollStorage.get(id);
@@ -81,6 +85,28 @@ public class PollService {
             }
         }
         return Optional.empty();
+    }
+
+    @Scheduled(fixedRate = 15000) //every 15 seconds
+    public void closePolls() {
+            logger.info("Closing polls");
+
+            var query = pollStorage.getAll();
+            if(query.isPresent()) {
+                var list = query.get();
+                for (var p : list) {
+                    var end = p.getTimeend().getTime();
+                    var now = new Date();
+                    var before = now.getTime() - 15000;
+                    if (end > before && end <= now.getTime()) {
+                        logger.info("Closing {}", p.getId());
+                        rabbitSender.publishClosedPoll(p);
+                        var result = p.getPollResult();
+                        logger.info("{}",result);
+                        rabbitSender.publishResult(result);
+                    }
+                }
+            }
     }
 
     public Optional<Poll> deletePoll(String id) {

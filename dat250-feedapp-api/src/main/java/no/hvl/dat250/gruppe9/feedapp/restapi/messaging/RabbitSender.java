@@ -2,6 +2,7 @@ package no.hvl.dat250.gruppe9.feedapp.restapi.messaging;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import no.hvl.dat250.gruppe9.feedapp.restapi.entities.Poll;
+import no.hvl.dat250.gruppe9.feedapp.restapi.entities.PollResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,10 +31,30 @@ public class RabbitSender {
         var mapper = new ObjectMapper();
         try {
             var json = mapper.writeValueAsBytes(p);
-            this.rabbitTemplate.convertAndSend(json);
+            this.rabbitTemplate.convertAndSend("FEEDAPP_NEWPOLL", json);
         } catch (IOException e) {
-            logger.error("Failed to create JSON");
+            logger.error("Failed to create JSON for open poll");
         }
+    }
 
+    public void publishClosedPoll(Poll p) {
+        var mapper = new ObjectMapper();
+        try {
+            var json = mapper.writeValueAsBytes(p);
+            this.rabbitTemplate.convertAndSend("FEEDAPP_CLOSED", json);
+        } catch (IOException e) {
+            logger.error("Failed to create json for closed poll");
+        }
+    }
+
+    public void publishResult(PollResult result) {
+        var mapper = new ObjectMapper();
+        try {
+            var json = mapper.writeValueAsBytes(result);
+            this.rabbitTemplate.convertAndSend("FEEDAPP_RESULT",json);
+        } catch (IOException e) {
+            logger.error("failed to create json for result");
+            logger.error("JSONFAILED: {}", e);
+        }
     }
 }
