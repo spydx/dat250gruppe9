@@ -1,8 +1,8 @@
 import React from "react";
-import Login from "../components/Login.js";
+import Register from "../components/Register.js";
 import NavBar from "../components/NavBar";
 
-class LoginPage extends React.Component {
+class RegisterPage extends React.Component {
   render() {
     return (
       <div>
@@ -10,23 +10,21 @@ class LoginPage extends React.Component {
           <NavBar />
         </div>
         <div className="align-items-center" >
-            <h1 style={{ textAlign: "center", marginTop: "1rem" }}>Login</h1>
+            <h1 style={{ textAlign: "center", marginTop: "1rem" }}>Register</h1>
             <hr className="text-dark bg-dark" style={{width:"60%"}} />
         </div>
-
-        <div className="row h-100 justify-content-center align-items-center">
         
+        <div className="row h-100 justify-content-center align-items-center">
         <div>
-          
-          <div style={{ marginTop: "2rem" }}>
-            <Login></Login>
+            <div style={{ marginTop: "2rem" }}>
+              <Register/> 
+            </div>
           </div>
         </div>
       </div>
-    </div>
       
     );
   }
 }
 
-export default LoginPage;
+export default RegisterPage;

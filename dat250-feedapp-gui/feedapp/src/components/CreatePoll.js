@@ -5,10 +5,35 @@ import Button from 'react-bootstrap/Button'
 import {Form, Row, Col} from "react-bootstrap";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
+import { Post } from "../utils/actionHandler"
+import { API_URL } from "../constants/constants"
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+
 
 class CreatePoll extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+          didCreate: false
+        }
+    }
+    
 
     async handleSubmit(access, answerno, answeryes, name, question, timeend) {
+        
+        if (name === "" || question === "") {
+            this.props.setReset()
+            this.props.setError("Please give a poll name and question.")
+            return;
+        }
+        
+        if (answerno === "") {
+            answerno = "No"
+        }
+        if (answeryes === "") {
+            answeryes = "Yes"
+        }
         const createPollRequest = {
             access: access,
             answerno: answerno,
@@ -18,28 +43,40 @@ class CreatePoll extends React.Component {
             timeend: timeend
         }
 
-        console.log(JSON.stringify(createPollRequest));
+        await Post(API_URL + "/polls/", createPollRequest, this.props.state.user.token)
+            .then((res) => res.json())
+            .then(
+                (result) => {
+                    console.log(result)
+                    this.setState({didCreate: true})
+                },
+                (error) => {
+                    this.setError(error)
+                }
+        )
+        
     }
 
     componentDidMount() {
         this.setState({
+            error: null,
             access: "PUBLIC",
             answerno: "No",
             answeryes: "Yes",
             name: "",
             question: "",
-            timeend: new Date()
+            timeend: new Date(),
+            didCreate: false
         })
     }
 
     render() {
-        
+        if (this.state.didCreate) {
+            return <Redirect to="/"/>
+        }
         return (
             <div>
-                <div>
-                    <h1 style={{ textAlign: "center", marginTop: "2rem" }}><u>Create poll</u></h1>                                                                                           
-                </div>
-                <Form style = {{marginTop:"13%"}}>
+                <Form style = {{marginTop:"13%", width: "150%"}}>
                     <Form.Group as={Row} controlId="PollName">
                         <Form.Label column sm={2}>
                             Name
@@ -80,7 +117,7 @@ class CreatePoll extends React.Component {
                             <Form.Control type="Privacy" as="select" onChange={e => this.setState({access: e.target.value})}>
                             <option value = "PUBLIC">Public</option>
                             <option value = "PRIVATE">Private</option>
-                            <option value = "REGISTERED">Registered</option>
+                            <option value = "HIDDEN">Hidden</option>
                             </Form.Control>
                         </Col>
                     </Form.Group>
@@ -89,19 +126,29 @@ class CreatePoll extends React.Component {
                             End Time 
                         </Form.Label>
                         <Col sm={10}>
-                            <Datetime closeOnClickOutside="true" value= { new Date().toISOString() } onChange={e => this.setState({timeend: e})}/>
+                            <Datetime closeOnClickOutside="true" dateFormat="DD-MM-YYYY" initialValue={new Date()} onChange={e => this.setState({timeend: e})}/>
                         </Col>
                     </Form.Group>
+                    
+                    {this.props.state.poll.error &&
+                    <div>
+                        <p style={{color: "red"}}>{this.props.state.poll.error}</p>
+                    </div>                       
+                    }
+                    
+                    
+
                     <div>
                         <Button variant="danger" 
-                                style={{ marginLeft: "5%", marginTop: "5%" }}
+                                style={{ marginLeft: "17%", marginTop: "5%" }}
                                 href = "/">
                             Return to overview
                         </Button>
                     </div>
                     <div>
-                        <Button variant="success"
-                            style={{ marginLeft: "5%", marginTop: "5%" }}
+                        <Button
+                            variant="success"
+                            style={{ marginLeft: "17%", marginTop: "5%" }}
                             onClick={() => this.handleSubmit(
                                     this.state.access,
                                     this.state.answerno,
@@ -109,7 +156,8 @@ class CreatePoll extends React.Component {
                                     this.state.name,
                                     this.state.question,
                                     this.state.timeend.toISOString()
-                                )}>
+                            )}
+                        >
                             Create
                         </Button>  
                     </div>
@@ -119,4 +167,24 @@ class CreatePoll extends React.Component {
     }
 }
 
-export default CreatePoll
+const mapStateToProps = (state) => {
+    return {
+      state: state
+    };
+  };
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+        setError: (error) => dispatch({
+            type: "SET_POLL_ERROR",
+            error: error,
+            isLoaded: false
+        }),
+        
+        setReset: () => dispatch({
+            type: "RESET_POLL_DATA"
+        })
+    };
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(CreatePoll);

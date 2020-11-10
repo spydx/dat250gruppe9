@@ -1,20 +1,22 @@
 import React from "react";
-import Form from "react-bootstrap/Form";
+import {Form, Row, Col} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
 import { Post, Get } from "../utils/actionHandler"
 import { Redirect } from "react-router-dom";
+import { API_URL } from "../constants/constants"
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 class Login extends React.Component {
    
-  //TODO: fix if the user does not exist
   async handleSubmit(email, password) {
     const loginRequest = {
       email: email,
       password: password
     }
 
-    await Post("http://localhost:8080/api/auth/login", loginRequest)
+    await Post(API_URL + "/auth/login", loginRequest)
       .then((res) => res.json())
       .then(
         (result) => {
@@ -23,22 +25,33 @@ class Login extends React.Component {
         (error) => {
           this.props.setReset();
           this.props.setError(error);
+          return;
         }
       );
     
-    await Get("http://localhost:8080/api/users/" + this.props.state.user.id, this.props.state.user.token) //TODO should have access token
+    await Get(API_URL + "/users/" + this.props.state.user.id, this.props.state.user.token)
       .then((res) => res.json())
       .then(
         (result) => {
-          this.props.setLogin(result);
-          this.props.setEmail(this.state.email)
+          if (this.props.state.user.id && this.props.state.user.token) {
+            this.props.setError(null);
+            this.props.setLogin(result);
+            this.props.setEmail(this.state.email);
+          } else {
+            this.props.setReset();
+            this.props.setError("Password and email did not match!");
+          }
         },
         (error) => {
           this.props.setReset();
           this.props.setError(error);
         }
       );
+  }
 
+  componentDidMount() {
+    this.props.setReset();
+    this.props.setError(null);
   }
 
   render() {
@@ -48,21 +61,33 @@ class Login extends React.Component {
 
     return (
       <Form>
-        <Form.Group controlId="email">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" onChange={e => this.setState({email: e.target.value})}/> 
+        <Form.Group as={Row} controlId="email">
+          <Form.Label column sm={2}>
+            <MailOutlineIcon/>
+          </Form.Label>
+          <Col sm={10}>
+            <Form.Control type="email" placeholder="Enter email" onChange={e => this.setState({email: e.target.value})}/> 
+          </Col>
         </Form.Group>
 
-        <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
+        <Form.Group as={Row} controlId="password">
+          <Form.Label column sm={2}>
+            <VpnKeyIcon/>
+          </Form.Label>
+          <Col sm={10}>
+            <Form.Control type="password" placeholder="Password" onChange={e => this.setState({password: e.target.value})}/>
+          </Col>
         </Form.Group>
-        <Form.Group controlId="checkbox">
-          <Form.Check type="checkbox" label="Remember me" />
-        </Form.Group>
+        {this.props.state.user.error &&
+          <div>
+            {this.props.state.user.error}
+          </div>
+        }
+        
         <Button
           variant="success"
           style={{ width: "5rem", margin: "1rem" }}
+          href="/register"
         >
           Register
         </Button>
@@ -77,6 +102,7 @@ class Login extends React.Component {
     );
   }
 }
+
 
 const mapStateToProps = (state) => {
   return {

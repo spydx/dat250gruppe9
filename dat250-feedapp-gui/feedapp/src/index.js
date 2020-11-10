@@ -10,7 +10,7 @@ import Feedapp from './FeedApp'
 
 const persistedState = loadState();
 const store = createStore(rootReducers, persistedState)
-window.store = store;
+window.store = store; //TODO: remove this if debug is not needed
 
 store.subscribe(() => { 
   saveState(store.getState())

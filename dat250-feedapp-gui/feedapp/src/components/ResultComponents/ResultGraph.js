@@ -1,8 +1,67 @@
 import React from "react";
 import {CanvasJSChart} from "canvasjs-react-charts"
+import moment from 'moment';
+
+var yesDataPoints = [];
+var noDataPoints = [];
+const graphTimeFormat = 'DD MM YYYY, hh:mm';
+
 
 class ResultGraph extends React.Component {	
+
+	getAnswers() {
+		var currentDate = null;
+		var currentYes = 0;
+		var currentNos  = 0;
+		
+		const sorted = this.props.votes.sort(function (a, b) { return a.votetime > b.votetime ? 1 : a.votetime < b.votetime ? -1 : 0; })
+		
+		for (const element of sorted) {
+			var date = element.votetime;
+			
+			date = moment(date).format(graphTimeFormat);
+			
+			if(currentDate !== date) {
+				if(currentDate !== null) {
+					yesDataPoints.push({
+						y: currentYes,
+						label: currentDate
+					})
+					noDataPoints.push({
+						y: currentNos,
+						label: date
+					})
+				}
+
+				currentDate = date; 
+			}
+			
+			if(element.answer === true) {
+				currentYes++;
+			} else {
+				currentNos++;
+			}
+		}
+
+		yesDataPoints.push({
+			y: currentYes,
+			label: currentDate
+		})
+		noDataPoints.push({
+			y: currentNos,
+			label: date
+		})
+	}
+
+	componentDidMount() {
+		this.getAnswers()
+		this.setState({})//This is a feature not a bug :)
+
+	}
+
 	render() {
+		const yesAnswer = this.props.poll.answeryes
+		const noAnswer = this.props.poll.answerno
 		const options = {
                 height:400,
                 width:500,
@@ -12,48 +71,22 @@ class ResultGraph extends React.Component {
 					text: "Answers"
 				},
 				axisY : {
-                    title: "Number of Yes/no"
+                    title: "Number of "+ yesAnswer +"/"+noAnswer
 				},
 				toolTip: {
 					shared: true
 				},
 				data: [{
 					type: "spline",
-                    name: "Yes",
+                    name: yesAnswer,
 					showInLegend: true,
-					dataPoints: [
-						{ y: 1, label: "Jan" },
-						{ y: 2, label: "Feb" },
-						{ y: 3, label: "Mar" },
-						{ y: 4, label: "Apr" },
-						{ y: 5, label: "May" },
-						{ y: 10, label: "Jun" },
-						{ y: 20, label: "Jul" },
-						{ y: 22, label: "Aug" },
-						{ y: 25, label: "Sept" },
-						{ y: 26, label: "Oct" },
-						{ y: 30, label: "Nov" },
-						{ y: 54, label: "Dec" }
-					]
+					dataPoints: yesDataPoints
 				},
 				{
 					type: "spline",
-					name: "No",
+					name: noAnswer,
 					showInLegend: true,
-					dataPoints: [
-						{ y: 2, label: "Jan" },
-						{ y: 4, label: "Feb" },
-						{ y: 6, label: "Mar" },
-						{ y: 8, label: "Apr" },
-						{ y: 10, label: "May" },
-						{ y: 12, label: "Jun" },
-						{ y: 14, label: "Jul" },
-						{ y: 16, label: "Aug" },
-						{ y: 18, label: "Sept" },
-						{ y: 20, label: "Oct" },
-						{ y: 22, label: "Nov" },
-						{ y: 38, label: "Dec" }
-					]
+					dataPoints: noDataPoints
 				}]
 		}
 		
