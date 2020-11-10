@@ -65,6 +65,6 @@ Do this in the [application.properties](dat250-feedapp-api/src/main/resources/ap
 
 ## Other Documents
 
-[API HTTP Documentation](doc/api.md)
-[MuService in action](doc/muservice.md)
-[IoT in action](doc/iot-dev.md)
+* [API HTTP Documentation](doc/api.md)
+* [MuService in action](doc/muservice.md)
+* [IoT in action](doc/iot-dev.md)
