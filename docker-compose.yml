@@ -13,9 +13,9 @@ services:
       environment: 
          API_BASE_URL: http://feedapp-api:8080/api/
       ports: 
-         - "80:80"
+         - 80:80
       depends_on:
-         - feedapp-db
+         - feedapp-api
       networks:
          - frontend
 
@@ -29,7 +29,7 @@ services:
          interval: 10s
          retries: 10
       ports:
-         - "8080:8080"
+         - 8080:8080
       #restart: always
       depends_on:
          feedapp-db:
@@ -53,7 +53,7 @@ services:
          interval: 10s
          retries: 10
       ports:
-         - "3306:3306"
+         - 3306:3306
       restart: always
       environment:
          MYSQL_DATABASE: feedappdb
@@ -118,6 +118,8 @@ services:
          dockerfile: Dockerfile
       environment: 
          API: http://feedapp-api:8080/
+      depends_on:
+         - feedapp-api
       ports:
          - 81:80
       networks:
