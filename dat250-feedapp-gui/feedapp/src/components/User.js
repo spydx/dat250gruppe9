@@ -193,6 +193,8 @@ class User extends React.Component {
                       this.state.email
                     )
                   }
+                  block
+                  href="/account/"
                 >
                   {"Change Password"}
                 </Button>
