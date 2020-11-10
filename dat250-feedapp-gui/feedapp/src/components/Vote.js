@@ -8,7 +8,12 @@ import { API_URL } from "../constants/constants"
 import { Redirect } from "react-router-dom";
 
 class Vote extends React.Component {
-
+    constructor(props) {
+        super(props)
+        this.state = {
+            didVote: false
+        }
+    }
     getStatus(endDate) {
         var currentDate = new Date();
         endDate = new Date(endDate);
@@ -42,12 +47,17 @@ class Vote extends React.Component {
             await Post(API_URL + "/polls/" + this.props.id + "/vote/", voteRequest)
             
         }
+        this.setState({didVote: true})
     }
 
     render() {
         
         const poll = this.getPoll(this.props.id)
         if (this.getStatus(poll.timeend)) {
+            return <Redirect to={"/result/" + poll.id}/>
+        }
+
+        if (this.state.didVote) {
             return <Redirect to={"/result/" + poll.id}/>
         }
 
@@ -77,7 +87,6 @@ class Vote extends React.Component {
                                         variant = "danger"
                                         style = {{width: "35%", marginLeft:"23%"}}
                                         onClick={() => { this.handleSubmit(false) }}
-                                        href={ "/result/" + this.props.id }
                                     >
                                         {poll.answerno}
                                     </Button>

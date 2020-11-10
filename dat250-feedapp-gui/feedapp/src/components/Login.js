@@ -51,6 +51,7 @@ class Login extends React.Component {
 
   componentDidMount() {
     this.props.setReset();
+    this.props.setError(null);
   }
 
   render() {

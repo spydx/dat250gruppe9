@@ -65,6 +65,7 @@ class PublicPollOverview extends React.Component {
   componentDidMount() {
     this.props.setResetResult();
     this.props.setResetPoll();
+    this.props.setResetUserError();
   }
 
 
@@ -177,6 +178,11 @@ const mapDispatchToProps = (dispatch) => {
 
     setResetPoll: () => dispatch({
       type: "RESET_POLL_DATA"
+    }),
+
+    setResetUserError: () => dispatch({
+      type: "RESET_USER_ERROR",
+      error: null
     })
   };
 };

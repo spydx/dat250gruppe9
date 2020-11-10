@@ -83,6 +83,12 @@ const userReducer = (state = userinitialState, action) => {
         pollData: action.pollData,
       };
       break;
+    case "RESET_USER_ERROR":
+      state = {
+        ...state,
+        error: null
+      };
+      break;
     default:
       break;
   }

@@ -117,7 +117,7 @@ class CreatePoll extends React.Component {
                             <Form.Control type="Privacy" as="select" onChange={e => this.setState({access: e.target.value})}>
                             <option value = "PUBLIC">Public</option>
                             <option value = "PRIVATE">Private</option>
-                            <option value = "REGISTERED">Registered</option>
+                            <option value = "HIDDEN">Hidden</option>
                             </Form.Control>
                         </Col>
                     </Form.Group>

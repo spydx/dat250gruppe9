@@ -40,6 +40,10 @@ class Result extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.setState({})//This is a feature not a bug :)
+  }
+
   async fetchResultData() {
     await Get(API_URL + "/result/" + this.props.id)
     .then((res) => res.json())
