@@ -16,9 +16,9 @@ class PublicPollOverview extends React.Component {
     }
   }
 
-  fetchPollData() { 
+  async fetchPollData() { 
     if (this.props.state.user.isLoggedin) {
-      Get(API_URL + "/polls/", this.props.state.user.token)
+      await Get(API_URL + "/polls/", this.props.state.user.token)
         .then((res) => res.json())
         .then(
           (result) => {
@@ -33,7 +33,7 @@ class PublicPollOverview extends React.Component {
           }
         );
     } else {
-      Get(API_URL + "/polls/")
+       await Get(API_URL + "/polls/")
         .then((res) => res.json())
         .then(
           (result) => {
@@ -48,8 +48,8 @@ class PublicPollOverview extends React.Component {
     }
   }
 
-  fetchUserPolls() {
-    Get(API_URL + "/polls/mine", this.props.state.user.token)
+  async fetchUserPolls() {
+     await Get(API_URL + "/polls/mine", this.props.state.user.token)
         .then((res) => res.json())
         .then(
           (result) => {
@@ -73,7 +73,6 @@ class PublicPollOverview extends React.Component {
     if (!this.state.didFetch) {
       this.fetchPollData();
     }
-
     return (
       <div>
         <div className="container">

@@ -5,13 +5,15 @@ services:
       build:
          context: dat250-feedapp-gui/feedapp/
          dockerfile: Dockerfile
+         args:
+            REACT_APP_API_BASE_URL: http://127.0.0.1:8080/api
       healthcheck:
          test: curl --fail -s http://feedapp-api:8080/ || exit 1
          timeout: 30s
          interval: 10s
          retries: 10
       environment: 
-         API_BASE_URL: http://feedapp-api:8080/api/
+         REACT_APP_API_BASE_URL: http://127.0.0.1:8080/api
       ports: 
          - 80:80
       depends_on:
