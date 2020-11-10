@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "../components/NavBar";
-import Vote from "../components/Vote"
+import Vote from "../components/Vote";
 
 class VotePage extends React.Component {
   render() {
@@ -9,16 +9,12 @@ class VotePage extends React.Component {
         <div>
           <NavBar />
         </div>
-        <div className="row h-100 justify-content-center align-items-center">
-        
         <div>
           <div style={{ marginTop: "2rem" }}>
-            <Vote id={this.props.props.match.params.id}/>
+            <Vote id={this.props.props.match.params.id} />
           </div>
         </div>
       </div>
-    </div>
-      
     );
   }
 }
