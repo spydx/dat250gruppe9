@@ -154,49 +154,50 @@ class User extends React.Component {
               </Col>
             </Form.Group>
 
-            <Form.Group as={Row}>
-              <Form.Label column sm="2">
-                <h5>Password</h5>
-              </Form.Label>
-              <Col sm="3">
-                <Form.Control
-                  type="password"
-                  required
-                  name="password"
-                  placeholder="Password"
-                  value={this.state.password}
-                  onChange={this.handleChange}
-                />
-              </Col>
-              <Col sm="3">
-                <Form.Control
-                  type="password"
-                  required
-                  name="passwordControl"
-                  placeholder="Confirm password"
-                  value={this.state.passwordControl}
-                  onChange={this.handleChange}
-                />
-              </Col>
-              <Col>
-                <Col>
-                  <Button
-                    type="submit"
-                    variant="secondary"
-                    size="md"
-                    onClick={() =>
-                      this.submitPasswordChange(
-                        this.state.password,
-                        this.state.passwordControl,
-                        this.state.email
-                      )
-                    }
-                  >
-                    {"Change Password"}
-                  </Button>
+            <Row style={{ marginLeft: "0px" }}>
+              <Form.Group as={Row}>
+                <Form.Label column sm="4">
+                  <h5>Password</h5>
+                </Form.Label>
+                <Col sm="4" style={{ marginLeft: "-4px" }}>
+                  <Form.Control
+                    type="password"
+                    required
+                    name="password"
+                    placeholder="Password"
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                  />
                 </Col>
+                <Col sm="4" style={{ marginLeft: "-5px" }}>
+                  <Form.Control
+                    type="password"
+                    required
+                    name="passwordControl"
+                    placeholder="Confirm password"
+                    value={this.state.passwordControl}
+                    onChange={this.handleChange}
+                  />
+                </Col>
+              </Form.Group>
+
+              <Col sm="2">
+                <Button
+                  type="submit"
+                  variant="secondary"
+                  size="md"
+                  onClick={() =>
+                    this.submitPasswordChange(
+                      this.state.password,
+                      this.state.passwordControl,
+                      this.state.email
+                    )
+                  }
+                >
+                  {"Change Password"}
+                </Button>
               </Col>
-            </Form.Group>
+            </Row>
 
             <Form.Group as={Row} controlId="formDeleteAccount">
               <OverlayTrigger

@@ -51,7 +51,7 @@ export async function Post(url, request, access_token = "") {
 export async function Put(url, request, access_token) {
   const response = await fetch(url, {
     method: "PUT",
-    mode: "no-cors",
+
     body: JSON.stringify(request),
     headers: {
       "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export async function Delete(url, access_token = "") {
   if (access_token.length === 0) {
     const response = await fetch(url, {
       method: "DELETE",
-      mode: "no-cors",
+
       headers: {
         Accept: "application/json",
       },
@@ -77,7 +77,7 @@ export async function Delete(url, access_token = "") {
   } else {
     const response = await fetch(url, {
       method: "DELETE",
-      mode: "no-cors",
+
       headers: {
         Accept: "application/json",
         Authorization: "Bearer " + access_token,

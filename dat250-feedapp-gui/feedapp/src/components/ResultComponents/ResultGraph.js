@@ -1,104 +1,106 @@
 import React from "react";
-import {CanvasJSChart} from "canvasjs-react-charts"
-import moment from 'moment';
+import { CanvasJSChart } from "canvasjs-react-charts";
+import moment from "moment";
 
 var yesDataPoints = [];
 var noDataPoints = [];
-const graphTimeFormat = 'DD MM YYYY, hh:mm';
+const graphTimeFormat = "DD MM YYYY, hh:mm";
 
+class ResultGraph extends React.Component {
+  getAnswers() {
+    var currentDate = null;
+    var currentYes = 0;
+    var currentNos = 0;
 
-class ResultGraph extends React.Component {	
+    const sorted = this.props.votes.sort(function (a, b) {
+      return a.votetime > b.votetime ? 1 : a.votetime < b.votetime ? -1 : 0;
+    });
 
-	getAnswers() {
-		var currentDate = null;
-		var currentYes = 0;
-		var currentNos  = 0;
-		
-		const sorted = this.props.votes.sort(function (a, b) { return a.votetime > b.votetime ? 1 : a.votetime < b.votetime ? -1 : 0; })
-		
-		for (const element of sorted) {
-			var date = element.votetime;
-			
-			date = moment(date).format(graphTimeFormat);
-			
-			if(currentDate !== date) {
-				if(currentDate !== null) {
-					yesDataPoints.push({
-						y: currentYes,
-						label: currentDate
-					})
-					noDataPoints.push({
-						y: currentNos,
-						label: date
-					})
-				}
+    for (const element of sorted) {
+      var date = element.votetime;
 
-				currentDate = date; 
-			}
-			
-			if(element.answer === true) {
-				currentYes++;
-			} else {
-				currentNos++;
-			}
-		}
+      date = moment(date).format(graphTimeFormat);
 
-		yesDataPoints.push({
-			y: currentYes,
-			label: currentDate
-		})
-		noDataPoints.push({
-			y: currentNos,
-			label: date
-		})
-	}
+      if (currentDate !== date) {
+        if (currentDate !== null) {
+          yesDataPoints.push({
+            y: currentYes,
+            label: currentDate,
+          });
+          noDataPoints.push({
+            y: currentNos,
+            label: date,
+          });
+        }
 
-	componentDidMount() {
-		this.getAnswers()
-		this.setState({})//This is a feature not a bug :)
+        currentDate = date;
+      }
 
-	}
+      if (element.answer === true) {
+        currentYes++;
+      } else {
+        currentNos++;
+      }
+    }
 
-	render() {
-		const yesAnswer = this.props.poll.answeryes
-		const noAnswer = this.props.poll.answerno
-		const options = {
-                height:400,
-                width:500,
-                theme:"light2",
-				animationEnabled: true,	
-				title:{
-					text: "Answers"
-				},
-				axisY : {
-                    title: "Number of "+ yesAnswer +"/"+noAnswer
-				},
-				toolTip: {
-					shared: true
-				},
-				data: [{
-					type: "spline",
-                    name: yesAnswer,
-					showInLegend: true,
-					dataPoints: yesDataPoints
-				},
-				{
-					type: "spline",
-					name: noAnswer,
-					showInLegend: true,
-					dataPoints: noDataPoints
-				}]
-		}
-		
-		return (
-		<div>
-			<CanvasJSChart options = {options} 
-				/* onRef={ref => this.chart = ref} */
-			/>
-			{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
-		</div>
-		);
-	}
+    yesDataPoints.push({
+      y: currentYes,
+      label: currentDate,
+    });
+    noDataPoints.push({
+      y: currentNos,
+      label: date,
+    });
+  }
+
+  componentDidMount() {
+    this.getAnswers();
+    this.setState({}); //This is a feature not a bug :)
+  }
+
+  render() {
+    const yesAnswer = this.props.poll.answeryes;
+    const noAnswer = this.props.poll.answerno;
+    const options = {
+      height: 400,
+      width: 500,
+      theme: "light2",
+      animationEnabled: true,
+      title: {
+        text: "Answers",
+      },
+      axisY: {
+        title: "Number of answers",
+      },
+      toolTip: {
+        shared: true,
+      },
+      data: [
+        {
+          type: "spline",
+          name: yesAnswer,
+          showInLegend: true,
+          dataPoints: yesDataPoints,
+        },
+        {
+          type: "spline",
+          name: noAnswer,
+          showInLegend: true,
+          dataPoints: noDataPoints,
+        },
+      ],
+    };
+
+    return (
+      <div>
+        <CanvasJSChart
+          options={options}
+          /* onRef={ref => this.chart = ref} */
+        />
+        {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
+      </div>
+    );
+  }
 }
 
-export default ResultGraph
+export default ResultGraph;
