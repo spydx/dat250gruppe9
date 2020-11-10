@@ -13,7 +13,7 @@ class Register extends React.Component {
     
     async handleSubmit(email, firstname, lastname, password, passwordCheck) {
 
-        if (password.length <= 6) {
+        if (password.length < 6 || password.length > 60) {
             this.props.setReset();
             this.props.setError("Passwords must be between 6-60 characters long!")
             return;
