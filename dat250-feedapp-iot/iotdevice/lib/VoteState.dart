@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iotdevice/AuthToken.dart';
 import 'package:iotdevice/Login.dart';
 import 'package:iotdevice/webservice.dart';
 
@@ -38,14 +37,11 @@ class VoteState with ChangeNotifier {
 
   void voteYes() {
     _voteyes++;
-    print("voting y");
     notifyListeners();
   }
 
   void voteNo() {
-
     _voteno++;
-    print("voting no");
     notifyListeners();
   }
 
@@ -55,19 +51,19 @@ class VoteState with ChangeNotifier {
     _voteyes = 0;
     _device.token = null;
     _device.profile = null;
-    print("Cleard");
+    print("[X] Cleard device");
     notifyListeners();
   }
 
   Future<bool> send() async {
     Votes v = new Votes(yes: _voteyes, no: _voteno);
     var res = await api.postVotes(v, _device);
-    print("sending votes");
+    print("[> sending votes");
     if (res) {
       reset();
       return true;
     }
-    print("failed to vote");
+    print("[X failed to vote");
     return false;
   }
 

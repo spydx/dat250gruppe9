@@ -25,7 +25,7 @@ public class Profile implements Serializable {
     private Account account;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<Poll> pollList;
 
 

@@ -1,6 +1,7 @@
 package no.hvl.dat250.gruppe9.feedapp.restapi.services;
 
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.AccountDAO;
+import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.PollDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.ProfileDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.DAO.RoleDAO;
 import no.hvl.dat250.gruppe9.feedapp.restapi.config.reponse.InternalServerError;
@@ -12,6 +13,7 @@ import no.hvl.dat250.gruppe9.feedapp.restapi.entities.RoleEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +24,21 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+    @Value("${app.anonymous.account}")
+    private String anonymousUser;
+
     @Autowired
     private ProfileDAO profileStorage;
+
     @Autowired
     private AccountDAO accountStorage;
+
     @Autowired
     private RoleDAO roleStorage;
+
+    @Autowired
+    private PollDAO pollStorage;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -55,7 +66,14 @@ public class UserService {
     public Optional<Account> delete(Profile user) {
         var profile = profileStorage.get(user.getId());
         var account = Optional.ofNullable(profile.get().getAccount());
-        if(account.isPresent()) {
+        var anon = accountStorage.getByEmail(anonymousUser);
+        if(account.isPresent() && anon.isPresent()) {
+            var polllist = profile.get().getPollList();
+            for(var p : polllist) {
+                p.setOwner(anon.get().getProfile());
+                anon.get().getProfile().getPollList().add(p);
+                pollStorage.save(p);
+            }
             return accountStorage.delete(account.get());
         }
 

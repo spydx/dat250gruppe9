@@ -20,6 +20,8 @@ public class PollDAO {
         return Optional.ofNullable(entityManager.find(Poll.class, id));
     }
 
+
+
     public Optional<Poll> save(Poll item) {
         entityManager.persist(item);
         return Optional.ofNullable(item);
@@ -72,5 +74,13 @@ public class PollDAO {
                 .setParameter("own", userid);
         var list = q.getResultList();
         return Optional.ofNullable(list);
+    }
+
+    public Optional<Poll> getPollByName(String name) {
+        var q = entityManager
+                .createQuery("SELECT p FROM Poll p WHERE p.name = :name", Poll.class)
+                .setParameter("name", name);
+        return q.getResultStream().findAny();
+
     }
 }

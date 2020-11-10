@@ -31,7 +31,7 @@ public class Poll {
     private String answerno;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Profile owner;
 
     @OneToOne(fetch = FetchType.EAGER)

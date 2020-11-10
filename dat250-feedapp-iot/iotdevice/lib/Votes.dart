@@ -15,4 +15,9 @@ class Votes {
     data['no'] = this.no;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'Votes{yes: $yes, no: $no}';
+  }
 }

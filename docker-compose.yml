@@ -1,6 +1,23 @@
 version : '3.7'
 
 services:
+   feedaapp-frontend:
+      build:
+         context: dat250-feedapp-gui/feedapp/
+         dockerfile: Dockerfile
+      healthcheck:
+         test: curl --fail -s http://feedapp-api:8080/ || exit 1
+         timeout: 30s
+         interval: 10s
+         retries: 10
+      environment: 
+         API_BASE_URL: http://feedapp-api:8080/api/
+      ports: 
+         - 80:80
+      depends_on:
+         - feedapp-api
+      networks:
+         - frontend
 
    feedapp-api:
       build: 
@@ -12,7 +29,7 @@ services:
          interval: 10s
          retries: 10
       ports:
-         - "8080:8080"
+         - 8080:8080
       #restart: always
       depends_on:
          feedapp-db:
@@ -36,7 +53,7 @@ services:
          interval: 10s
          retries: 10
       ports:
-         - "3306:3306"
+         - 3306:3306
       restart: always
       environment:
          MYSQL_DATABASE: feedappdb
@@ -62,20 +79,56 @@ services:
          - backend
 
    feedapp-muservice:
-         build:
-            context: dat250-feedapp-muservice
-            dockerfile: Dockerfile
-         restart: always
-         environment: 
-            RABBITSERVER: feedapp-messaging
-            RABBITUSER: guest
-            RABBITPASSWORD: guest
-            RABBITROUTINGKEY: FEEDAPP
-         depends_on:
-            - feedapp-messaging
-         networks:
-            - backend
+      build:
+         context: dat250-feedapp-muservice
+         dockerfile: Dockerfile
+      restart: always
+      environment: 
+         RABBITSERVER: feedapp-messaging
+         RABBITUSER: guest
+         RABBITPASSWORD: guest
+         MONGO_SERVER: cloud-mongodb
+      depends_on:
+         - feedapp-messaging
+         - cloud-mongodb
+      networks:
+         - backend
+      healthcheck:
+         test: curl --fail -s http://localhost:5672/ || exit 1
+         timeout: 30s
+         interval: 10s
+         retries: 10
 
+   cloud-mongodb:
+      image: mongo
+      environment: 
+         MONGO_INITDB_ROOT_USERNAME: sa
+         MONGO_INITDB_ROOT_PASSWORD: supersecret
+         MONGO_INITDB_DATABASE: feedapp
+      ports:
+         - 27017:27017
+      networks:
+         - backend
+      volumes:
+         - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+   feedapp-iotdevice:
+      build:
+         context: dat250-feedapp-iot/iotdevice
+         dockerfile: Dockerfile
+      environment: 
+         API: http://feedapp-api:8080/
+      depends_on:
+         - feedapp-api
+      ports:
+         - 81:80
+      networks:
+         - frontend
+      healthcheck:
+         test: curl --fail -s http://feedapp-api:8080/api/ || exit 1
+         timeout: 30s
+         interval: 10s
+         retries: 10
 
 volumes:
    db-data:

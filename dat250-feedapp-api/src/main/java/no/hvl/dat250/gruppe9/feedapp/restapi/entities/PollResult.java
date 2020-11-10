@@ -18,7 +18,7 @@ public class PollResult implements Serializable {
     private int nos = 0;
     private int total = 0;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pollresult")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pollresult", fetch = FetchType.EAGER)
     private List<Vote> votes;
 
     public PollResult() {
