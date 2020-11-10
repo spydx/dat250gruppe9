@@ -6,13 +6,15 @@ import Button from "react-bootstrap/Button";
 import { API_URL } from "../constants/constants"
 import Divider from '@material-ui/core/Divider'
 import UserPoll from "./PollComponents/UserPolls"
-import {Form} from "react-bootstrap";
+import { Form } from "react-bootstrap";
+import { Redirect } from "react-router-dom";
 
 class PublicPollOverview extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      didFetch: false
+      didFetch: false,
+      rerouteToPoll: false 
     }
   }
 
@@ -62,6 +64,15 @@ class PublicPollOverview extends React.Component {
         );
   }
 
+  handleOpenPoll(pollid) {
+    for (const elem of this.props.state.poll.pollData) {
+      if (elem.id === pollid) {
+        this.setState({ rerouteToPoll: true })
+        return;
+      }
+    }
+  }
+
   componentDidMount() {
     this.props.setResetResult();
     this.props.setResetPoll();
@@ -73,6 +84,10 @@ class PublicPollOverview extends React.Component {
     if (!this.state.didFetch) {
       this.fetchPollData();
     }
+    if (this.state.rerouteToPoll) {
+      return <Redirect to={"/vote/" + this.state.openpollid}/>
+    }
+
     return (
       <div>
         <div className="container">
@@ -93,7 +108,7 @@ class PublicPollOverview extends React.Component {
                 <Button
                   variant="success"
                   style={{ marginBottom: "3%" }}
-                  href={"/vote/" + this.state.openpollid}
+                  onClick={() => { this.handleOpenPoll(this.state.openpollid) }}
                 >
                   Open</Button>
               </div>
