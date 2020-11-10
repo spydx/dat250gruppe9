@@ -12,6 +12,15 @@ To run for web
 > flutter run -d chrome
 ```
 
+Remeber to turn of CORS when running this on localhost and if you are running the API on localhost.
+
+Example for Chrome Beta:
+```
+> open -a Google\ Chrome\ Beta.app --args --disable-web-security --user-data-dir={writabledir}
+```
+{writabledir} is a random dir that you have write access to so you can store the disabled cors profile.
+
+
 To run for Android device
 ```
 > flutter run -d android 

@@ -29,14 +29,6 @@ public class UserController {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
-    @GetMapping("/")
-    public ResponseEntity<List<Profile>> getAll() {
-        var res = userService.getAll();
-        if(res.isPresent())
-            return new ResponseEntity<>(res.get(), HttpStatus.OK);
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-    }
-
     @GetMapping(value = "/{profileid}")
     public ResponseEntity<Profile> getUserById(
             @RequestHeader("Authorization") final String token,
@@ -67,14 +59,15 @@ public class UserController {
                 var found = userService.getProfile(id);
                 if(found.isPresent()) {
                     var res = userService.delete(found.get());
-                    if(res.isPresent())
-                        return new ResponseEntity<>(res.get(), HttpStatus.OK);
-                    return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+                    if(res.isEmpty()) { // this is what we expect
+                        return new ResponseEntity<>(null, HttpStatus.OK);
+                    }
+                    return new ResponseEntity<>(res.get(), HttpStatus.NOT_FOUND);
                 }
             }
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     @PutMapping(value = "/{profileid}")
@@ -93,18 +86,6 @@ public class UserController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-    }
-
-
-    @GetMapping(value ="/{profileId}/votes/")
-    public ResponseEntity<?> listUserVotes (
-            @RequestHeader("Authorization")  final String token,
-            @PathVariable("profileid") String profileid,
-            @RequestBody VoteDTO response) {
-
-        var authuser = tokenProvider.parseHeader(token);
-        var profile = userService.getProfile(profileid);
-        return ResponseEntity.ok("sorryryyyyyy");
     }
 }
 

@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ConfigRabbit {
 
- //   @Value("${app.jwtSecret}")
-
     private final String FANOUT_QUEUE_NAME = "feedapp.fanout.queue";
     private final String FANOUT_EXCHANGE_NAME = "feedapp.fanout.exchange";
     private final String TOPIC_QUEUE_NAME = "feedapp.topic.queue";
