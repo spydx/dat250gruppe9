@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iotdevice/AuthToken.dart';
 import 'package:iotdevice/Login.dart';
 import 'package:iotdevice/webservice.dart';
 

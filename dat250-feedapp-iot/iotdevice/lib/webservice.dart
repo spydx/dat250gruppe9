@@ -24,7 +24,6 @@ class WebServices {
 
     if(response.statusCode == 200) {
       final reponseJson = jsonDecode(response.body);
-      print(reponseJson);
       return AuthToken.fromJson(reponseJson);
     } else {
       throw Exception('Unable to Auth data ${response.statusCode}');

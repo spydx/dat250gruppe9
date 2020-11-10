@@ -43,4 +43,4 @@ that the user `feedapp` has access to.
 
 This is an example with some verbose logging on the muService.
 
-![consolelog](img/muservice_console.png)
+![consolelog](muservice/muservice_console.png)
