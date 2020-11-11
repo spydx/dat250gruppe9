@@ -26,6 +26,10 @@ Persistent prototyping for the first assignment creating our datamodel for the a
 
 Second assignment where we designed and implemented the RESTAPI w/swagger and the businesslogic in Services.
 
+## Final Presentation 
+
+[Final Presentation](ProgressPresentation/Software_Technology_Project_-_Final_Presentation_-_PollHub.pdf)
+
 ## PollHub (FeedApp)
 
 To spin up this setup you have to have installed [Docker](https://www.docker.com/products/docker-desktop)
