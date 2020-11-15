@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Persistence</ID>
+  <OriginalElement>JavaeeElement:/22bf4f83/entityManagerFactory/restapi/jpa/JPA/PersistenceModel</OriginalElement>
+  <nodes>
+    <node x="171.0" y="127.0">Vote#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Vote.java</node>
+    <node x="261.125" y="469.0">Poll#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Poll.java</node>
+    <node x="618.0" y="0.0">AbstractPersistable#jar:///Users/kenneth/.m2/repository/org/springframework/data/spring-data-jpa/2.3.4.RELEASE/spring-data-jpa-2.3.4.RELEASE.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class</node>
+    <node x="556.5" y="105.0">AbstractAuditable#jar:///Users/kenneth/.m2/repository/org/springframework/data/spring-data-jpa/2.3.4.RELEASE/spring-data-jpa-2.3.4.RELEASE.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class</node>
+    <node x="36.390625" y="309.0">Profile#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Profile.java</node>
+    <node x="584.0" y="12.0">null#null</node>
+    <node x="191.22395833333334" y="0.0">Roles#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Roles.java</node>
+    <node x="360.5" y="309.0">IoT#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/IoT.java</node>
+    <node x="223.5" y="298.0">PollResult#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/PollResult.java</node>
+    <node x="0.0" y="138.0">Account#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Account.java</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Profile#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Profile.java" target="Vote#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Vote.java">
+      <point x="50.33333333333334" y="-49.5" />
+      <point x="162.22395833333334" y="273.0" />
+      <point x="208.0" y="273.0" />
+      <point x="-37.0" y="60.5" />
+    </edge>
+    <edge source="Account#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Account.java" target="Roles#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Roles.java">
+      <point x="0.0" y="-49.5" />
+      <point x="75.5" y="102.0" />
+      <point x="227.97395833333334" y="102.0" />
+      <point x="-36.75" y="38.5" />
+    </edge>
+    <edge source="AbstractAuditable#jar:///Users/kenneth/.m2/repository/org/springframework/data/spring-data-jpa/2.3.4.RELEASE/spring-data-jpa-2.3.4.RELEASE.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class" target="AbstractPersistable#jar:///Users/kenneth/.m2/repository/org/springframework/data/spring-data-jpa/2.3.4.RELEASE/spring-data-jpa-2.3.4.RELEASE.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class">
+      <point x="48.0" y="-38.5" />
+      <point x="700.5" y="80.0" />
+      <point x="714.0" y="80.0" />
+      <point x="0.0" y="27.5" />
+    </edge>
+    <edge source="PollResult#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/PollResult.java" target="Vote#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Vote.java">
+      <point x="0.0" y="-60.5" />
+      <point x="37.0" y="60.5" />
+    </edge>
+    <edge source="Poll#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Poll.java" target="Profile#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Profile.java">
+      <point x="-59.25" y="-104.5" />
+      <point x="280.875" y="449.0" />
+      <point x="111.890625" y="449.0" />
+      <point x="0.0" y="49.5" />
+    </edge>
+    <edge source="IoT#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/IoT.java" target="Roles#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Roles.java">
+      <point x="0.0" y="-49.5" />
+      <point x="436.0" y="102.0" />
+      <point x="301.47395833333337" y="102.0" />
+      <point x="36.75" y="38.5" />
+    </edge>
+    <edge source="Poll#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Poll.java" target="PollResult#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/PollResult.java">
+      <point x="-19.75" y="-104.5" />
+      <point x="320.375" y="439.0" />
+      <point x="282.0" y="439.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="IoT#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/IoT.java" target="Poll#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Poll.java">
+      <point x="37.75" y="49.5" />
+      <point x="473.75" y="449.0" />
+      <point x="399.375" y="449.0" />
+      <point x="59.25" y="-104.5" />
+    </edge>
+    <edge source="AbstractAuditable#jar:///Users/kenneth/.m2/repository/org/springframework/data/spring-data-jpa/2.3.4.RELEASE/spring-data-jpa-2.3.4.RELEASE.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class" target="null#null">
+      <point x="-48.0" y="-38.5" />
+      <point x="604.5" y="80.0" />
+      <point x="591.0" y="80.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="Poll#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Poll.java" target="IoT#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/IoT.java">
+      <point x="19.75" y="-104.5" />
+      <point x="359.875" y="439.0" />
+      <point x="398.25" y="439.0" />
+      <point x="-37.75" y="49.5" />
+    </edge>
+    <edge source="Profile#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Profile.java" target="Account#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Account.java">
+      <point x="-50.33333333333334" y="-49.5" />
+      <point x="61.55729166666666" y="273.0" />
+      <point x="37.75" y="273.0" />
+      <point x="-37.75" y="49.5" />
+    </edge>
+    <edge source="Account#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Account.java" target="Profile#file:///Users/kenneth/GIT/dat250gruppe9/dat250-feedapp-api/src/main/java/no/hvl/dat250/gruppe9/feedapp/restapi/entities/Profile.java">
+      <point x="37.75" y="49.5" />
+      <point x="113.25" y="273.0" />
+      <point x="111.890625" y="273.0" />
+      <point x="0.0" y="-49.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="405.0" y="361.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Properties</Category>
+    <Category>Embeddables</Category>
+    <Category>Superclasses</Category>
+  </Categories>
+</Diagram>
+
