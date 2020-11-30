@@ -49,12 +49,12 @@ Starting dat250gruppe9_feedapp-api_1       ... done
 kenneth@kefo ~/dat250gruppe9> 
 ```
 
-* FeedApp FrontEnd =>[http://localhost](http://localhost/)
+* FeedApp FrontEnd =>[http://localhost](http://localhost/) ([Use a browser with disabled CORS for local testing](#cors-disabled-browser-chrome))
 * FeedApp API =>[http://localhost:8080](http://localhost:8080/)
 * FeedApp MySQL => [mysql://localhost:3306](mysql://localhost:3306)
 * Cloud MongoDB =>[mongodb://feedapp:mongo@localhost:27017/feedapp/](mongodb://feedapp:mongo@localhost:27017)
 * FeedApp Messaging (guest/guest) => [http://localhost:15672](http://localhost:15672)
-* FeedApp IoT Device => [http://localhost:81](http://localhost:81/)
+* FeedApp IoT Device => [http://localhost:81](http://localhost:81/) ([Use a browser with disabled CORS if using the web version](#cors-disabled-browser-chrome))
 * FeedApp MuService => use the Docker Console to view it.
 
 This will create a default setup that has a the following user installed.
@@ -66,6 +66,23 @@ This will create a default setup that has a the following user installed.
 
 To configure the admin password for the service.
 Do this in the [application.properties](dat250-feedapp-api/src/main/resources/application.properties)
+
+## CORS disabled browser (Chrome)
+
+Using the following commands in `CMD` should open a Chrome browser with diabled security. **Do not use this for normal browsing!!!**
+
+For Windows:
+
+```console
+cd 'C:\Program Files (x86)\Google\Chrome\Application'
+
+.\chrome.exe --disable-web-security --user-data-dir=c:\my-chrome-data\data
+```
+For MAC OS:
+
+```console
+open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_sess_1" --disable-web-security
+```
 
 ## Other Documents
 
